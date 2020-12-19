@@ -1,8 +1,5 @@
 idJeux, nom du jeux, type du jeux (construction, plateau, tuile, carte, logique), nombre d’exemplaires
-,La Bonne Paye,
-,Jeu de l’oie,
-,Taboo,
-,Tic Tac Boum,
-,Mastermind,
-,Le jeu de Dames,
-,La bataille navale,
+, Monopoly, plateau
+, Uno, carte
+, Puissance 4, logique
+, Le jeu de Dames, logique
