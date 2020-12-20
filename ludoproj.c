@@ -1,2 +1,1 @@
 #include "ludoproj.h"
-short
