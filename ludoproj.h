@@ -1,18 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void filesLoad();
+void filesLoad(void);
 
-void affJeux();
+void affJeux(void);
 
-void affEmp();
+void affEmp(void);
 
-void affRes();
+void affRes(void);
 
-void addEmpRes();
+void addEmpRes(void);
 
-void retourJeux();
+void retourJeux(void);
 
-void anuRes();
+void anuRes(void);
 
-void saveFiles();
+void saveFiles(void);
