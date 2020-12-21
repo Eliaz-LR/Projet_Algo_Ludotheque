@@ -1,0 +1,1 @@
+idAdherent, civilité (Mr, Mme), nom, prénom, date d’inscription
