@@ -39,7 +39,6 @@ int choixMenu(void){
 /*Fonction globale : execute toutes les fonctions*/
 void global(void){
     int choix;
-    char c;
     choix=choixMenu();
     while(choix!=7){   
         switch (choix){
@@ -63,7 +62,7 @@ void global(void){
                 break;
         }
         printf("\nTapez sur la touche entrée pour retourner au menu");
-        c=getchar();
+        getchar();
         choix=choixMenu();
     }
 }
