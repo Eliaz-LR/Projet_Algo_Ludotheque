@@ -53,3 +53,5 @@ void retourJeux(void);
 void anuRes(void);
 
 void saveFiles(void);
+
+void afficheMenu(void);
