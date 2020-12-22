@@ -1,2 +1,2 @@
-#Explication du code et des differents choix dans le projet
+# Explication du code et des differents choix dans le projet
 
