@@ -50,7 +50,7 @@ typedef struct
 
 
 
-void filesLoad(void);
+void filesLoad(Jeux* tJeux, Adherents* tAdherents ,Emprunts* tEmprunts, Reserv* tReserv, int* sizeJ, int* sizeA, int* sizeE, int* sizeR);
 
 void affJeux(void);
 

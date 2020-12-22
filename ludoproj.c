@@ -1,5 +1,9 @@
 #include "ludoproj.h"
 
+void filesLoad(Jeux* tJeux, Adherents* tAdherents ,Emprunts* tEmprunts, Reserv* tReserv, int* sizeJ, int* sizeA, int* sizeE, int* sizeR){
+    
+}
+
 /*Interface graphique du menu*/
 void afficheMenu(void){
 
@@ -39,6 +43,11 @@ int choixMenu(void){
 /*Fonction globale : execute toutes les fonctions*/
 void global(void){
     int choix;
+    Jeux* tJeux;
+    Adherents* tAdherents;
+    Emprunts* tEmprunts;
+    Reserv* tReservations;
+    int sizeJ, sizeA, sizeE, sizeR;
     choix=choixMenu();
     while(choix!=7){   
         switch (choix){
