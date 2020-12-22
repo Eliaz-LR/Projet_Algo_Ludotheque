@@ -36,6 +36,7 @@ int choixMenu(void){
     return choix;
 }
 
+/*Fonction globale : execute toutes les fonctions*/
 void global(void){
     int choix;
     char c;
