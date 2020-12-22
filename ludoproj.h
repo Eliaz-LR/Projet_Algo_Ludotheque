@@ -65,3 +65,7 @@ void retourJeux(void);
 void anuRes(void);
 
 void saveFiles(void);
+
+/*annonciation des fonctions pour le menu*/
+void afficheMenu(void);
+int choixMenu(void);
