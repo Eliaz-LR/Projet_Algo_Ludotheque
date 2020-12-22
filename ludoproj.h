@@ -52,9 +52,9 @@ typedef struct
 
 void filesLoad(Jeux* tJeux, Adherents* tAdherents ,Emprunts* tEmprunts, Reserv* tReserv, int* sizeJ, int* sizeA, int* sizeE, int* sizeR);
 
-void affJeux(void);
+void affJeux(Jeux* tJeux, int* sizeJ);
 
-void affEmp(void);
+void affEmp(Emprunts* tEmprunts, int* sizeE);
 
 void affRes(void);
 
