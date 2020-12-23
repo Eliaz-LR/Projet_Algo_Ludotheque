@@ -5,11 +5,9 @@ void filesLoad(Jeux* tJeux, Adherents* tAdherents ,Emprunts* tEmprunts, Reserv* 
     flot = fopen("fichiers texte/jeux.txt","r");
     fscanf(flot,"%*[^\n]\n"); /*Permet de scan toute la premiere ligne et de la jeter : *=jeter, et scan de tout sauf \n suivi d'un \n trouvé*/
     tJeux = malloc(sizeof(Jeux));
-    fscanf(flot,"%d , %s, plateau, 2",tJeux->id,tJeux->nom);
+    fscanf(flot,"%d , %s, plateau, 2",&tJeux[0].id,&tJeux[0].nom);
     fclose(flot);
 }
-
-
 
 
 /*Interface graphique du menu*/
@@ -62,7 +60,7 @@ void global(void){
             case 1:
                 printf("Choix 1");
                 filesLoad(tJeux, tAdherents, tEmprunts, tReservations, &sizeJ, &sizeA, &sizeE, &sizeR);
-                printf("%d est l'id et %s est le nom",tJeux->id,tJeux->nom);
+                printf("%d est l'id et %s est le nom",&tJeux[0].id,&tJeux[0].nom);
                 break;
             case 2:
                 printf("Choix 2");
