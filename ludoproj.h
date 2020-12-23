@@ -25,14 +25,14 @@ typedef struct
 {
     int id, nbExemplaires;
     char nom[25];
-    enum typeJ;
+    typeJ typeJ;
 }Jeux;
 
 typedef struct
 {
     int id;
     char nom[30], prenom[30];
-    enum civil;
+    civil civil;
     Date inscrip;
 }Adherents;
 
@@ -69,3 +69,5 @@ void saveFiles(void);
 /*annonciation des fonctions pour le menu*/
 void afficheMenu(void);
 int choixMenu(void);
+
+void global(void);
