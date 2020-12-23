@@ -1,8 +1,16 @@
 #include "ludoproj.h"
 
 void filesLoad(Jeux* tJeux, Adherents* tAdherents ,Emprunts* tEmprunts, Reserv* tReserv, int* sizeJ, int* sizeA, int* sizeE, int* sizeR){
-    
+    FILE *flot;
+    flot = fopen("fichiers texte/jeux.txt","r");
+    fscanf(flot,"%*[^\n]\n"); /*Permet de scan toute la premiere ligne et de la jeter : *=jeter, et scan de tout sauf \n suivi d'un \n trouvé*/
+    tJeux = malloc(sizeof(Jeux));
+    fscanf(flot,"%d , %s, plateau, 2",tJeux->id,tJeux->nom);
+    fclose(flot);
 }
+
+
+
 
 /*Interface graphique du menu*/
 void afficheMenu(void){
@@ -53,6 +61,8 @@ void global(void){
         switch (choix){
             case 1:
                 printf("Choix 1");
+                filesLoad(tJeux, tAdherents, tEmprunts, tReservations, sizeJ, sizeA, sizeE, sizeR);
+                printf("%d est l'id et %s est le nom",tJeux->id,tJeux->nom);
                 break;
             case 2:
                 printf("Choix 2");
