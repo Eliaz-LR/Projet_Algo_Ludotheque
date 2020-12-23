@@ -1,5 +1,5 @@
 idJeux, nom du jeux, type du jeux (construction, plateau, tuile, carte, logique), nombre d’exemplaires
-01 , Monopoly, plateau, 2
+1 , Monopoly, plateau, 2
 02 , Uno, carte, 3
 03 , Puissance 4, logique, 2
 04 , Le jeu de Dames, logique, 4
