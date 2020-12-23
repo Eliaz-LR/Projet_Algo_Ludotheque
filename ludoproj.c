@@ -1,6 +1,7 @@
 #include "ludoproj.h"
 
-void filesLoad(Jeux* tJeux, Adherents* tAdherents ,Emprunts* tEmprunts, Reserv* tReserv, int* sizeJ, int* sizeA, int* sizeE, int* sizeR){
+Jeux* loadJeux(int* sizeJ){
+    /*répété dans les 4 fonction des fichiers : a mettre en fonction a part pour reduire*/
     FILE *flot;
     flot = fopen("fichiers texte/jeux.txt","r");
     if (flot == NULL)
@@ -9,12 +10,13 @@ void filesLoad(Jeux* tJeux, Adherents* tAdherents ,Emprunts* tEmprunts, Reserv* 
         exit(1);
     }
     fscanf(flot,"%*[^\n]\n"); /*Permet de scan toute la premiere ligne et de la jeter : *=jeter, et scan de tout sauf \n suivi d'un \n trouvé*/
-    printf("malloc done\n");
-    fscanf(flot,"%d%*[^\n]\n", &tJeux->id);
-    printf("id stocké: %d\n", tJeux->id);
-    fclose(flot);
-}
 
+    Jeux* tJeux = malloc(sizeof(Jeux));
+
+    fscanf(flot,"%d , %s%*[^\n]\n", &tJeux->id, &tJeux->nom);
+
+    return tJeux;
+}
 
 /*Interface graphique du menu*/
 void afficheMenu(void){
@@ -55,19 +57,17 @@ int choixMenu(void){
 /*Fonction globale : execute toutes les fonctions*/
 void global(void){
     int choix;
-    Jeux *tJeux = malloc(sizeof(Jeux));
+    int sizeJ, sizeA, sizeE, sizeR;
+    Jeux *tJeux = loadJeux(&sizeJ);;
     Adherents* tAdherents;
     Emprunts* tEmprunts;
     Reserv* tReservations;
-    int sizeJ, sizeA, sizeE, sizeR;
     choix=choixMenu();
     while(choix!=7){   
         switch (choix){
             case 1:
                 printf("Choix 1\n");
-                filesLoad(tJeux, tAdherents, tEmprunts, tReservations, &sizeJ, &sizeA, &sizeE, &sizeR);
-                printf("stdout flushé\n");
-                printf("id stocké: %d\n", tJeux->id);
+                printf("%d et %s",tJeux->id,tJeux->nom);
                 break;
             case 2:
                 printf("Choix 2");

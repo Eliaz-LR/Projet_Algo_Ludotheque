@@ -50,7 +50,10 @@ typedef struct
 
 
 
-void filesLoad(Jeux* tJeux, Adherents* tAdherents ,Emprunts* tEmprunts, Reserv* tReserv, int* sizeJ, int* sizeA, int* sizeE, int* sizeR);
+Jeux* loadJeux(int* sizeJ);
+Adherents* loadAdherents(int* sizeA);
+Emprunts* loadEmprunts(int* sizeE);
+Reserv* loadReserv(int* sizeR);
 
 void affJeux(Jeux* tJeux, int* sizeJ);
 
