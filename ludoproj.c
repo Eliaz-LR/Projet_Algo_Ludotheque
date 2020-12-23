@@ -61,7 +61,7 @@ void global(void){
         switch (choix){
             case 1:
                 printf("Choix 1");
-                filesLoad(tJeux, tAdherents, tEmprunts, tReservations, sizeJ, sizeA, sizeE, sizeR);
+                filesLoad(tJeux, tAdherents, tEmprunts, tReservations, &sizeJ, &sizeA, &sizeE, &sizeR);
                 printf("%d est l'id et %s est le nom",tJeux->id,tJeux->nom);
                 break;
             case 2:
