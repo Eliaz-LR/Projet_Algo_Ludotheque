@@ -11,9 +11,17 @@ Jeux* loadJeux(int* sizeJ){
     }
     fscanf(flot,"%*[^\n]\n"); /*Permet de scan toute la premiere ligne et de la jeter : *=jeter, et scan de tout sauf \n suivi d'un \n trouvé*/
 
+    *sizeJ=1;
     Jeux* tJeux = malloc(sizeof(Jeux));
-
-    fscanf(flot,"%d , %s, %s, %d", &tJeux->id, &tJeux->nom, &tJeux->type, &tJeux->nbExemplaires);
+    printf("malloc done");
+    fscanf(flot,"%d %s %s %d", &tJeux[0].id, &tJeux[0].nom, &tJeux[0].type, &tJeux[0].nbExemplaires);
+    while (!feof(flot))
+    {
+        *sizeJ=*sizeJ+1;
+        printf("%d",*sizeJ);
+        tJeux = realloc(tJeux,*sizeJ*sizeof(Jeux));
+        fscanf(flot,"%d %s %s %d", &tJeux[*sizeJ-1].id, &tJeux[*sizeJ-1].nom, &tJeux[*sizeJ-1].type, &tJeux[*sizeJ-1].nbExemplaires);
+    }
     return tJeux;
 }
 
@@ -66,7 +74,7 @@ void global(void){
         switch (choix){
             case 1:
                 printf("Choix 1\n");
-                printf("%d , %s, %d, %d", tJeux->id, tJeux->nom, tJeux->type, tJeux->nbExemplaires);
+                printf("%d , %s, %s, %d", tJeux[2].id, tJeux[2].nom, tJeux[2].type, tJeux[2].nbExemplaires);
                 break;
             case 2:
                 printf("Choix 2");
