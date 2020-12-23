@@ -13,16 +13,38 @@ Jeux* loadJeux(int* sizeJ){
 
     *sizeJ=1;
     Jeux* tJeux = malloc(sizeof(Jeux));
-    printf("malloc done");
     fscanf(flot,"%d %s %s %d", &tJeux[0].id, &tJeux[0].nom, &tJeux[0].type, &tJeux[0].nbExemplaires);
     while (!feof(flot))
     {
         *sizeJ=*sizeJ+1;
-        printf("%d",*sizeJ);
         tJeux = realloc(tJeux,*sizeJ*sizeof(Jeux));
         fscanf(flot,"%d %s %s %d", &tJeux[*sizeJ-1].id, &tJeux[*sizeJ-1].nom, &tJeux[*sizeJ-1].type, &tJeux[*sizeJ-1].nbExemplaires);
     }
+    fclose(flot);
     return tJeux;
+}
+
+Adherents* loadAdherents(int* sizeA){
+    FILE *flot;
+    flot = fopen("fichiers texte/adherents.txt","r");
+    if (flot == NULL)
+    {
+        printf("erreur d'ouverture du fichier");
+        exit(1);
+    }
+    fscanf(flot,"%*[^\n]\n"); /*Permet de scan toute la premiere ligne et de la jeter : *=jeter, et scan de tout sauf \n suivi d'un \n trouvé*/
+
+    *sizeA=1;
+    Adherents* tAdherents = malloc(sizeof(Adherents));
+    fscanf(flot,"%d %s %s %s %d/%d/%d", &tAdherents[0].id, &tAdherents[0].civil, &tAdherents[0].nom, &tAdherents[0].prenom, &tAdherents[0].inscrip.jour, &tAdherents[0].inscrip.mois, &tAdherents[0].inscrip.an);
+    while (!feof(flot))
+    {
+        *sizeA=*sizeA+1;
+        tAdherents = realloc(tAdherents,*sizeA*sizeof(Adherents));
+        fscanf(flot,"%d %s %s %s %d/%d/%d", &tAdherents[*sizeA-1].id, &tAdherents[*sizeA-1].civil, &tAdherents[*sizeA-1].nom, &tAdherents[*sizeA-1].prenom, &tAdherents[*sizeA-1].inscrip.jour, &tAdherents[*sizeA-1].inscrip.mois, &tAdherents[*sizeA-1].inscrip.an);
+    }
+    fclose(flot);
+    return tAdherents;
 }
 
 /*Interface graphique du menu*/
@@ -66,7 +88,7 @@ void global(void){
     int choix;
     int sizeJ, sizeA, sizeE, sizeR;
     Jeux *tJeux = loadJeux(&sizeJ);;
-    Adherents* tAdherents;
+    Adherents* tAdherents = loadAdherents(&sizeA);
     Emprunts* tEmprunts;
     Reserv* tReservations;
     choix=choixMenu();
