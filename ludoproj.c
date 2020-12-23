@@ -1,7 +1,7 @@
 #include "ludoproj.h"
 
 Jeux* loadJeux(int* sizeJ){
-    /*répété dans les 4 fonction des fichiers : a mettre en fonction a part pour reduire*/
+    /*répété dans les 4 fonction des fichiers : mettre dans une fonction a part pour reduire ?*/
     FILE *flot;
     flot = fopen("fichiers texte/jeux.txt","r");
     if (flot == NULL)
@@ -45,6 +45,29 @@ Adherents* loadAdherents(int* sizeA){
     }
     fclose(flot);
     return tAdherents;
+}
+
+Emprunts* loadEmprunts(int* sizeE){
+    FILE *flot;
+    flot = fopen("fichiers texte/emprunts.txt","r");
+    if (flot == NULL)
+    {
+        printf("erreur d'ouverture du fichier");
+        exit(1);
+    }
+    fscanf(flot,"%*[^\n]\n"); /*Permet de scan toute la premiere ligne et de la jeter : *=jeter, et scan de tout sauf \n suivi d'un \n trouvé*/
+
+    *sizeE=1;
+    Emprunts* tEmprunts = malloc(sizeof(Emprunts));
+    fscanf(flot,"%d %d %d %d/%d/%d", &tEmprunts[0].id, &tEmprunts[0].idAd, &tEmprunts[0].idJeu, &tEmprunts[0].emprunt.jour, &tEmprunts[0].emprunt.mois, &tEmprunts[0].emprunt.an);
+    while (!feof(flot))
+    {
+        *sizeE=*sizeE+1;
+        tEmprunts = realloc(tEmprunts,*sizeE*sizeof(Emprunts));
+        fscanf(flot,"%d %d %d %d/%d/%d", &tEmprunts[0].id, &tEmprunts[0].idAd, &tEmprunts[0].idJeu, &tEmprunts[0].emprunt.jour, &tEmprunts[0].emprunt.mois, &tEmprunts[0].emprunt.an);
+    }
+    fclose(flot);
+    return tEmprunts;
 }
 
 /*Interface graphique du menu*/
