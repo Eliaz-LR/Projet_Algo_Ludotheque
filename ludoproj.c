@@ -10,7 +10,9 @@ void filesLoad(Jeux* tJeux, Adherents* tAdherents ,Emprunts* tEmprunts, Reserv* 
     }
     fscanf(flot,"%*[^\n]\n"); /*Permet de scan toute la premiere ligne et de la jeter : *=jeter, et scan de tout sauf \n suivi d'un \n trouvé*/
     tJeux = malloc(sizeof(Jeux));
-    fscanf(flot,"%d%*[^\n]\n",&tJeux[0].id);
+    printf("malloc done\n");
+    fscanf(flot,"%d%*[^\n]\n", &tJeux->id);
+    printf("id stocké: %d\n", tJeux->id);
     fclose(flot);
 }
 
@@ -65,8 +67,8 @@ void global(void){
             case 1:
                 printf("Choix 1\n");
                 filesLoad(tJeux, tAdherents, tEmprunts, tReservations, &sizeJ, &sizeA, &sizeE, &sizeR);
-                fflush(stdout);
-                printf("%d est l'id\n",&tJeux[0].id);
+                printf("stdout flushé\n");
+                printf("id stocké: %d\n", tJeux->id);
                 break;
             case 2:
                 printf("Choix 2");
