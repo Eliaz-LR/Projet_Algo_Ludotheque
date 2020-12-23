@@ -9,30 +9,17 @@ typedef struct
     int jour, mois, an;
 }Date;
 
-/*Definition des enum pour le type de jeux et pour la civilité*/
-typedef enum
-{
-    construction, plateau, tuile, carte, logique
-}typeJ;
-
-typedef enum
-{
-    Mr, Mme
-}civil;
-
 /*Definition des types liés aux differents fichiers*/
 typedef struct
 {
     int id, nbExemplaires;
-    char nom[25];
-    typeJ typeJ;
+    char nom[25],type[13];
 }Jeux;
 
 typedef struct
 {
     int id;
-    char nom[30], prenom[30];
-    civil civil;
+    char nom[30], prenom[30], civil[4];
     Date inscrip;
 }Adherents;
 

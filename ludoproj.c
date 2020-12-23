@@ -13,8 +13,7 @@ Jeux* loadJeux(int* sizeJ){
 
     Jeux* tJeux = malloc(sizeof(Jeux));
 
-    fscanf(flot,"%d , %s%*[^\n]\n", &tJeux->id, &tJeux->nom);
-
+    fscanf(flot,"%d , %s, %s, %d", &tJeux->id, &tJeux->nom, &tJeux->type, &tJeux->nbExemplaires);
     return tJeux;
 }
 
@@ -67,7 +66,7 @@ void global(void){
         switch (choix){
             case 1:
                 printf("Choix 1\n");
-                printf("%d et %s",tJeux->id,tJeux->nom);
+                printf("%d , %s, %d, %d", tJeux->id, tJeux->nom, tJeux->type, tJeux->nbExemplaires);
                 break;
             case 2:
                 printf("Choix 2");
