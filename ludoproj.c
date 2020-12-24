@@ -64,10 +64,33 @@ Emprunts* loadEmprunts(int* sizeE){
     {
         *sizeE=*sizeE+1;
         tEmprunts = realloc(tEmprunts,*sizeE*sizeof(Emprunts));
-        fscanf(flot,"%d %d %d %d/%d/%d", &tEmprunts[0].id, &tEmprunts[0].idAd, &tEmprunts[0].idJeu, &tEmprunts[0].emprunt.jour, &tEmprunts[0].emprunt.mois, &tEmprunts[0].emprunt.an);
+        fscanf(flot,"%d %d %d %d/%d/%d", &tEmprunts[*sizeE-1].id, &tEmprunts[*sizeE-1].idAd, &tEmprunts[*sizeE-1].idJeu, &tEmprunts[*sizeE-1].emprunt.jour, &tEmprunts[*sizeE-1].emprunt.mois, &tEmprunts[*sizeE-1].emprunt.an);
     }
     fclose(flot);
     return tEmprunts;
+}
+
+Reserv* loadReserv(int* sizeR){
+    FILE *flot;
+    flot = fopen("fichiers texte/reservations.txt","r");
+    if (flot == NULL)
+    {
+        printf("erreur d'ouverture du fichier");
+        exit(1);
+    }
+    fscanf(flot,"%*[^\n]\n"); /*Permet de scan toute la premiere ligne et de la jeter : *=jeter, et scan de tout sauf \n suivi d'un \n trouvé*/
+
+    *sizeR=1;
+    Reserv* tReservations = malloc(sizeof(Reserv));
+    fscanf(flot,"%d %d %d %d/%d/%d", &tReservations[0].id, &tReservations[0].idAd, &tReservations[0].idJeu, &tReservations[0].res.jour, &tReservations[0].res.mois, &tReservations[0].res.an);
+    while (!feof(flot))
+    {
+        *sizeR=*sizeR+1;
+        tReservations = realloc(tReservations,*sizeR*sizeof(Reserv));
+        fscanf(flot,"%d %d %d %d/%d/%d", &tReservations[*sizeR-1].id, &tReservations[*sizeR-1].idAd, &tReservations[*sizeR-1].idJeu, &tReservations[*sizeR-1].res.jour, &tReservations[*sizeR-1].res.mois, &tReservations[*sizeR-1].res.an);
+    }
+    fclose(flot);
+    return tReservations;
 }
 
 /*Interface graphique du menu*/
