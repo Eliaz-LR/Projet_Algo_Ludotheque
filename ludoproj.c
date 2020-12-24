@@ -1,16 +1,19 @@
 #include "ludoproj.h"
 
-Jeux* loadJeux(int* sizeJ){
-    /*répété dans les 4 fonction des fichiers : mettre dans une fonction a part pour reduire ?*/
-    FILE *flot;
-    flot = fopen("fichiers texte/jeux.txt","r");
+void prepFiles(FILE *flot){
     if (flot == NULL)
     {
         printf("erreur d'ouverture du fichier");
         exit(1);
     }
     fscanf(flot,"%*[^\n]\n"); /*Permet de scan toute la premiere ligne et de la jeter : *=jeter, et scan de tout sauf \n suivi d'un \n trouvé*/
+}
 
+Jeux* loadJeux(int* sizeJ){
+    /*répété dans les 4 fonction des fichiers : mettre dans une fonction a part pour reduire ?*/
+    FILE *flot;
+    flot = fopen("fichiers texte/jeux.txt","r");
+    prepFiles(flot);
     *sizeJ=1;
     Jeux* tJeux = malloc(sizeof(Jeux));
     fscanf(flot,"%d %s %s %d", &tJeux[0].id, &tJeux[0].nom, &tJeux[0].type, &tJeux[0].nbExemplaires);
@@ -27,13 +30,7 @@ Jeux* loadJeux(int* sizeJ){
 Adherents* loadAdherents(int* sizeA){
     FILE *flot;
     flot = fopen("fichiers texte/adherents.txt","r");
-    if (flot == NULL)
-    {
-        printf("erreur d'ouverture du fichier");
-        exit(1);
-    }
-    fscanf(flot,"%*[^\n]\n"); /*Permet de scan toute la premiere ligne et de la jeter : *=jeter, et scan de tout sauf \n suivi d'un \n trouvé*/
-
+    prepFiles(flot);
     *sizeA=1;
     Adherents* tAdherents = malloc(sizeof(Adherents));
     fscanf(flot,"%d %s %s %s %d/%d/%d", &tAdherents[0].id, &tAdherents[0].civil, &tAdherents[0].nom, &tAdherents[0].prenom, &tAdherents[0].inscrip.jour, &tAdherents[0].inscrip.mois, &tAdherents[0].inscrip.an);
@@ -50,13 +47,7 @@ Adherents* loadAdherents(int* sizeA){
 Emprunts* loadEmprunts(int* sizeE){
     FILE *flot;
     flot = fopen("fichiers texte/emprunts.txt","r");
-    if (flot == NULL)
-    {
-        printf("erreur d'ouverture du fichier");
-        exit(1);
-    }
-    fscanf(flot,"%*[^\n]\n"); /*Permet de scan toute la premiere ligne et de la jeter : *=jeter, et scan de tout sauf \n suivi d'un \n trouvé*/
-
+    prepFiles(flot);
     *sizeE=1;
     Emprunts* tEmprunts = malloc(sizeof(Emprunts));
     fscanf(flot,"%d %d %d %d/%d/%d", &tEmprunts[0].id, &tEmprunts[0].idAd, &tEmprunts[0].idJeu, &tEmprunts[0].emprunt.jour, &tEmprunts[0].emprunt.mois, &tEmprunts[0].emprunt.an);
@@ -73,13 +64,7 @@ Emprunts* loadEmprunts(int* sizeE){
 Reserv* loadReserv(int* sizeR){
     FILE *flot;
     flot = fopen("fichiers texte/reservations.txt","r");
-    if (flot == NULL)
-    {
-        printf("erreur d'ouverture du fichier");
-        exit(1);
-    }
-    fscanf(flot,"%*[^\n]\n"); /*Permet de scan toute la premiere ligne et de la jeter : *=jeter, et scan de tout sauf \n suivi d'un \n trouvé*/
-
+    prepFiles(flot);
     *sizeR=1;
     Reserv* tReservations = malloc(sizeof(Reserv));
     fscanf(flot,"%d %d %d %d/%d/%d", &tReservations[0].id, &tReservations[0].idAd, &tReservations[0].idJeu, &tReservations[0].res.jour, &tReservations[0].res.mois, &tReservations[0].res.an);

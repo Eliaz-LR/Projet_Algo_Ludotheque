@@ -36,7 +36,7 @@ typedef struct
 }Reserv;
 
 
-
+void prepFiles(FILE *flot);
 Jeux* loadJeux(int* sizeJ);
 Adherents* loadAdherents(int* sizeA);
 Emprunts* loadEmprunts(int* sizeE);
