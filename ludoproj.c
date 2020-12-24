@@ -1,5 +1,5 @@
 #include "ludoproj.h"
-
+/*Bout de code répété dans les fonctions load*/
 void prepFiles(FILE *flot){
     if (flot == NULL)
     {
