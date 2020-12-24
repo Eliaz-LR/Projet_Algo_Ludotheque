@@ -135,29 +135,30 @@ void global(void){
     int sizeJ, sizeA, sizeE, sizeR;
     Jeux *tJeux = loadJeux(&sizeJ);;
     Adherents* tAdherents = loadAdherents(&sizeA);
-    Emprunts* tEmprunts;
-    Reserv* tReservations;
+    Emprunts* tEmprunts = loadEmprunts(&sizeE);
+    Reserv* tReservations = loadReserv(&sizeR);
     choix=choixMenu();
     while(choix!=7){   
         switch (choix){
             case 1:
                 printf("Choix 1\n");
-                printf("%d , %s, %s, %d", tJeux[2].id, tJeux[2].nom, tJeux[2].type, tJeux[2].nbExemplaires);
+                printf("%d , %s, %s, %d\n", tJeux[2].id, tJeux[2].nom, tJeux[2].type, tJeux[2].nbExemplaires);
+                printf("%d %d %d %d/%d/%d", tReservations[0].id, tReservations[0].idAd, tReservations[0].idJeu, tReservations[0].res.jour, tReservations[0].res.mois, tReservations[0].res.an);
                 break;
             case 2:
-                printf("Choix 2");
+                printf("Choix 2\n");
                 break;
             case 3:
-                printf("Choix 3");
+                printf("Choix 3\n");
                 break;
             case 4:
-                printf("Choix 4");
+                printf("Choix 4\n");
                 break;
             case 5:
-                printf("Choix 5");
+                printf("Choix 5\n");
                 break;
             case 6:
-                printf("Choix 6");
+                printf("Choix 6\n");
                 break;
         }
         printf("\nTapez sur la touche entrée pour retourner au menu");
