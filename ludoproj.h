@@ -54,7 +54,7 @@ void retourJeux(void);
 
 void anuRes(void);
 
-void saveFiles(void);
+void saveFiles(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* tReserv, int sizeJ, int sizeA, int sizeE, int sizeR);
 
 /*annonciation des fonctions pour le menu*/
 void afficheMenu(void);

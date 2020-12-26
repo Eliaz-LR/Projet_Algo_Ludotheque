@@ -78,6 +78,43 @@ Reserv* loadReserv(int* sizeR){
     return tReservations;
 }
 
+void saveFiles(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* tReserv, int sizeJ, int sizeA, int sizeE, int sizeR){
+    FILE *flot;
+    int i;
+    /*save jeux*/
+    flot = fopen("fichiers texte/jeux.txt","w");
+    fprintf(flot,"idJeux, nom du jeux, type du jeux (construction, plateau, tuile, carte, logique), nombre d’exemplaires\n");
+    for (i = 0; i < sizeJ-1; i++)
+    {
+        fprintf(flot, "%d %s %s %d\n", tJeux[i].id, tJeux[i].nom, tJeux[i].type, tJeux[i].nbExemplaires);
+    }
+    fclose(flot);
+    /*save adherents*/
+    flot = fopen("fichiers texte/adherents.txt","w");
+    fprintf(flot,"idAdherent, civilité (Mr, Mme), nom, prénom, date d’inscription\n");
+    for (i = 0; i < sizeA-1; i++)
+    {
+        fprintf(flot,"%d %s %s %s %d/%d/%d", tAdherents[i].id, tAdherents[i].civil, tAdherents[i].nom, tAdherents[i].prenom, tAdherents[i].inscrip.jour, tAdherents[i].inscrip.mois, tAdherents[i].inscrip.an);
+    }
+    fclose(flot);
+    /*save emprunts*/
+    flot = fopen("fichiers texte/emprunts.txt","w");
+    fprintf(flot,"idEmprunt, idAdherent, idJeux, date d’emprunt\n");
+    for (i = 0; i < sizeE-1; i++)
+    {
+        fprintf(flot,"%d %d %d %d/%d/%d", tEmprunts[i].id, tEmprunts[i].idAd, tEmprunts[i].idJeu, tEmprunts[i].emprunt.jour, tEmprunts[i].emprunt.mois, tEmprunts[i].emprunt.an);
+    }
+    fclose(flot);
+    /*save reservations*/
+    flot = fopen("fichiers texte/reservations.txt","w");
+    fprintf(flot,"idResa, idAdherent, idJeux, date de réservation\n");
+    for (i = 0; i < sizeR-1; i++)
+    {
+        fprintf(flot,"%d %d %d %d/%d/%d", tReserv[i].id, tReserv[i].idAd, tReserv[i].idJeu, tReserv[i].res.jour, tReserv[i].res.mois, tReserv[i].res.an);
+    }
+    fclose(flot);
+}
+
 /*Interface graphique du menu*/
 void afficheMenu(void){
 
@@ -90,7 +127,7 @@ void afficheMenu(void){
     printf("\t\t3: Option 3\n");
     printf("\t\t4: Option 4\n");
     printf("\t\t5: Option 5\n");
-    printf("\t\t6: Option 6\n");
+    printf("\t\t6: Sauvegarde des fichiers\n");
     printf("\t\t7:quitter\n");
 }
 
@@ -114,6 +151,8 @@ int choixMenu(void){
     return choix;
 }
 
+
+
 /*Fonction globale : execute toutes les fonctions*/
 void global(void){
     int choix;
@@ -127,8 +166,11 @@ void global(void){
         switch (choix){
             case 1:
                 printf("Choix 1\n");
-                printf("%d , %s, %s, %d\n", tJeux[2].id, tJeux[2].nom, tJeux[2].type, tJeux[2].nbExemplaires);
-                printf("%d %d %d %d/%d/%d", tReservations[0].id, tReservations[0].idAd, tReservations[0].idJeu, tReservations[0].res.jour, tReservations[0].res.mois, tReservations[0].res.an);
+                int i;
+                for (i = 0; i < sizeJ-1; i++)
+                {
+                    printf("%d %s %s %d\n", tJeux[i].id, tJeux[i].nom, tJeux[i].type, tJeux[i].nbExemplaires);
+                }
                 break;
             case 2:
                 printf("Choix 2\n");
@@ -143,7 +185,8 @@ void global(void){
                 printf("Choix 5\n");
                 break;
             case 6:
-                printf("Choix 6\n");
+                printf("Sauvegarde des fichiers\n");
+                saveFiles(tJeux, tAdherents, tEmprunts, tReservations, sizeJ, sizeA, sizeE, sizeR);
                 break;
         }
         printf("\nTapez sur la touche entrée pour retourner au menu");

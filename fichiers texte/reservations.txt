@@ -1,1 +1,1 @@
-idResa, idAdherent, idJeux,date de réservation
+idResa, idAdherent, idJeux, date de réservation

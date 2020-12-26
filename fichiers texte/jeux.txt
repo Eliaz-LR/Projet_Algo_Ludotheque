@@ -1,6 +1,6 @@
 idJeux, nom du jeux, type du jeux (construction, plateau, tuile, carte, logique), nombre d’exemplaires
-01 Monopoly plateau 2
-02 Uno carte 3
-03 Puissance_4 logique 2
-04 Le_jeu_de_Dames logique 4
-05 Catan tuile 1
+1 Monopoly plateau 2
+2 Uno carte 3
+3 Puissance_4 logique 2
+4 Le_jeu_de_Dames logique 4
+5 Catan tuile 1
