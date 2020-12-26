@@ -94,7 +94,7 @@ void saveFiles(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* 
     fprintf(flot,"idAdherent, civilité (Mr, Mme), nom, prénom, date d’inscription\n");
     for (i = 0; i < sizeA-1; i++)
     {
-        fprintf(flot,"%d %s %s %s %d/%d/%d", tAdherents[i].id, tAdherents[i].civil, tAdherents[i].nom, tAdherents[i].prenom, tAdherents[i].inscrip.jour, tAdherents[i].inscrip.mois, tAdherents[i].inscrip.an);
+        fprintf(flot,"%d %s %s %s %d/%d/%d\n", tAdherents[i].id, tAdherents[i].civil, tAdherents[i].nom, tAdherents[i].prenom, tAdherents[i].inscrip.jour, tAdherents[i].inscrip.mois, tAdherents[i].inscrip.an);
     }
     fclose(flot);
     /*save emprunts*/
@@ -102,7 +102,7 @@ void saveFiles(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* 
     fprintf(flot,"idEmprunt, idAdherent, idJeux, date d’emprunt\n");
     for (i = 0; i < sizeE-1; i++)
     {
-        fprintf(flot,"%d %d %d %d/%d/%d", tEmprunts[i].id, tEmprunts[i].idAd, tEmprunts[i].idJeu, tEmprunts[i].emprunt.jour, tEmprunts[i].emprunt.mois, tEmprunts[i].emprunt.an);
+        fprintf(flot,"%d %d %d %d/%d/%d\n", tEmprunts[i].id, tEmprunts[i].idAd, tEmprunts[i].idJeu, tEmprunts[i].emprunt.jour, tEmprunts[i].emprunt.mois, tEmprunts[i].emprunt.an);
     }
     fclose(flot);
     /*save reservations*/
@@ -110,7 +110,7 @@ void saveFiles(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* 
     fprintf(flot,"idResa, idAdherent, idJeux, date de réservation\n");
     for (i = 0; i < sizeR-1; i++)
     {
-        fprintf(flot,"%d %d %d %d/%d/%d", tReserv[i].id, tReserv[i].idAd, tReserv[i].idJeu, tReserv[i].res.jour, tReserv[i].res.mois, tReserv[i].res.an);
+        fprintf(flot,"%d %d %d %d/%d/%d\n", tReserv[i].id, tReserv[i].idAd, tReserv[i].idJeu, tReserv[i].res.jour, tReserv[i].res.mois, tReserv[i].res.an);
     }
     fclose(flot);
 }
@@ -167,9 +167,9 @@ void global(void){
             case 1:
                 printf("Choix 1\n");
                 int i;
-                for (i = 0; i < sizeJ-1; i++)
+                for (i = 0; i < sizeA-1; i++)
                 {
-                    printf("%d %s %s %d\n", tJeux[i].id, tJeux[i].nom, tJeux[i].type, tJeux[i].nbExemplaires);
+                    printf("%d %s %s %s %d/%d/%d\n", tAdherents[i].id, tAdherents[i].civil, tAdherents[i].nom, tAdherents[i].prenom, tAdherents[i].inscrip.jour, tAdherents[i].inscrip.mois, tAdherents[i].inscrip.an);
                 }
                 break;
             case 2:
