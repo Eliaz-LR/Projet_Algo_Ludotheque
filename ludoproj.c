@@ -115,6 +115,8 @@ void saveFiles(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* 
     fclose(flot);
 }
 
+
+
 //Interface graphique du menu
 void afficheMenu(void){
 
@@ -171,6 +173,8 @@ void global(void){
             case 2:
                 //doit etre modifié : creer une fonction special pour qui remplace les ids par les nom
                 printf("Affichage des emprunts en cours\n");
+                int rank;
+                
                 for (i = 0; i < sizeE-1; i++)
                 {
                     printf("%d %d %d %d/%d/%d\n", tEmprunts[i].id, tEmprunts[i].idAd, tEmprunts[i].idJeu, tEmprunts[i].emprunt.jour, tEmprunts[i].emprunt.mois, tEmprunts[i].emprunt.an);
