@@ -9,3 +9,7 @@ Nous avons aussi fait un type date pour les dates dans les differents types.
 ## Les fonctions pour charger les fichiers
 
 J'ai crée une fonction par fichier a charger, la raison majeure derière ce choix est que on ne peut pas reserver de la memoire via malloc/realloc pour un parametre importé par adresse (sous forme de pointeur).
+
+## La fonction AffichageEmprunts
+
+La fonction Affichage Emprunts utilise 2 fonctions similaires pour chercher la ligne d'un ID. La difference de ces 2 fonctions est que l'une prend un tableau de type Jeux en entrée là où l'autre prend un tableau de type Adherents en entrée. Il n'est possible de ne faire rentrer que la partie id (de type int) de ces structs, d'où la presence de ces 2 fonctions séparées.
