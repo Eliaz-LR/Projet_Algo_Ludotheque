@@ -115,7 +115,44 @@ void saveFiles(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* 
     fclose(flot);
 }
 
+//ces deux fonctions sont similaires mais se doivent d'être séparées car elles utilisent des tableaux de types differents.
+int searchJeux(int searchedID, Jeux* tJeux, int sizeJ){
+    int i;
+    for (i = 0; i < sizeJ-1; i++)
+    {
+        if (searchedID==tJeux[i].id)
+        {
+            return i;
+        }
+        
+    }
+    printf("erreur dans searchJeux: id cheché non trouvé, verifiez la base de donnée\n");
+    return -1;
+}
+int searchAdherent(int searchedID, Adherents* tAdherents, int sizeA){
+    int i;
+    for (i = 0; i < sizeA-1; i++)
+    {
+        if (searchedID==tAdherents[i].id)
+        {
+            return i;
+        }
+    }
+    printf("erreur dans searchAdherent: id cheché non trouvé, verifiez la base de donnée\n");
+    return -1;    
+}
 
+void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, int sizeJ, int sizeA, int sizeE){
+    int i, jRank, aRank;
+
+    for (i = 0; i < sizeE-1; i++)
+    {
+        jRank=searchJeux(tEmprunts[i].idJeu, tJeux, sizeJ);
+        aRank=searchAdherent(tEmprunts[i].idAd, tAdherents, sizeA);
+        printf("%s %s %d/%d/%d\n",tJeux[jRank].nom, tAdherents[aRank].nom, tEmprunts[i].emprunt.jour, tEmprunts[i].emprunt.mois, tEmprunts[i].emprunt.an);
+    }
+    
+}
 
 //Interface graphique du menu
 void afficheMenu(void){
@@ -173,12 +210,7 @@ void global(void){
             case 2:
                 //doit etre modifié : creer une fonction special pour qui remplace les ids par les nom
                 printf("Affichage des emprunts en cours\n");
-                int rank;
-                
-                for (i = 0; i < sizeE-1; i++)
-                {
-                    printf("%d %d %d %d/%d/%d\n", tEmprunts[i].id, tEmprunts[i].idAd, tEmprunts[i].idJeu, tEmprunts[i].emprunt.jour, tEmprunts[i].emprunt.mois, tEmprunts[i].emprunt.an);
-                }
+                AffichageEmprunts(tJeux, tAdherents, tEmprunts, sizeJ, sizeA, sizeE);
                 break;
             case 3:
                 printf("Choix 3\n");
