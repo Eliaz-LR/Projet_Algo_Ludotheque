@@ -123,7 +123,7 @@ void afficheMenu(void){
     
     printf("\t\t\tMenu\n");
     printf("\t\t1: Option 1\n");
-    printf("\t\t2: Option 2\n");
+    printf("\t\t2: Affichage des emprunts en cours\n");
     printf("\t\t3: Option 3\n");
     printf("\t\t4: Option 4\n");
     printf("\t\t5: Option 5\n");
@@ -157,6 +157,7 @@ int choixMenu(void){
 void global(void){
     int choix;
     int sizeJ, sizeA, sizeE, sizeR;
+    int i;
     Jeux *tJeux = loadJeux(&sizeJ);;
     Adherents* tAdherents = loadAdherents(&sizeA);
     Emprunts* tEmprunts = loadEmprunts(&sizeE);
@@ -166,14 +167,13 @@ void global(void){
         switch (choix){
             case 1:
                 printf("Choix 1\n");
-                int i;
-                for (i = 0; i < sizeA-1; i++)
-                {
-                    printf("%d %s %s %s %d/%d/%d\n", tAdherents[i].id, tAdherents[i].civil, tAdherents[i].nom, tAdherents[i].prenom, tAdherents[i].inscrip.jour, tAdherents[i].inscrip.mois, tAdherents[i].inscrip.an);
-                }
                 break;
             case 2:
-                printf("Choix 2\n");
+                printf("Affichage des emprunts en cours\n");
+                for (i = 0; i < sizeE-1; i++)
+                {
+                    printf("%d %d %d %d/%d/%d\n", tEmprunts[i].id, tEmprunts[i].idAd, tEmprunts[i].idJeu, tEmprunts[i].emprunt.jour, tEmprunts[i].emprunt.mois, tEmprunts[i].emprunt.an);
+                }
                 break;
             case 3:
                 printf("Choix 3\n");
