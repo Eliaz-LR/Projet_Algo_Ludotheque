@@ -50,3 +50,9 @@ void afficheMenu(void);
 int choixMenu(void);
 
 void global(void);
+
+
+/*Menu jeux en cours*/
+void partie_jeux(void);
+int choixMenuJeux(void);
+void afficheMenuJeux(void);

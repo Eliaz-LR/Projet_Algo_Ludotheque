@@ -16,12 +16,17 @@ Jeux* loadJeux(int* sizeJ){
     prepFiles(flot);
     *sizeJ=1;
     Jeux* tJeux = malloc(sizeof(Jeux));
-    fscanf(flot,"%d %s %s %d", &tJeux[0].id, &tJeux[0].nom, &tJeux[0].type, &tJeux[0].nbExemplaires);
+    if(tJeux==NULL){
+        printf("Erreur: problème d'allocation dynamique\n");
+        fclose(flot);
+        return NULL;
+    }
+    fscanf(flot,"%d %s %s %d", &tJeux[0].id, tJeux[0].nom, tJeux[0].type, &tJeux[0].nbExemplaires);
     while (!feof(flot))
     {
         *sizeJ=*sizeJ+1;
         tJeux = realloc(tJeux,*sizeJ*sizeof(Jeux));
-        fscanf(flot,"%d %s %s %d", &tJeux[*sizeJ-1].id, &tJeux[*sizeJ-1].nom, &tJeux[*sizeJ-1].type, &tJeux[*sizeJ-1].nbExemplaires);
+        fscanf(flot,"%d %s %s %d", &tJeux[*sizeJ-1].id, tJeux[*sizeJ-1].nom, tJeux[*sizeJ-1].type, &tJeux[*sizeJ-1].nbExemplaires);
     }
     fclose(flot);
     return tJeux;
@@ -33,12 +38,17 @@ Adherents* loadAdherents(int* sizeA){
     prepFiles(flot);
     *sizeA=1;
     Adherents* tAdherents = malloc(sizeof(Adherents));
-    fscanf(flot,"%d %s %s %s %d/%d/%d", &tAdherents[0].id, &tAdherents[0].civil, &tAdherents[0].nom, &tAdherents[0].prenom, &tAdherents[0].inscrip.jour, &tAdherents[0].inscrip.mois, &tAdherents[0].inscrip.an);
+    if(tAdherents==NULL){
+        printf("Erreur: problème d'allocation dynamique\n");
+        fclose(flot);
+        return NULL;
+    }
+    fscanf(flot,"%d %s %s %s %d/%d/%d", &tAdherents[0].id, tAdherents[0].civil, tAdherents[0].nom, tAdherents[0].prenom, &tAdherents[0].inscrip.jour, &tAdherents[0].inscrip.mois, &tAdherents[0].inscrip.an);
     while (!feof(flot))
     {
         *sizeA=*sizeA+1;
         tAdherents = realloc(tAdherents,*sizeA*sizeof(Adherents));
-        fscanf(flot,"%d %s %s %s %d/%d/%d", &tAdherents[*sizeA-1].id, &tAdherents[*sizeA-1].civil, &tAdherents[*sizeA-1].nom, &tAdherents[*sizeA-1].prenom, &tAdherents[*sizeA-1].inscrip.jour, &tAdherents[*sizeA-1].inscrip.mois, &tAdherents[*sizeA-1].inscrip.an);
+        fscanf(flot,"%d %s %s %s %d/%d/%d", &tAdherents[*sizeA-1].id, tAdherents[*sizeA-1].civil, tAdherents[*sizeA-1].nom, tAdherents[*sizeA-1].prenom, &tAdherents[*sizeA-1].inscrip.jour, &tAdherents[*sizeA-1].inscrip.mois, &tAdherents[*sizeA-1].inscrip.an);
     }
     fclose(flot);
     return tAdherents;
@@ -50,6 +60,11 @@ Emprunts* loadEmprunts(int* sizeE){
     prepFiles(flot);
     *sizeE=1;
     Emprunts* tEmprunts = malloc(sizeof(Emprunts));
+    if(tEmprunts==NULL){
+        printf("Erreur: problème d'allocation dynamique\n");
+        fclose(flot);
+        return NULL;
+    }
     fscanf(flot,"%d %d %d %d/%d/%d", &tEmprunts[0].id, &tEmprunts[0].idAd, &tEmprunts[0].idJeu, &tEmprunts[0].emprunt.jour, &tEmprunts[0].emprunt.mois, &tEmprunts[0].emprunt.an);
     while (!feof(flot))
     {
@@ -67,6 +82,11 @@ Reserv* loadReserv(int* sizeR){
     prepFiles(flot);
     *sizeR=1;
     Reserv* tReservations = malloc(sizeof(Reserv));
+    if(tReservations==NULL){
+        printf("Erreur: problème d'allocation dynamique\n");
+        fclose(flot);
+        return NULL;
+    }
     fscanf(flot,"%d %d %d %d/%d/%d", &tReservations[0].id, &tReservations[0].idAd, &tReservations[0].idJeu, &tReservations[0].res.jour, &tReservations[0].res.mois, &tReservations[0].res.an);
     while (!feof(flot))
     {
@@ -162,15 +182,26 @@ void afficheMenu(void){
     system("clear");
     
     printf("\t\t\tMenu\n");
-    printf("\t\t1: Option 1\n");
+    printf("\t\t1: Information sur les jeux\n");
     printf("\t\t2: Affichage des emprunts en cours\n");
-    printf("\t\t3: Option 3\n");
-    printf("\t\t4: Option 4\n");
-    printf("\t\t5: Option 5\n");
+    printf("\t\t3: Ajouter un jeu\n");
+    printf("\t\t4: Supprimer un jeu\n");
+    printf("\t\t5: Emprunt, retour ou annulation\n");
     printf("\t\t6: Sauvegarde des fichiers\n");
     printf("\t\t7:quitter\n");
 }
 
+/*Interface graphique du sous menu jeux */
+void afficheMenuJeux(void){
+    //permet de "netoyer" le terminal
+    system("clear");
+    
+    printf("\t\t\tMenu Jeux\n");
+    printf("\t\t1: Afficher les jeux disponible\n");
+    printf("\t\t2: Chercher si un jeu existe\n");
+    printf("\t\t3: Afficher les jeux emprunter\n");
+    printf("\t\t4: Retour\n");
+}
 //Formulaire permettant de relever le choix de l'utilisateur
 int choixMenu(void){
     int choix;
@@ -191,7 +222,50 @@ int choixMenu(void){
     return choix;
 }
 
+/* Choix au niveau du sous menu jeu*/
+int choixMenuJeux(void){
+    int choix;
+    afficheMenuJeux();
+    printf("\nQuelle est votre choix : ");
+    scanf("%d%*c",&choix);
 
+    /*Condition qui indique que le choix de l'utilisateur doit être compris entre 1 et 7*/
+    while (choix<1 || choix>4){
+        printf("\nChoix incorect %d n'est pas compris entre 1 et 4\n",choix);
+        printf("Retapez sur la touche entrée pour revenir au menu");
+        getchar();
+        afficheMenuJeux();
+        printf("\nQuelle est votre choix : ");
+        scanf("%d%*c",&choix);
+    }
+
+    return choix; 
+}
+
+/* Sous menu jeux */
+void partie_jeux(void){
+    int choix;
+    choix=choixMenuJeux();
+    while(choix!=4){
+        switch(choix){
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+            case 4:
+                return;
+                break;
+        }
+        printf("\nTapez sur la touche entrée pour retourner au menu");
+        getchar();
+        choix=choixMenuJeux();
+    }
+}
 
 //Fonction globale : execute toutes les fonctions
 void global(void){
@@ -206,7 +280,7 @@ void global(void){
     while(choix!=7){   
         switch (choix){
             case 1:
-                printf("Choix 1\n");
+                partie_jeux();
                 break;
             case 2:
                 //doit etre modifié : creer une fonction special pour qui remplace les ids par les nom
@@ -231,4 +305,6 @@ void global(void){
         getchar();
         choix=choixMenu();
     }
+    system("clear");
+    printf("\n\n\t\t\tAu revoir !\n\n");
 }
