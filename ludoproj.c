@@ -1,5 +1,5 @@
 #include "ludoproj.h"
-/*Bout de code répété dans les fonctions load*/
+//Bout de code répété dans les fonctions load
 void prepFiles(FILE *flot){
     if (flot == NULL)
     {
@@ -81,7 +81,7 @@ Reserv* loadReserv(int* sizeR){
 void saveFiles(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* tReserv, int sizeJ, int sizeA, int sizeE, int sizeR){
     FILE *flot;
     int i;
-    /*save jeux*/
+    //save jeux
     flot = fopen("fichiers texte/jeux.txt","w");
     fprintf(flot,"idJeux, nom du jeux, type du jeux (construction, plateau, tuile, carte, logique), nombre d’exemplaires\n");
     for (i = 0; i < sizeJ-1; i++)
@@ -89,7 +89,7 @@ void saveFiles(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* 
         fprintf(flot, "%d %s %s %d\n", tJeux[i].id, tJeux[i].nom, tJeux[i].type, tJeux[i].nbExemplaires);
     }
     fclose(flot);
-    /*save adherents*/
+    //save adherents
     flot = fopen("fichiers texte/adherents.txt","w");
     fprintf(flot,"idAdherent, civilité (Mr, Mme), nom, prénom, date d’inscription\n");
     for (i = 0; i < sizeA-1; i++)
@@ -97,7 +97,7 @@ void saveFiles(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* 
         fprintf(flot,"%d %s %s %s %d/%d/%d\n", tAdherents[i].id, tAdherents[i].civil, tAdherents[i].nom, tAdherents[i].prenom, tAdherents[i].inscrip.jour, tAdherents[i].inscrip.mois, tAdherents[i].inscrip.an);
     }
     fclose(flot);
-    /*save emprunts*/
+    //save emprunts
     flot = fopen("fichiers texte/emprunts.txt","w");
     fprintf(flot,"idEmprunt, idAdherent, idJeux, date d’emprunt\n");
     for (i = 0; i < sizeE-1; i++)
@@ -105,7 +105,7 @@ void saveFiles(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* 
         fprintf(flot,"%d %d %d %d/%d/%d\n", tEmprunts[i].id, tEmprunts[i].idAd, tEmprunts[i].idJeu, tEmprunts[i].emprunt.jour, tEmprunts[i].emprunt.mois, tEmprunts[i].emprunt.an);
     }
     fclose(flot);
-    /*save reservations*/
+    //save reservations
     flot = fopen("fichiers texte/reservations.txt","w");
     fprintf(flot,"idResa, idAdherent, idJeux, date de réservation\n");
     for (i = 0; i < sizeR-1; i++)
@@ -115,10 +115,10 @@ void saveFiles(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* 
     fclose(flot);
 }
 
-/*Interface graphique du menu*/
+//Interface graphique du menu
 void afficheMenu(void){
 
-    /*permet de "netoyer" le terminal*/
+    //permet de "netoyer" le terminal
     system("clear");
     
     printf("\t\t\tMenu\n");
@@ -131,7 +131,7 @@ void afficheMenu(void){
     printf("\t\t7:quitter\n");
 }
 
-/*Formulaire permettant de relever le choix de l'utilisateur*/
+//Formulaire permettant de relever le choix de l'utilisateur
 int choixMenu(void){
     int choix;
     afficheMenu();
@@ -153,7 +153,7 @@ int choixMenu(void){
 
 
 
-/*Fonction globale : execute toutes les fonctions*/
+//Fonction globale : execute toutes les fonctions
 void global(void){
     int choix;
     int sizeJ, sizeA, sizeE, sizeR;
@@ -169,6 +169,7 @@ void global(void){
                 printf("Choix 1\n");
                 break;
             case 2:
+                //doit etre modifié : creer une fonction special pour qui remplace les ids par les nom
                 printf("Affichage des emprunts en cours\n");
                 for (i = 0; i < sizeE-1; i++)
                 {
