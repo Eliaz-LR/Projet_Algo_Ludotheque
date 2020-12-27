@@ -79,6 +79,7 @@ Reserv* loadReserv(int* sizeR){
 }
 
 void saveFiles(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* tReserv, int sizeJ, int sizeA, int sizeE, int sizeR){
+    //Cette fonction est plutot longue, je vous invite donc à, si votre IDE le permet la minimiser une fois lue. 
     FILE *flot;
     int i;
     //save jeux
@@ -115,7 +116,7 @@ void saveFiles(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* 
     fclose(flot);
 }
 
-//ces deux fonctions sont similaires mais se doivent d'être séparées car elles utilisent des tableaux de types differents.
+//ces deux fonctions sont similaires mais se doivent d'être séparées car elles utilisent des tableaux à types differents.
 int searchJeux(int searchedID, Jeux* tJeux, int sizeJ){
     int i;
     for (i = 0; i < sizeJ-1; i++)
