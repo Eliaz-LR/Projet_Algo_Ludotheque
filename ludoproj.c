@@ -10,7 +10,6 @@ void prepFiles(FILE *flot){
 }
 
 Jeux* loadJeux(int* sizeJ){
-    /*répété dans les 4 fonction des fichiers : mettre dans une fonction a part pour reduire ?*/
     FILE *flot;
     flot = fopen("fichiers texte/jeux.txt","r");
     prepFiles(flot);
