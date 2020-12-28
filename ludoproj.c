@@ -306,4 +306,8 @@ void global(void){
     }
     system("clear");
     printf("\n\n\t\t\tAu revoir !\n\n");
+    free(tJeux);
+    free(tAdherents);
+    free(tEmprunts);
+    free(tReservations);
 }
