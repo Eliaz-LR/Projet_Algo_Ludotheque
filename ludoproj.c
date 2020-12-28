@@ -311,3 +311,42 @@ void global(void){
     free(tEmprunts);
     free(tReservations);
 }
+
+
+
+void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, int sizeJ, int sizeA, int sizeE){
+    int i, jRank, aRank;
+
+    for (i = 0; i < sizeE-1; i++)
+    {
+        jRank=searchJeux(tEmprunts[i].idJeu, tJeux, sizeJ);
+        aRank=searchAdherent(tEmprunts[i].idAd, tAdherents, sizeA);
+        printf("%s %s %d/%d/%d\n",tJeux[jRank].nom, tAdherents[aRank].nom, tEmprunts[i].emprunt.jour, tEmprunts[i].emprunt.mois, tEmprunts[i].emprunt.an);
+    }
+    
+}
+
+
+void tri_iteratif(Jeux* tJeux, int sizeJ)
+ {
+   char *tab; 
+   int i, j;
+
+   for (i = 0; i < taille; i++) 
+    for (j = 0; j < taille; j++)
+      if (strcmp(tableau[i].nom, tableau[j].nom) > 0)
+        {
+          tab = tableau[i];
+          tableau[i] = tableau[j];
+          tableau[j] = tab;
+        }
+  }
+
+void affichageJeux(Jeux* tJeux, int sizeJ)
+ {
+   int i;
+
+   tri_iteratif(tJeux, sizeJ);
+   for (i = 0; i < sizeJ; i++)
+     printf("%s ", tJeux[i]);
+ }
