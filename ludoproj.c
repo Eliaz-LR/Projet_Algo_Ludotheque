@@ -313,20 +313,6 @@ void global(void){
 }
 
 
-
-void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, int sizeJ, int sizeA, int sizeE){
-    int i, jRank, aRank;
-
-    for (i = 0; i < sizeE-1; i++)
-    {
-        jRank=searchJeux(tEmprunts[i].idJeu, tJeux, sizeJ);
-        aRank=searchAdherent(tEmprunts[i].idAd, tAdherents, sizeA);
-        printf("%s %s %d/%d/%d\n",tJeux[jRank].nom, tAdherents[aRank].nom, tEmprunts[i].emprunt.jour, tEmprunts[i].emprunt.mois, tEmprunts[i].emprunt.an);
-    }
-    
-}
-
-
 void tri_iteratif(Jeux* tJeux, int sizeJ)
  {
    char *tab; 
