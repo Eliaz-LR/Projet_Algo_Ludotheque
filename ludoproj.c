@@ -13,6 +13,7 @@ Jeux* loadJeux(int* sizeJ){
     FILE *flot;
     flot = fopen("fichiers texte/jeux.txt","r");
     prepFiles(flot);
+    //initialisé à 1 car size est utilisé pour des multiplications, on compte donc a partir de 1
     *sizeJ=1;
     Jeux* tJeux = malloc(sizeof(Jeux));
     if(tJeux==NULL){
@@ -186,18 +187,34 @@ void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, 
     
 }
 
-Emprunts* retourJeux(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* tReserv, int* sizeE){
-    int i, idE, rankE;
+Emprunts* retourJeux(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* tReserv, int* sizeE, int* sizeJ, int* sizeR){
+    int i, idE, idJ, rank;
     printf("Entrez l'ID de l'emprunt a retourner");
     scanf("%d",idE);
-    rankE=searchEmprunt(idE, tEmprunts, sizeE);
-    //va de la case a supprimer jusqu'a l'avant dernière dispo
-    for (i = rankE; i < sizeE-2; i++)
+    rank=searchEmprunt(idE, tEmprunts, sizeE);
+    idJ=tEmprunts[rank].idJeu;
+    //Va de la case a supprimer jusqu'a l'avant dernière dispo...
+    for (i = rank; i < sizeE-2; i++)
     {
+        //...pour decaler d'une case les données de tEmprunts(cela permet d'ecraser les données de l'emprunt rendu et d'avoir la derniere case prète a etre supprimée).
         tEmprunts[i]=tEmprunts[i+1];
     }
     *sizeE=*sizeE-1;
     tEmprunts=realloc(tEmprunts,*sizeE*sizeof(Emprunts));
+    rank=searchJeux(idJ, tJeux, sizeJ);
+    tJeux[rank].nbExemplaires=tJeux[rank].nbExemplaires+1;
+
+    //gestion des reservations (a continuer)
+    for (i = 0; i < sizeR-1; i++)
+    {
+        if (tReserv[i].idJeu==idJ)
+        {
+            /* code */
+        }
+        
+    }
+    
+    
     return tEmprunts;
 }
 
