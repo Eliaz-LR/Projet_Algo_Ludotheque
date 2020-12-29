@@ -161,6 +161,18 @@ int searchAdherent(int searchedID, Adherents* tAdherents, int sizeA){
     printf("erreur dans searchAdherent: id cheché non trouvé, verifiez la base de donnée\n");
     return -1;    
 }
+int searchEmprunt(int searchedID, Emprunts* tEmprunts, int sizeE){
+    int i;
+    for (i = 0; i < sizeE-1; i++)
+    {
+        if (searchedID==tEmprunts[i].id)
+        {
+            return i;
+        }
+    }
+    printf("erreur dans searchEmprunt: id cheché non trouvé, verifiez la base de donnée\n");
+    return -1;
+}
 
 void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, int sizeJ, int sizeA, int sizeE){
     int i, jRank, aRank;
