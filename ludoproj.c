@@ -320,11 +320,11 @@ void tri_iteratif(Jeux* tJeux, int sizeJ)
 
    for (i = 0; i < taille; i++) 
     for (j = 0; j < taille; j++)
-      if (strcmp(tableau[i].nom, tableau[j].nom) > 0)
+      if (strcmp(tJeux[i].nom, tJeux[j].nom) > 0)
         {
-          tab = tableau[i];
-          tableau[i] = tableau[j];
-          tableau[j] = tab;
+          tab = tJeux[i];
+          tJeux[i] = tJeux[j];
+          tJeux[j] = tab;
         }
   }
 
