@@ -186,6 +186,21 @@ void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, 
     
 }
 
+Emprunts* retourJeux(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* tReserv, int* sizeE){
+    int i, idE, rankE;
+    printf("Entrez l'ID de l'emprunt a retourner");
+    scanf("%d",idE);
+    rankE=searchEmprunt(idE, tEmprunts, sizeE);
+    //va de la case a supprimer jusqu'a l'avant dernière dispo
+    for (i = rankE; i < sizeE-2; i++)
+    {
+        tEmprunts[i]=tEmprunts[i+1];
+    }
+    *sizeE=*sizeE-1;
+    tEmprunts=realloc(tEmprunts,*sizeE*sizeof(Emprunts));
+    return tEmprunts;
+}
+
 //Interface graphique du menu
 void afficheMenu(void){
 
