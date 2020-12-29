@@ -174,6 +174,10 @@ void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, 
     
 }
 
+void retourJeux(Jeux* tJeux, Emprunts* tEmprunts, Reserv* tReserv){
+
+}
+
 //Interface graphique du menu
 void afficheMenu(void){
 
