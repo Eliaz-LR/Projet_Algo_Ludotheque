@@ -174,8 +174,26 @@ void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, 
     
 }
 
-void retourJeux(Jeux* tJeux, Emprunts* tEmprunts, Reserv* tReserv){
+void retourJeux(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* tReserv){
+    int a;
+    printf("Retour de jeux par ID (1) ou par nom de l'adherent (2) ?");
+    scanf("%d",a);
+    //si retour par nom de l'adherent
+    if (a==2)
+    {
+        printf("entrez le nom de l'adherent");
+        //impression des jeux emprunté par l'ad
 
+        printf("entrez le nom du jeu emprunté");
+    }
+    else
+    {
+        printf("Entrez l'ID de l'emprunt a retourner");
+        scanf("%d",a);
+
+    }
+    
+    
 }
 
 //Interface graphique du menu
