@@ -161,6 +161,18 @@ int searchAdherent(int searchedID, Adherents* tAdherents, int sizeA){
     printf("erreur dans searchAdherent: id cheché non trouvé, verifiez la base de donnée\n");
     return -1;    
 }
+int searchEmprunt(int searchedID, Emprunts* tEmprunts, int sizeE){
+    int i;
+    for (i = 0; i < sizeE-1; i++)
+    {
+        if (searchedID==tEmprunts[i].id)
+        {
+            return i;
+        }
+    }
+    printf("erreur dans searchEmprunt: id cheché non trouvé, verifiez la base de donnée\n");
+    return -1;
+}
 
 void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, int sizeJ, int sizeA, int sizeE){
     int i, jRank, aRank;
@@ -174,8 +186,8 @@ void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, 
     
 }
 
-void retourJeux(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* tReserv){
-    int a;
+void retourJeux(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* tReserv, int sizeE){
+    int a, idE, rankE;
     printf("Retour de jeux par ID (1) ou par nom de l'adherent (2) ?");
     scanf("%d",a);
     //si retour par nom de l'adherent
@@ -189,8 +201,8 @@ void retourJeux(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv*
     else
     {
         printf("Entrez l'ID de l'emprunt a retourner");
-        scanf("%d",a);
-
+        scanf("%d",idE);
+        rankE=searchEmprunt(idE, tEmprunts, sizeE);
     }
     
     
