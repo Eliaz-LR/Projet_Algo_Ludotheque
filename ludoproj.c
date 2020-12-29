@@ -198,7 +198,7 @@ void afficheMenuJeux(void){
     printf("\t\t\tMenu Jeux\n");
     printf("\t\t1: Afficher les jeux disponible\n");
     printf("\t\t2: Chercher si un jeu existe\n");
-    printf("\t\t3: Afficher les jeux emprunter\n");
+    printf("\t\t3: Afficher les jeux emprunté\n");
     printf("\t\t4: Retour\n");
 }
 //Formulaire permettant de relever le choix de l'utilisateur
