@@ -374,7 +374,7 @@ void jeuxDisponible(Reserv tRes[],Jeux tJeux[],int nbjeux,int nbres){
     int emprunter,nbEmprunt;
     printf("Id\tNom\t\tType\t\tNombre d'emplaires restant\n");
     
-    for(i=0;i<nbjeux;i++){
+    for(i=0;i<nbjeux-1;i++){
         emprunter=chercherRes(tRes,nbres,tJeux[i].id,&nbEmprunt);
         if(emprunter!=1 || tJeux[i].nbExemplaires>0)
             printf("%d\t%s\t%s\t\t%d\n",tJeux[i].id,tJeux[i].nom,tJeux[i].type,tJeux[i].nbExemplaires);
