@@ -311,28 +311,3 @@ void global(void){
     free(tEmprunts);
     free(tReservations);
 }
-
-
-void tri_iteratif(Jeux* tJeux, int sizeJ)
- {
-   char *tab; 
-   int i, j;
-
-   for (i = 0; i < taille; i++) 
-    for (j = 0; j < taille; j++)
-      if (strcmp(tJeux[i].nom, tJeux[j].nom) > 0)
-        {
-          tab = tJeux[i];
-          tJeux[i] = tJeux[j];
-          tJeux[j] = tab;
-        }
-  }
-
-void affichageJeux(Jeux* tJeux, int sizeJ)
- {
-   int i;
-
-   tri_iteratif(tJeux, sizeJ);
-   for (i = 0; i < sizeJ; i++)
-     printf("%s ", tJeux[i]);
- }

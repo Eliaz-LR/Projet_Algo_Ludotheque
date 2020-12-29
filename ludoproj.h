@@ -56,7 +56,3 @@ void global(void);
 void partie_jeux(void);
 int choixMenuJeux(void);
 void afficheMenuJeux(void);
-
-
-void tri_iteratif(Jeux* tJeux, int sizeJ);
-void affichageJeux(Jeux* tJeux, int sizeJ);
