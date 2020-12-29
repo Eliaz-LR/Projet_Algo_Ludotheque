@@ -243,18 +243,32 @@ int choixMenuJeux(void){
 
 /* Sous menu jeux */
 void partie_jeux(void){
-    int choix;
+    int choix,id;
+    int sizeJ,sizeR;
+    Jeux *tJeux = loadJeux(&sizeJ);
+    Reserv* tReservations = loadReserv(&sizeR);
+    char code[50];
+
     choix=choixMenuJeux();
     while(choix!=4){
         switch(choix){
             case 1:
-
+                jeuxDisponible(tReservations,tJeux,sizeJ,sizeR);
                 break;
             case 2:
+                printf("Rentrez le nom du jeux que vous cherchez : ");
+                scanf("%s%*c",code);
+
+                id=chercherMat(tJeux,sizeJ,code);
+
+                if(id==-1)
+                    printf("Le jeux %s n'existe pas ou n'est pas disponible ici\n",code);
+                else
+                    printf("Le jeu %s existe et sont ID est %d\n",code,id);
 
                 break;
             case 3:
-
+                jeuxEmprunter(tReservations,tJeux,sizeJ,sizeR);
                 break;
             case 4:
                 return;
@@ -271,7 +285,7 @@ void global(void){
     int choix;
     int sizeJ, sizeA, sizeE, sizeR;
     int i;
-    Jeux *tJeux = loadJeux(&sizeJ);;
+    Jeux *tJeux = loadJeux(&sizeJ);
     Adherents* tAdherents = loadAdherents(&sizeA);
     Emprunts* tEmprunts = loadEmprunts(&sizeE);
     Reserv* tReservations = loadReserv(&sizeR);
@@ -312,27 +326,58 @@ void global(void){
     free(tReservations);
 }
 
+int chercherMat(Jeux tJeux[],int nbjeux,char code[]){
+    int i;
 
-void tri_iteratif(Jeux* tJeux, int sizeJ)
- {
-   char *tab; 
-   int i, j;
+    for(i=0;i<nbjeux;i++){
+        if(strcmp(tJeux[i].nom,code)==0)
+            return tJeux[i].id;
+    }
+    return -1;
+}
 
-   for (i = 0; i < taille; i++) 
-    for (j = 0; j < taille; j++)
-      if (strcmp(tJeux[i].nom, tJeux[j].nom) > 0)
-        {
-          tab = tJeux[i];
-          tJeux[i] = tJeux[j];
-          tJeux[j] = tab;
+int chercherRes(Reserv tRes[],int nbres,int jeux,int *nbEmprunt){
+    int i,t=0;
+    int trouve=0;
+
+    for(i=0;i<nbres;i++){
+        if(tRes[i].idJeu==jeux){
+            trouve=1;
+            t++;
         }
-  }
+    }
+    *nbEmprunt=t;
+    return trouve;
+}
 
-void affichageJeux(Jeux* tJeux, int sizeJ)
- {
-   int i;
+void jeuxEmprunter(Reserv tRes[],Jeux tJeux[],int nbjeux,int nbres){
+    int i;
+    int emprunter,nbEmprunt=0;
+    printf("Id\tNom\t\tType\tNombre d'exemplaire emprunter\n");
 
-   tri_iteratif(tJeux, sizeJ);
-   for (i = 0; i < sizeJ; i++)
-     printf("%s ", tJeux[i]);
- }
+    for(i=0;i<nbjeux;i++){
+        emprunter=chercherRes(tRes,nbres,tJeux[i].id,&nbEmprunt);
+        if(emprunter==1){
+            tJeux[i].nbExemplaires=tJeux[i].nbExemplaires-nbEmprunt;
+            if(tJeux[i].nbExemplaires<0){
+                printf("Erreur: Le jeu %s a était emprunter plus de fois qu'il était diponible\n\n",tJeux[i].nom);
+                return;
+            }
+            printf("%d\t%s\t%s\t\t%d\n",tJeux[i].id,tJeux[i].nom,tJeux[i].type,nbEmprunt);
+        }
+    }
+    printf("\n\n");
+}
+
+void jeuxDisponible(Reserv tRes[],Jeux tJeux[],int nbjeux,int nbres){
+    int i;
+    int emprunter,nbEmprunt;
+    printf("Id\tNom\t\tType\t\tNombre d'emplaires restant\n");
+    
+    for(i=0;i<nbjeux;i++){
+        emprunter=chercherRes(tRes,nbres,tJeux[i].id,&nbEmprunt);
+        if(emprunter!=1 || tJeux[i].nbExemplaires>0)
+            printf("%d\t%s\t%s\t\t%d\n",tJeux[i].id,tJeux[i].nom,tJeux[i].type,tJeux[i].nbExemplaires);
+    }
+    printf("\n\n");
+}

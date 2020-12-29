@@ -60,3 +60,8 @@ void afficheMenuJeux(void);
 
 void tri_iteratif(Jeux* tJeux, int sizeJ);
 void affichageJeux(Jeux* tJeux, int sizeJ);
+
+int chercherRes(Reserv tRes[],int nbres,int jeux,int *nbEmprunt);
+void jeuxEmprunter(Reserv tRes[],Jeux tJeux[],int nbjeux,int nbres);
+void jeuxDisponible(Reserv tRes[],Jeux tJeux[],int nbjeux,int nbres);
+int chercherMat(Jeux tJeux[],int nbjeux,char code[]);
