@@ -188,13 +188,21 @@ void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, 
 }
 
 Emprunts* retourJeux(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* tReserv, int* sizeE, int* sizeJ, int* sizeR){
-    int i, idE, idJ, rank;
+    //on a besoin du jour/mois/année actuelle qu'on extrait de <time.h>
+    int day, month, year;
+    time_t now;
+    struct tm *local = localtime(&now);
+    day = local->tm_mday;
+    month = local->tm_mon + 1;
+    year = local->tm_year + 1900;
+
+    int i, j, idE, idJ, rank;
     printf("Entrez l'ID de l'emprunt a retourner");
     scanf("%d",idE);
     rank=searchEmprunt(idE, tEmprunts, sizeE);
     idJ=tEmprunts[rank].idJeu;
     //Va de la case a supprimer jusqu'a l'avant dernière dispo...
-    for (i = rank; i < sizeE-2; i++)
+    for (i = rank; i < *sizeE-2; i++)
     {
         //...pour decaler d'une case les données de tEmprunts(cela permet d'ecraser les données de l'emprunt rendu et d'avoir la derniere case prète a etre supprimée).
         tEmprunts[i]=tEmprunts[i+1];
@@ -209,11 +217,26 @@ Emprunts* retourJeux(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Re
     {
         if (tReserv[i].idJeu==idJ)
         {
-            /* code */
+            //on ajoute l'emprunt...
+                *sizeE=*sizeE+1;
+                tEmprunts=realloc(tEmprunts,*sizeE*sizeof(Emprunts));
+                tEmprunts[*sizeE-1].id=tEmprunts[*sizeE-2].id+1; //l'id de l'emprunt prend la valeur du dernier du tableau +1
+                tEmprunts[*sizeE-1].idAd=tReserv[i].idAd;
+                tEmprunts[*sizeE-1].idJeu=tReserv[i].idJeu;
+                //on regle la date de l'emprunt sur la date actuelle obtenue avec dos.h
+                tEmprunts[*sizeE-1].emprunt.jour=day;
+                tEmprunts[*sizeE-1].emprunt.mois=month;
+                tEmprunts[*sizeE-1].emprunt.an=year;
+            //et on supprime la reservation
+            for (j = i; j < *sizeR-2; j++)
+            {
+                tReserv[j]=tReserv[j+1];
+            }
+            *sizeR=*sizeR-1;
+            tReserv=realloc(tReserv,*sizeR*sizeof(Reserv));
+            break;
         }
-        
     }
-    
     
     return tEmprunts;
 }
