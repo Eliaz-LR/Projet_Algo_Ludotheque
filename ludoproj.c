@@ -210,7 +210,7 @@ Emprunts* retourJeux(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Re
     printf("jeu emprunté num %d\n",idJ);
     printf("sizeE = %d, rank = %d\n", *sizeE, rank);
     //Va de la case a supprimer jusqu'a l'avant dernière dispo...
-    for (i = rank; i < *sizeE-2; i++)
+    for (i = rank; i < *sizeE-1; i++)
     {
         //...pour decaler d'une case les données de tEmprunts(cela permet d'ecraser les données de l'emprunt rendu et d'avoir la derniere case prète a etre supprimée).
         tEmprunts[i]=tEmprunts[i+1];
@@ -231,15 +231,22 @@ Emprunts* retourJeux(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Re
     tJeux[rank].nbExemplaires=tJeux[rank].nbExemplaires+1;
     printf("jeu remis en stock\n");
     //gestion des reservations (a continuer)
-    for (i = 0; i < *sizeR-1; i++)
+    for (i = 0; i < *sizeR; i++)
     {
         if ((*tReserv)[i].idJeu==idJ)
         {
-            printf("Reservation du jeu retourné détetée ! Creation automatique de la reservation...\n");
+            printf("Reservation du jeu retourné détetée ! Creation automatique de l'emprunt...\n");
             //on ajoute l'emprunt...
                 *sizeE=*sizeE+1;
                 tEmprunts=realloc(tEmprunts,*sizeE*sizeof(Emprunts));
-                tEmprunts[*sizeE-1].id=tEmprunts[*sizeE-2].id+1; //l'id de l'emprunt prend la valeur du dernier du tableau +1
+                if (*sizeE==1)
+                {
+                    tEmprunts[*sizeE-1].id=1;//si c'est le premier emprunt, il prend l'id 1
+                }
+                else
+                {
+                    tEmprunts[*sizeE-1].id=tEmprunts[*sizeE-2].id+1; //l'id de l'emprunt prend la valeur du dernier du tableau +1
+                }
                 tEmprunts[*sizeE-1].idAd=(*tReserv)[i].idAd;
                 tEmprunts[*sizeE-1].idJeu=(*tReserv)[i].idJeu;
                 printf("emprunt ajouté\n");
@@ -250,7 +257,7 @@ Emprunts* retourJeux(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Re
                 tEmprunts[*sizeE-1].emprunt.mois=month;
                 tEmprunts[*sizeE-1].emprunt.an=year;
             //et on supprime la reservation
-            for (j = i; j < *sizeR-2; j++)
+            for (j = i; j < *sizeR-1; j++)
             {
                 (*tReserv)[j]=(*tReserv)[j+1];
             }
