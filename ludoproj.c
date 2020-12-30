@@ -374,6 +374,7 @@ void global(void){
                 break;
             case 5:
                 printf("Choix 5\n");
+                tEmprunts = retourJeux(tJeux, tAdherents, tEmprunts, &tReservations, &sizeE, &sizeJ, &sizeR)
                 break;
             case 6:
                 printf("Sauvegarde des fichiers\n");
