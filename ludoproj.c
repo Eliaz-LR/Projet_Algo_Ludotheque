@@ -199,7 +199,7 @@ Emprunts* retourJeux(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Re
     int i, j, idE, idJ, rank;
     printf("Entrez l'ID de l'emprunt a retourner");
     scanf("%d",idE);
-    rank=searchEmprunt(idE, tEmprunts, sizeE);
+    rank=searchEmprunt(idE, tEmprunts, *sizeE);
     idJ=tEmprunts[rank].idJeu;
     //Va de la case a supprimer jusqu'a l'avant dernière dispo...
     for (i = rank; i < *sizeE-2; i++)
@@ -209,11 +209,11 @@ Emprunts* retourJeux(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Re
     }
     *sizeE=*sizeE-1;
     tEmprunts=realloc(tEmprunts,*sizeE*sizeof(Emprunts));
-    rank=searchJeux(idJ, tJeux, sizeJ);
+    rank=searchJeux(idJ, tJeux, *sizeJ);
     tJeux[rank].nbExemplaires=tJeux[rank].nbExemplaires+1;
 
     //gestion des reservations (a continuer)
-    for (i = 0; i < sizeR-1; i++)
+    for (i = 0; i < *sizeR-1; i++)
     {
         if ((*tReserv)[i].idJeu==idJ)
         {
@@ -374,7 +374,7 @@ void global(void){
                 break;
             case 5:
                 printf("Choix 5\n");
-                tEmprunts = retourJeux(tJeux, tAdherents, tEmprunts, &tReservations, &sizeE, &sizeJ, &sizeR)
+                tEmprunts = retourJeux(tJeux, tAdherents, tEmprunts, &tReservations, &sizeE, &sizeJ, &sizeR);
                 break;
             case 6:
                 printf("Sauvegarde des fichiers\n");
