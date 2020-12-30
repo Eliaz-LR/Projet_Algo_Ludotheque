@@ -108,7 +108,7 @@ void saveFiles(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* 
     //save jeux
     flot = fopen("fichiers texte/jeux.txt","w");
     fprintf(flot,"idJeux, nom du jeux, type du jeux (construction, plateau, tuile, carte, logique), nombre d’exemplaires\n");
-    for (i = 0; i < sizeJ-1; i++)
+    for (i = 0; i < sizeJ; i++)
     {
         fprintf(flot, "%d %s %s %d\n", tJeux[i].id, tJeux[i].nom, tJeux[i].type, tJeux[i].nbExemplaires);
     }
@@ -116,7 +116,7 @@ void saveFiles(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* 
     //save adherents
     flot = fopen("fichiers texte/adherents.txt","w");
     fprintf(flot,"idAdherent, civilité (Mr, Mme), nom, prénom, date d’inscription\n");
-    for (i = 0; i < sizeA-1; i++)
+    for (i = 0; i < sizeA; i++)
     {
         fprintf(flot,"%d %s %s %s %d/%d/%d\n", tAdherents[i].id, tAdherents[i].civil, tAdherents[i].nom, tAdherents[i].prenom, tAdherents[i].inscrip.jour, tAdherents[i].inscrip.mois, tAdherents[i].inscrip.an);
     }
@@ -124,7 +124,7 @@ void saveFiles(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* 
     //save emprunts
     flot = fopen("fichiers texte/emprunts.txt","w");
     fprintf(flot,"idEmprunt, idAdherent, idJeux, date d’emprunt\n");
-    for (i = 0; i < sizeE-1; i++)
+    for (i = 0; i < sizeE; i++)
     {
         fprintf(flot,"%d %d %d %d/%d/%d\n", tEmprunts[i].id, tEmprunts[i].idAd, tEmprunts[i].idJeu, tEmprunts[i].emprunt.jour, tEmprunts[i].emprunt.mois, tEmprunts[i].emprunt.an);
     }
@@ -132,7 +132,7 @@ void saveFiles(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* 
     //save reservations
     flot = fopen("fichiers texte/reservations.txt","w");
     fprintf(flot,"idResa, idAdherent, idJeux, date de réservation\n");
-    for (i = 0; i < sizeR-1; i++)
+    for (i = 0; i < sizeR; i++)
     {
         fprintf(flot,"%d %d %d %d/%d/%d\n", tReserv[i].id, tReserv[i].idAd, tReserv[i].idJeu, tReserv[i].res.jour, tReserv[i].res.mois, tReserv[i].res.an);
     }
