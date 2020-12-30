@@ -13,21 +13,21 @@ Jeux* loadJeux(int* sizeJ){
     FILE *flot;
     flot = fopen("fichiers texte/jeux.txt","r");
     prepFiles(flot);
-    //initialisé à 1 car size est utilisé pour des multiplications, on compte donc a partir de 1
-    *sizeJ=1;
+    *sizeJ=0;
     Jeux* tJeux = malloc(sizeof(Jeux));
     if(tJeux==NULL){
         printf("Erreur: problème d'allocation dynamique\n");
         fclose(flot);
         return NULL;
     }
-    fscanf(flot,"%d %s %s %d", &tJeux[0].id, tJeux[0].nom, tJeux[0].type, &tJeux[0].nbExemplaires);
     while (!feof(flot))
     {
         *sizeJ=*sizeJ+1;
         tJeux = realloc(tJeux,*sizeJ*sizeof(Jeux));
         fscanf(flot,"%d %s %s %d", &tJeux[*sizeJ-1].id, tJeux[*sizeJ-1].nom, tJeux[*sizeJ-1].type, &tJeux[*sizeJ-1].nbExemplaires);
     }
+    //la derniere ligne des fichiers est vide et ne doit pas etre comptée
+    *sizeJ=*sizeJ-1;
     fclose(flot);
     return tJeux;
 }
@@ -36,20 +36,21 @@ Adherents* loadAdherents(int* sizeA){
     FILE *flot;
     flot = fopen("fichiers texte/adherents.txt","r");
     prepFiles(flot);
-    *sizeA=1;
+    *sizeA=0;
     Adherents* tAdherents = malloc(sizeof(Adherents));
     if(tAdherents==NULL){
         printf("Erreur: problème d'allocation dynamique\n");
         fclose(flot);
         return NULL;
     }
-    fscanf(flot,"%d %s %s %s %d/%d/%d", &tAdherents[0].id, tAdherents[0].civil, tAdherents[0].nom, tAdherents[0].prenom, &tAdherents[0].inscrip.jour, &tAdherents[0].inscrip.mois, &tAdherents[0].inscrip.an);
     while (!feof(flot))
     {
         *sizeA=*sizeA+1;
         tAdherents = realloc(tAdherents,*sizeA*sizeof(Adherents));
         fscanf(flot,"%d %s %s %s %d/%d/%d", &tAdherents[*sizeA-1].id, tAdherents[*sizeA-1].civil, tAdherents[*sizeA-1].nom, tAdherents[*sizeA-1].prenom, &tAdherents[*sizeA-1].inscrip.jour, &tAdherents[*sizeA-1].inscrip.mois, &tAdherents[*sizeA-1].inscrip.an);
     }
+    //la derniere ligne des fichiers est vide et ne doit pas etre comptée
+    *sizeA=*sizeA-1;
     fclose(flot);
     return tAdherents;
 }
@@ -58,20 +59,21 @@ Emprunts* loadEmprunts(int* sizeE){
     FILE *flot;
     flot = fopen("fichiers texte/emprunts.txt","r");
     prepFiles(flot);
-    *sizeE=1;
+    *sizeE=0;
     Emprunts* tEmprunts = malloc(sizeof(Emprunts));
     if(tEmprunts==NULL){
         printf("Erreur: problème d'allocation dynamique\n");
         fclose(flot);
         return NULL;
     }
-    fscanf(flot,"%d %d %d %d/%d/%d", &tEmprunts[0].id, &tEmprunts[0].idAd, &tEmprunts[0].idJeu, &tEmprunts[0].emprunt.jour, &tEmprunts[0].emprunt.mois, &tEmprunts[0].emprunt.an);
     while (!feof(flot))
     {
         *sizeE=*sizeE+1;
         tEmprunts = realloc(tEmprunts,*sizeE*sizeof(Emprunts));
         fscanf(flot,"%d %d %d %d/%d/%d", &tEmprunts[*sizeE-1].id, &tEmprunts[*sizeE-1].idAd, &tEmprunts[*sizeE-1].idJeu, &tEmprunts[*sizeE-1].emprunt.jour, &tEmprunts[*sizeE-1].emprunt.mois, &tEmprunts[*sizeE-1].emprunt.an);
     }
+    //la derniere ligne des fichiers est vide et ne doit pas etre comptée
+    *sizeE=*sizeE-1;
     fclose(flot);
     return tEmprunts;
 }
@@ -80,20 +82,21 @@ Reserv* loadReserv(int* sizeR){
     FILE *flot;
     flot = fopen("fichiers texte/reservations.txt","r");
     prepFiles(flot);
-    *sizeR=1;
+    *sizeR=0;
     Reserv* tReservations = malloc(sizeof(Reserv));
     if(tReservations==NULL){
         printf("Erreur: problème d'allocation dynamique\n");
         fclose(flot);
         return NULL;
     }
-    fscanf(flot,"%d %d %d %d/%d/%d", &tReservations[0].id, &tReservations[0].idAd, &tReservations[0].idJeu, &tReservations[0].res.jour, &tReservations[0].res.mois, &tReservations[0].res.an);
     while (!feof(flot))
     {
         *sizeR=*sizeR+1;
         tReservations = realloc(tReservations,*sizeR*sizeof(Reserv));
         fscanf(flot,"%d %d %d %d/%d/%d", &tReservations[*sizeR-1].id, &tReservations[*sizeR-1].idAd, &tReservations[*sizeR-1].idJeu, &tReservations[*sizeR-1].res.jour, &tReservations[*sizeR-1].res.mois, &tReservations[*sizeR-1].res.an);
     }
+    //la derniere ligne des fichiers est vide et ne doit pas etre comptée
+    *sizeR=*sizeR-1;
     fclose(flot);
     return tReservations;
 }
@@ -139,7 +142,7 @@ void saveFiles(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* 
 //ces deux fonctions sont similaires mais se doivent d'être séparées car elles utilisent des tableaux à types differents.
 int searchJeux(int searchedID, Jeux* tJeux, int sizeJ){
     int i;
-    for (i = 0; i < sizeJ-1; i++)
+    for (i = 0; i < sizeJ; i++)
     {
         if (searchedID==tJeux[i].id)
         {
@@ -152,7 +155,7 @@ int searchJeux(int searchedID, Jeux* tJeux, int sizeJ){
 }
 int searchAdherent(int searchedID, Adherents* tAdherents, int sizeA){
     int i;
-    for (i = 0; i < sizeA-1; i++)
+    for (i = 0; i < sizeA; i++)
     {
         if (searchedID==tAdherents[i].id)
         {
@@ -164,7 +167,7 @@ int searchAdherent(int searchedID, Adherents* tAdherents, int sizeA){
 }
 int searchEmprunt(int searchedID, Emprunts* tEmprunts, int sizeE){
     int i;
-    for (i = 0; i < sizeE-1; i++)
+    for (i = 0; i < sizeE; i++)
     {
         if (searchedID==tEmprunts[i].id)
         {
@@ -178,7 +181,7 @@ int searchEmprunt(int searchedID, Emprunts* tEmprunts, int sizeE){
 void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, int sizeJ, int sizeA, int sizeE){
     int i, jRank, aRank;
 
-    for (i = 0; i < sizeE-1; i++)
+    for (i = 0; i < sizeE; i++)
     {
         jRank=searchJeux(tEmprunts[i].idJeu, tJeux, sizeJ);
         aRank=searchAdherent(tEmprunts[i].idAd, tAdherents, sizeA);
@@ -211,6 +214,14 @@ Emprunts* retourJeux(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Re
     {
         //...pour decaler d'une case les données de tEmprunts(cela permet d'ecraser les données de l'emprunt rendu et d'avoir la derniere case prète a etre supprimée).
         tEmprunts[i]=tEmprunts[i+1];
+    }
+    if (i==rank)
+    {
+        tEmprunts[i].id=0;
+    }
+    else
+    {
+        tEmprunts[i+1].id=0;
     }
     printf("fin decalage emprunts\n");
     *sizeE=*sizeE-1;
