@@ -190,39 +190,50 @@ void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, 
 Emprunts* retourJeux(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv** tReserv, int* sizeE, int* sizeJ, int* sizeR){
     //on a besoin du jour/mois/année actuelle qu'on extrait de <time.h>
     int day, month, year;
+    /*
     time_t now;
     struct tm *local = localtime(&now);
     day = local->tm_mday;
     month = local->tm_mon + 1;
-    year = local->tm_year + 1900;
-
+    year = local->tm_year + 1900;*/
+    day=30;
+    month=12;
+    year=2020;
     int i, j, idE, idJ, rank;
-    printf("Entrez l'ID de l'emprunt a retourner");
-    scanf("%d",idE);
+    printf("Entrez l'ID de l'emprunt a retourner\n");
+    scanf("%d",&idE);
     rank=searchEmprunt(idE, tEmprunts, *sizeE);
     idJ=tEmprunts[rank].idJeu;
+    printf("jeu emprunté num %d\n",idJ);
+    printf("sizeE = %d, rank = %d\n", *sizeE, rank);
     //Va de la case a supprimer jusqu'a l'avant dernière dispo...
     for (i = rank; i < *sizeE-2; i++)
     {
         //...pour decaler d'une case les données de tEmprunts(cela permet d'ecraser les données de l'emprunt rendu et d'avoir la derniere case prète a etre supprimée).
         tEmprunts[i]=tEmprunts[i+1];
     }
+    printf("fin decalage emprunts\n");
     *sizeE=*sizeE-1;
     tEmprunts=realloc(tEmprunts,*sizeE*sizeof(Emprunts));
+    printf("realloc temprunts reussie\n");
     rank=searchJeux(idJ, tJeux, *sizeJ);
     tJeux[rank].nbExemplaires=tJeux[rank].nbExemplaires+1;
-
+    printf("jeu remis en stock\n");
     //gestion des reservations (a continuer)
     for (i = 0; i < *sizeR-1; i++)
     {
         if ((*tReserv)[i].idJeu==idJ)
         {
+            printf("Reservation du jeu retourné détetée ! Creation automatique de la reservation...\n");
             //on ajoute l'emprunt...
                 *sizeE=*sizeE+1;
                 tEmprunts=realloc(tEmprunts,*sizeE*sizeof(Emprunts));
                 tEmprunts[*sizeE-1].id=tEmprunts[*sizeE-2].id+1; //l'id de l'emprunt prend la valeur du dernier du tableau +1
                 tEmprunts[*sizeE-1].idAd=(*tReserv)[i].idAd;
                 tEmprunts[*sizeE-1].idJeu=(*tReserv)[i].idJeu;
+                printf("emprunt ajouté\n");
+                //on enleve le jeu du stock
+                tJeux[rank].nbExemplaires=tJeux[rank].nbExemplaires-1;
                 //on regle la date de l'emprunt sur la date actuelle obtenue avec dos.h
                 tEmprunts[*sizeE-1].emprunt.jour=day;
                 tEmprunts[*sizeE-1].emprunt.mois=month;
@@ -234,9 +245,11 @@ Emprunts* retourJeux(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Re
             }
             *sizeR=*sizeR-1;
             *tReserv=realloc(*tReserv,*sizeR*sizeof(Reserv));
+            printf("résérvation supprimée\n");
             break;
         }
     }
+    printf("fin de la fonction !\n");
     return tEmprunts;
 }
 
