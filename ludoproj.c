@@ -139,6 +139,16 @@ void saveFiles(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* 
     fclose(flot);
 }
 
+Date dateAujrd(void){
+    Date aujrd;
+    time_t timestamp=time(NULL);
+    struct tm* now=localtime(&timestamp);
+    aujrd.an=now->tm_year+1900;
+    aujrd.mois=now->tm_mon+1;
+    aujrd.jour=now->tm_mday;
+    return aujrd;
+}
+
 //ces deux fonctions sont similaires mais se doivent d'être séparées car elles utilisent des tableaux à types differents.
 int searchJeux(int searchedID, Jeux* tJeux, int sizeJ){
     int i;
@@ -191,17 +201,6 @@ void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, 
 }
 
 Emprunts* retourJeux(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv** tReserv, int* sizeE, int* sizeJ, int* sizeR){
-    //on a besoin du jour/mois/année actuelle qu'on extrait de <time.h>
-    int day, month, year;
-    /*
-    time_t now;
-    struct tm *local = localtime(&now);
-    day = local->tm_mday;
-    month = local->tm_mon + 1;
-    year = local->tm_year + 1900;*/
-    day=30;
-    month=12;
-    year=2020;
     int i, j, idE, idJ, rank;
     printf("Entrez l'ID de l'emprunt a retourner\n");
     scanf("%d",&idE);
@@ -253,9 +252,7 @@ Emprunts* retourJeux(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Re
                 //on enleve le jeu du stock
                 tJeux[rank].nbExemplaires=tJeux[rank].nbExemplaires-1;
                 //on regle la date de l'emprunt sur la date actuelle obtenue avec dos.h
-                tEmprunts[*sizeE-1].emprunt.jour=day;
-                tEmprunts[*sizeE-1].emprunt.mois=month;
-                tEmprunts[*sizeE-1].emprunt.an=year;
+                tEmprunts[*sizeE-1].emprunt=dateAujrd();
             //et on supprime la reservation
             for (j = i; j < *sizeR-1; j++)
             {
