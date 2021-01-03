@@ -375,7 +375,7 @@ void partie_jeux(void){
 }
 
 void listeReservJeux(Jeux* tJeux, Reserv* tRes, Adherents* tAdherents, int nbjeux, int nbres, int sizeA){
-    int i, k, l, numJ, rankA;
+    int i, j, numJ, rankA;
     char nameJeux;
     printf("Pour quel jeu voulez-vous voir ses réservations ?\n");
     for(i=1; i<nbjeux+1; i++)
@@ -384,28 +384,19 @@ void listeReservJeux(Jeux* tJeux, Reserv* tRes, Adherents* tAdherents, int nbjeu
         }
     printf("Entrer le numéro du jeu voulu : ");
     scanf("%d",&numJ);
-
     if(numJ < 1 || numJ > nbjeux )
         {  
             printf("Erreur: le chiffre n'est pas valable\n");
             printf("Veuillez entrer un numéro de jeu valide\n");
             scanf("%d",numJ);
         }
-
-    for (k = 0; k < nbjeux-1; k++)
-        {
-            if (numJ==tJeux[k].id)
-                nameJeux = *tJeux[k].nom;
-        }
     printf("Les réservations pour %s sont :\n",&nameJeux);
-
     printf("Nom\tDate de réservation\n");
-
-    for (l = 0; l < nbres; l++)
+    for (j = 0; j < nbres; j++)
         {
-            if (numJ==tRes[l].idJeu){
-                rankA=searchAdherent(tRes[l].idAd, tAdherents, sizeA);
-                printf("%s\t%d/%d/%d", tAdherents[rankA].nom, tRes[l].res.jour, tRes[l].res.mois, tRes[l].res.an); /*afficher nom a la place de id */
+            if (numJ==tRes[j].idJeu){
+                rankA=searchAdherent(tRes[j].idAd, tAdherents, sizeA);
+                printf("%s\t%d/%d/%d", tAdherents[rankA].nom, tRes[j].res.jour, tRes[j].res.mois, tRes[j].res.an); /*afficher nom a la place de id */
             }
         }
 }
