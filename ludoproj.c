@@ -278,7 +278,7 @@ void afficheMenu(void){
     printf("\t\t1: Information sur les jeux\n");
     printf("\t\t2: Affichage des emprunts en cours\n");
     printf("\t\t3: Ajouter un jeu\n");
-    printf("\t\t4: Supprimer un jeu\n");
+    printf("\t\t4: Espace adhérents\n");
     printf("\t\t5: Emprunt, retour ou annulation\n");
     printf("\t\t6: Sauvegarde des fichiers\n");
     printf("\t\t7:quitter\n");
@@ -427,7 +427,7 @@ void global(void){
                 listeReservJeux(tJeux, tReservations, tAdherents, sizeJ, sizeR, sizeA);
                 break;
             case 4:
-                printf("Choix 4\n");
+                Menu_ad();
                 break;
             case 5:
                 printf("Choix 5\n");
@@ -511,4 +511,164 @@ void jeuxDisponible(Reserv tRes[],int nbjeux,int nbres){
             printf("%d\t%s\t%s\t\t%d\n",tJeux[i].id,tJeux[i].nom,tJeux[i].type,tJeux[i].nbExemplaires);
     }
     printf("\n\n");
+}
+void sauvergarde(Adherents *tAdherents,int sizeA){
+    int i;
+    FILE *flot;
+    flot=fopen("fichiers texte/adherents.txt","w");
+
+    if(flot==NULL){
+        printf("Erreur: problème d'ouverture de fichier\n");
+    }
+
+    fprintf(flot,"idAdherent, civilité (Mr, Mme), nom, prénom, date d’inscription\n");
+    for (i = 0; i < sizeA; i++)
+    {
+        fprintf(flot,"%d %s %s %s %d/%d/%d\n", tAdherents[i].id, tAdherents[i].civil, tAdherents[i].nom, tAdherents[i].prenom, tAdherents[i].inscrip.jour, tAdherents[i].inscrip.mois, tAdherents[i].inscrip.an);
+    }
+    fclose(flot);
+}
+
+void afficheMenuAd(Adherents *tAdherent,int position){
+
+    //permet de "netoyer" le terminal
+    system("clear");
+    
+    printf("\t\t\tMenu de %s %s\n",tAdherent[position].nom,tAdherent[position].prenom);
+    printf("\t\t1: Emprunt en cours\n");
+    printf("\t\t2: Temps restant pour l'abonnement\n");
+    printf("\t\t3: Faire un emprunt\n");
+    printf("\t\t4: Annulation d'une réservation\n");
+    printf("\t\t5: Retour d'un jeu\n");
+    printf("\t\t6: Retour\n");
+}
+
+int chercherNom(Adherents *tAdherents,char nom[],int sizeA){
+    int i;
+
+    for(i=0;i<sizeA;i++){
+        if(strcmp(tAdherents[i].nom,nom)==0){
+            return i;
+        }
+    }
+    return -1;
+}
+
+int choixMenuAd(Adherents *tAdherent,int *sizeA,char nom[]){
+    int choix,position;
+    char option;
+
+    position=chercherNom(tAdherent,nom,*sizeA);
+
+    while(position==-1){
+        printf("Cette adhérents n'existe pas\n");
+        printf("Voulez vous crée un adhérent (o/n) : ");
+        scanf("%c%*c",&option);
+        if(option=='n' || option=='N'){
+            while(position==-1){
+                printf("Rentrer votre pseudo utilisateur :");
+                scanf("%s%*c",nom);
+                position=chercherNom(tAdherent,nom,*sizeA);
+            }
+            break;
+        }
+        else if(option=='o' || option=='O'){
+            *sizeA=ajoutAd(tAdherent,*sizeA);
+            printf("Création\n");
+            strcpy(nom,tAdherent[*sizeA-1].nom);
+            position=chercherNom(tAdherent,nom,*sizeA);
+            break;
+        }
+        else
+            printf("Cette option n'existe pas !\n");
+    }
+
+    if(position!=-1){
+        afficheMenuAd(tAdherent,position);
+
+        printf("\nQuelle est votre choix : ");
+        scanf("%d%*c",&choix);
+
+        /*Condition qui indique que le choix de l'utilisateur doit être compris entre 1 et 7*/
+        while (choix<1 || choix>6){
+            printf("\nChoix incorect %d n'est pas compris entre 1 et 6\n",choix);
+            printf("Retapez sur la touche entrée pour revenir au menu");
+            getchar();
+            afficheMenuAd(tAdherent,position);
+            printf("\nQuelle est votre choix : ");
+            scanf("%d%*c",&choix);
+        }
+    }
+    return choix; 
+}
+
+Adherents saisieAd(Adherents *tAdherent,int sizeA){
+    Adherents nvAd;
+
+    printf("Saisie d'un nom : ");
+    scanf("%s%*c",nvAd.nom);
+
+    printf("Saisie d'un prénom : ");
+    scanf("%s%*c",nvAd.prenom);
+    
+    printf("Saisie d'une civilité : ");
+    scanf("%s%*c",nvAd.civil);
+
+    nvAd.inscrip.jour=12;
+    nvAd.inscrip.mois=12;
+    nvAd.inscrip.an=2012;
+    nvAd.id=sizeA+1;
+
+    return nvAd;
+}
+
+int ajoutAd(Adherents *tAdherent,int sizeA){
+    Adherents nvAd;
+
+    nvAd=saisieAd(tAdherent,sizeA);
+    tAdherent=realloc(tAdherent,sizeA+1*sizeof(Adherents));
+    tAdherent[sizeA]=nvAd;
+    sizeA++;
+
+    sauvergarde(tAdherent,sizeA);
+    return sizeA;
+}
+
+void Menu_ad(void){
+    int choix;
+    int sizeJ, sizeA, sizeE, sizeR;
+    int i;
+    char nom[20];
+
+    printf("Rentrer votre pseudo utilisateur :");
+    scanf("%s%*c",nom);
+
+    Adherents* tAdherents = loadAdherents(&sizeA);
+
+    choix=choixMenuAd(tAdherents,&sizeA,nom);
+    while(choix!=6){   
+        switch (choix){
+            case 1:
+                printf("%d",sizeA);
+                break;
+            case 2:
+
+                break;
+            case 3:
+                printf("Choix 3\n");
+                break;
+            case 4:
+                printf("Choix 4\n");
+                break;
+            case 5:
+                printf("Choix 5\n");
+                break;
+            case 6:
+                return;
+                break;
+        }
+        printf("\nTapez sur la touche entrée pour retourner au menu");
+        getchar();
+        choix=choixMenuAd(tAdherents,&sizeA,nom);
+    }
 }
