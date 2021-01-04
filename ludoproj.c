@@ -427,7 +427,7 @@ void global(void){
                 listeReservJeux(tJeux, tReservations, tAdherents, sizeJ, sizeR, sizeA);
                 break;
             case 4:
-                Menu_ad();
+                Menu_ad(&sizeA);
                 break;
             case 5:
                 printf("Choix 5\n");
@@ -553,26 +553,23 @@ int chercherNom(Adherents *tAdherents,char nom[],int sizeA){
     }
     return -1;
 }
-
-int chercherIdDispo(Adherents *tAdherents,int sizeA){
-
-}
-
-int choixMenuAd(Adherents *tAdherent,int *sizeA,char nom[]){
-    int choix,position;
+int choixMenuAd(Adherents *tAdherent,int *sizeA,char nom[],int *position){
+    int choix;
     char option;
 
-    position=chercherNom(tAdherent,nom,*sizeA);
+    *position=chercherNom(tAdherent,nom,*sizeA);
 
-    while(position==-1){
+    if(*position==-1)
         printf("Cette adhérents n'existe pas\n");
+    
+    while(*position==-1){
         printf("Voulez vous crée un adhérent (o/n) : ");
         scanf("%c%*c",&option);
         if(option=='n' || option=='N'){
-            while(position==-1){
+            while(*position==-1){
                 printf("Rentrer votre pseudo utilisateur :");
                 scanf("%s%*c",nom);
-                position=chercherNom(tAdherent,nom,*sizeA);
+                *position=chercherNom(tAdherent,nom,*sizeA);
             }
             break;
         }
@@ -580,15 +577,15 @@ int choixMenuAd(Adherents *tAdherent,int *sizeA,char nom[]){
             *sizeA=ajoutAd(tAdherent,*sizeA);
             printf("Création\n");
             strcpy(nom,tAdherent[*sizeA-1].nom);
-            position=chercherNom(tAdherent,nom,*sizeA);
+            *position=chercherNom(tAdherent,nom,*sizeA);
             break;
         }
         else
             printf("Cette option n'existe pas !\n");
     }
 
-    if(position!=-1){
-        afficheMenuAd(tAdherent,position);
+    if(*position!=-1){
+        afficheMenuAd(tAdherent,*position);
 
         printf("\nQuelle est votre choix : ");
         scanf("%d%*c",&choix);
@@ -598,7 +595,7 @@ int choixMenuAd(Adherents *tAdherent,int *sizeA,char nom[]){
             printf("\nChoix incorect %d n'est pas compris entre 1 et 6\n",choix);
             printf("Retapez sur la touche entrée pour revenir au menu");
             getchar();
-            afficheMenuAd(tAdherent,position);
+            afficheMenuAd(tAdherent,*position);
             printf("\nQuelle est votre choix : ");
             scanf("%d%*c",&choix);
         }
@@ -608,15 +605,78 @@ int choixMenuAd(Adherents *tAdherent,int *sizeA,char nom[]){
 
 Adherents saisieAd(Adherents *tAdherent,int sizeA){
     Adherents nvAd;
+    char genre;
+    int lgt,erreur;
 
     printf("Saisie d'un nom : ");
     scanf("%s%*c",nvAd.nom);
+    
+    while(1){
+        lgt=0;
+        erreur=0;
+        while(nvAd.nom[lgt]!='\0'){
+            lgt++;
+            if(nvAd.nom[lgt]=='0' || nvAd.nom[lgt]=='1' || nvAd.nom[lgt]=='2' || nvAd.nom[lgt]=='3' || nvAd.nom[lgt]=='4' || nvAd.nom[lgt]=='5' || nvAd.nom[lgt]=='6' || nvAd.nom[lgt]=='7' || nvAd.nom[lgt]=='8' || nvAd.nom[lgt]=='9')
+                erreur=1;
+        }
+        if(erreur==1){
+            printf("Erreur: le nom contient des nombres\n");
+            printf("Saisie d'un nom : ");
+            scanf("%s%*c",nvAd.nom);
+        }
+        else if(lgt<=1 && lgt!=-1){
+            printf("Erreur: le nom est trop petit\n");
+            printf("Saisie d'un nom : ");
+            scanf("%s%*c",nvAd.nom);
+        }
+        else
+            break;
+    }
 
     printf("Saisie d'un prénom : ");
     scanf("%s%*c",nvAd.prenom);
     
-    printf("Saisie d'une civilité : ");
-    scanf("%s%*c",nvAd.civil);
+    while(1){
+        lgt=0;
+        erreur=0;
+        while(nvAd.prenom[lgt]!='\0'){
+            lgt++;
+            if(nvAd.prenom[lgt]=='0' || nvAd.prenom[lgt]=='1' || nvAd.prenom[lgt]=='2' || nvAd.prenom[lgt]=='3' || nvAd.prenom[lgt]=='4' || nvAd.prenom[lgt]=='5' || nvAd.prenom[lgt]=='6' || nvAd.prenom[lgt]=='7' || nvAd.prenom[lgt]=='8' || nvAd.prenom[lgt]=='9')
+                erreur=1;
+        }
+        if(erreur==1){
+            printf("Erreur: le prenom contient des nombres\n");
+            printf("Saisie d'un prenom : ");
+            scanf("%s%*c",nvAd.prenom);
+        }
+        else if(lgt<=1 && lgt!=-1){
+            printf("Erreur: le prenom est trop petit\n");
+            printf("Saisie d'un prenom : ");
+            scanf("%s%*c",nvAd.prenom);
+        }
+        else
+            break;
+    }
+
+
+    printf("Etes-vous un homme ou une femme (f/h) : ");
+    scanf("%c%*c",&genre);
+
+    while(1){
+        if(genre=='f' || genre=='F'){
+            strcpy(nvAd.civil,"Mme");
+            break;
+        }
+        else if(genre=='h' || genre=='H'){
+            strcpy(nvAd.civil,"Mr");
+            break;
+        }
+        else{
+            printf("Ce genre n'existe pas\n");
+            printf("Etes-vous un homme ou une femme (f/h) : ");
+            scanf("%c%*c",&genre);
+        }
+    }
 
     nvAd.inscrip=dateAujrd();
 
@@ -637,25 +697,24 @@ int ajoutAd(Adherents *tAdherent,int sizeA){
     return sizeA;
 }
 
-void Menu_ad(void){
+void Menu_ad(int *sizeA){
     int choix;
-    int sizeJ, sizeA, sizeE, sizeR;
-    int i;
+    int i,position;
     char nom[20];
 
     printf("Rentrer votre pseudo utilisateur :");
     scanf("%s%*c",nom);
 
-    Adherents* tAdherents = loadAdherents(&sizeA);
+    Adherents* tAdherents = loadAdherents(sizeA);
 
-    choix=choixMenuAd(tAdherents,&sizeA,nom);
+    choix=choixMenuAd(tAdherents,sizeA,nom,&position);
     while(choix!=6){   
         switch (choix){
             case 1:
-                printf("%d",sizeA);
+                printf("%d",*sizeA);
                 break;
             case 2:
-
+                tempRestantAbo(tAdherents,position);
                 break;
             case 3:
                 printf("Choix 3\n");
@@ -672,6 +731,31 @@ void Menu_ad(void){
         }
         printf("\nTapez sur la touche entrée pour retourner au menu");
         getchar();
-        choix=choixMenuAd(tAdherents,&sizeA,nom);
+        choix=choixMenuAd(tAdherents,sizeA,nom,&position);
     }
+}
+
+int tempRestantAbo(Adherents *tAdherents,int position){
+    int nbj,nbm,nba,restant=365;
+    Date dateActu;
+
+    printf("\nInscription le : %d/%d/%d\n",tAdherents[position].inscrip.jour,tAdherents[position].inscrip.mois,tAdherents[position].inscrip.an);
+    
+    dateActu=dateAujrd();
+
+    nbj=dateActu.jour-tAdherents[position].inscrip.jour;
+    nbm=dateActu.mois-tAdherents[position].inscrip.mois;
+    nba=dateActu.an-tAdherents[position].inscrip.an;
+
+    if(nbj>=0)
+        restant=restant-nbj;
+    if(nbm>=0)
+        restant=restant-nbm*30;
+    if(nba>=0)
+        restant=restant-nba*365;
+    
+    if(restant>0)
+        printf("\nTemps restant : %d jours\n",restant);
+    else
+        printf("\nL'abonnement est dépasser\n");
 }

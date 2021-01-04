@@ -67,8 +67,9 @@ void jeuxEmprunter(Reserv tRes[],Jeux tJeux[],int nbjeux,int nbres);
 void jeuxDisponible(Reserv tRes[],int nbjeux,int nbres);
 int chercherIdJeux(Jeux *tJeux,int sizeJ,char code[]);
 
-int choixMenuAd(Adherents *tAdherent,int *sizeA,char nom[]);
+int choixMenuAd(Adherents *tAdherent,int *sizeA,char nom[],int *position);
 int ajoutAd(Adherents *tAdherent,int sizeA);
 Adherents saisieAd(Adherents *tAdherent,int sizeA);
 void sauvergarde(Adherents *tAdherents,int sizeA);
-void Menu_ad(void);
+void Menu_ad(int *sizeA);
+int tempRestantAbo(Adherents *tAdherents,int position);
