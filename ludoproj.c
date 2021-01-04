@@ -298,16 +298,21 @@ void listeReservJeux(Jeux* tJeux, Reserv* tRes, Adherents* tAdherents, int nbjeu
 }
 
 void AffichageJeuxTrie(Jeux tJeux[], Emprunts tEmprunts[], int nbjeux, int nbEmprunts){
-    int i, j, k, rankJ;
+    int i, j, k, rankJ, sizeTri=0;
     char type[13], temp[25];
-    Jeux* jeuxDispo= malloc(nbjeux*sizeof(Jeux));
-    jeuxDispo=tJeux;
-    for (i = 0; i < nbEmprunts-1; i++)
+    Jeux* jeuxTries;
+    jeuxTries = malloc(nbjeux*sizeof(Jeux));
+    //vide la partie nom de jeuxTries, utilisé plus tard pour detecter si un jeux y est stocké
+    for (i = 0; i < nbjeux; i++)
+    {
+        strcpy(jeuxTries[i].nom,"");
+    }
+    for (i = 0; i < nbEmprunts; i++)
     {
         rankJ=searchJeux(tEmprunts[i].idJeu, tJeux, nbjeux);
         tJeux[rankJ].nbExemplaires=tJeux[rankJ].nbExemplaires-1;
     }
-    for (i = 0; i < 4; i++)
+    for (i = 0; i <= 4; i++)
     {
         switch (i)
         {
@@ -327,26 +332,29 @@ void AffichageJeuxTrie(Jeux tJeux[], Emprunts tEmprunts[], int nbjeux, int nbEmp
             strcpy(type,"logique");
             break;
         }
-        for (j = 0; j < nbjeux-1; j++)
+        printf("%s\n",type);
+        for (j = 0; j < nbjeux; j++)
         {
-            if (tJeux[j].type==type)
+            if (strcmp(tJeux[j].type,type)==0 && tJeux[j].nbExemplaires>0)
             {
-                for (k = 0; k <=nbjeux ; k++)
+                printf("test type passé avec type=%s\n",type);
+                for (k = 0; k <nbjeux ; k++)
                 {
-                    if (strcmp(jeuxDispo[j].nom,jeuxDispo[k].nom)>0 && jeuxDispo[j].nbExemplaires>0)
+                    if (strcmp(jeuxTries[k].nom,"")==0)
                     {
-                        strcpy(temp,jeuxDispo[j].nom);
-                        strcpy(jeuxDispo[j].nom,jeuxDispo[k].nom);
-                        strcpy(jeuxDispo[k].nom,temp);
+                        jeuxTries[k]=tJeux[j];
+                        sizeTri++;
+                        break;
                     }
+                    
                 }
             }
         }
     }
     printf("Type\tNom\tnb d'exemplaires en stock\tid\n");
-    for (i = 0; i <=nbEmprunts; i++)
+    for (i = 0; i <sizeTri; i++)
     {
-        printf("%s\t%s\t%d\t%d\n",jeuxDispo[i].type,jeuxDispo[i].nom,jeuxDispo[i].nbExemplaires,jeuxDispo[i].id);
+        printf("%s\t%s\t%d\t%d\n",jeuxTries[i].type,jeuxTries[i].nom,jeuxTries[i].nbExemplaires,jeuxTries[i].id);
     }    
 }
 
