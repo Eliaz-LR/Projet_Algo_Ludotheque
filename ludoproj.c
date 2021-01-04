@@ -537,7 +537,7 @@ void afficheMenuAd(Adherents *tAdherent,int position){
     printf("\t\t\tMenu de %s %s\n",tAdherent[position].nom,tAdherent[position].prenom);
     printf("\t\t1: Emprunt en cours\n");
     printf("\t\t2: Temps restant pour l'abonnement\n");
-    printf("\t\t3: Faire un emprunt\n");
+    printf("\t\t3: Faire une réservation\n");
     printf("\t\t4: Annulation d'une réservation\n");
     printf("\t\t5: Retour d'un jeu\n");
     printf("\t\t6: Retour\n");
