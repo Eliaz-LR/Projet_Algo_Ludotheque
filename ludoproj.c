@@ -619,10 +619,7 @@ Adherents saisieAd(Adherents *tAdherent,int sizeA){
     printf("Saisie d'une civilité : ");
     scanf("%s%*c",nvAd.civil);
 
-    dateActu=dateAujrd();
-    nvAd.inscrip.jour=dateActu.jour;
-    nvAd.inscrip.mois=dateActu.mois;
-    nvAd.inscrip.an=dateActu.an;
+    nvAd.inscrip=dateAujrd();
 
     nvAd.id=sizeA+1;
 
