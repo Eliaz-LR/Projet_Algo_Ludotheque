@@ -312,19 +312,20 @@ void AffichageJeuxTrie(Jeux tJeux[], Emprunts tEmprunts[], int nbjeux, int nbEmp
         switch (i)
         {
         case 0:
-            type[13]="construction";
+            strcpy(type,"construction");
             break;
         case 1:
-            type[13]="plateau";
+            strcpy(type,"plateau");
             break;
         case 2:
-            type[13]="tuile";
+            strcpy(type,"tuile");
             break;
         case 3:
-            type[13]="carte";
+            strcpy(type,"carte");
             break;
         case 4:
-            type[13]="logique";
+            strcpy(type,"logique");
+            break;
         }
         for (j = 0; j < nbjeux-1; j++)
         {
