@@ -336,7 +336,7 @@ void partie_jeux(void){
     }
 }
 
-//Fonction globale : execute toutes les fonctions
+//Fonction globale : menu principal qui execute toutes les fonctions
 void global(void){
     int choix;
     int sizeJ, sizeA, sizeE, sizeR;
@@ -383,6 +383,8 @@ void global(void){
     free(tEmprunts);
     free(tReservations);
 }
+
+
 
 int chercherIdJeux(Jeux *tJeux,int sizeJ,char code[]){
     int i;
@@ -460,8 +462,6 @@ void sauvergarde(Adherents *tAdherents,int sizeA){
     fclose(flot);
 }
 
-
-
 int chercherNom(Adherents *tAdherents,char nom[],int sizeA){
     int i;
 
@@ -472,7 +472,6 @@ int chercherNom(Adherents *tAdherents,char nom[],int sizeA){
     }
     return -1;
 }
-
 
 Adherents saisieAd(Adherents *tAdherent,int sizeA){
     Adherents nvAd;
@@ -568,6 +567,7 @@ int ajoutAd(Adherents *tAdherent,int sizeA){
     return sizeA;
 }
 
+//Sous menu adherent
 void Menu_ad(int *sizeA){
     int choix;
     int i,position;
