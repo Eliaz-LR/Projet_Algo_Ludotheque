@@ -4,3 +4,5 @@ idJeux, nom du jeux, type du jeux (construction, plateau, tuile, carte, logique)
 3 Puissance_4 logique 2
 4 Le_jeu_de_Dames logique 4
 5 Catan tuile 1
+6 Kapla construction 6
+7 Yu-Gi-Ho carte 2
