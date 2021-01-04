@@ -388,7 +388,7 @@ void listeReservJeux(Jeux* tJeux, Reserv* tRes, Adherents* tAdherents, int nbjeu
         {  
             printf("Erreur: le chiffre n'est pas valable\n");
             printf("Veuillez entrer un numéro de jeu valide\n");
-            scanf("%d",numJ);
+            scanf("%d",&numJ);
         }
     printf("Les réservations pour %s sont :\n",&nameJeux);
     printf("Nom\tDate de réservation\n");
@@ -554,6 +554,10 @@ int chercherNom(Adherents *tAdherents,char nom[],int sizeA){
     return -1;
 }
 
+int chercherIdDispo(Adherents *tAdherents,int sizeA){
+
+}
+
 int choixMenuAd(Adherents *tAdherent,int *sizeA,char nom[]){
     int choix,position;
     char option;
@@ -604,6 +608,7 @@ int choixMenuAd(Adherents *tAdherent,int *sizeA,char nom[]){
 
 Adherents saisieAd(Adherents *tAdherent,int sizeA){
     Adherents nvAd;
+    Date dateActu;
 
     printf("Saisie d'un nom : ");
     scanf("%s%*c",nvAd.nom);
@@ -614,9 +619,11 @@ Adherents saisieAd(Adherents *tAdherent,int sizeA){
     printf("Saisie d'une civilité : ");
     scanf("%s%*c",nvAd.civil);
 
-    nvAd.inscrip.jour=12;
-    nvAd.inscrip.mois=12;
-    nvAd.inscrip.an=2012;
+    dateActu=dateAujrd();
+    nvAd.inscrip.jour=dateActu.jour;
+    nvAd.inscrip.mois=dateActu.mois;
+    nvAd.inscrip.an=dateActu.an;
+
     nvAd.id=sizeA+1;
 
     return nvAd;
