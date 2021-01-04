@@ -46,17 +46,20 @@ Reserv* loadReserv(int* sizeR);
 void saveFiles(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv* tReserv, int sizeJ, int sizeA, int sizeE, int sizeR);
 
 
-/*annonciation des fonctions pour le menu*/
+/*annonciation des fonctions de menu.c*/
 void afficheMenu(void);
+void afficheMenuJeux(void);
 int choixMenu(void);
+int choixMenuJeux(void);
+int choixMenuAd(Adherents *tAdherent,int *sizeA,char nom[],int *position);
+void afficheMenuAd(Adherents *tAdherent,int position);
+
 
 void global(void);
 
 
 /*Menu jeux en cours*/
 void partie_jeux(void);
-int choixMenuJeux(void);
-void afficheMenuJeux(void);
 
 
 void tri_iteratif(Jeux* tJeux, int sizeJ);
@@ -67,7 +70,6 @@ void jeuxEmprunter(Reserv tRes[],Jeux tJeux[],int nbjeux,int nbres);
 void jeuxDisponible(Reserv tRes[],int nbjeux,int nbres);
 int chercherIdJeux(Jeux *tJeux,int sizeJ,char code[]);
 
-int choixMenuAd(Adherents *tAdherent,int *sizeA,char nom[],int *position);
 int ajoutAd(Adherents *tAdherent,int sizeA);
 Adherents saisieAd(Adherents *tAdherent,int sizeA);
 void sauvergarde(Adherents *tAdherents,int sizeA);

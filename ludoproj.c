@@ -149,7 +149,7 @@ Date dateAujrd(void){
     return aujrd;
 }
 
-//ces deux fonctions sont similaires mais se doivent d'être séparées car elles utilisent des tableaux à types differents.
+//ces trois fonctions sont similaires mais se doivent d'être séparées car elles utilisent des tableaux à types differents.
 int searchJeux(int searchedID, Jeux* tJeux, int sizeJ){
     int i;
     for (i = 0; i < sizeJ; i++)
@@ -268,71 +268,33 @@ Emprunts* retourJeux(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Re
     return tEmprunts;
 }
 
-//Interface graphique du menu
-void afficheMenu(void){
-
-    //permet de "netoyer" le terminal
-    system("clear");
-    
-    printf("\t\t\tMenu\n");
-    printf("\t\t1: Information sur les jeux\n");
-    printf("\t\t2: Affichage des emprunts en cours\n");
-    printf("\t\t3: Ajouter un jeu\n");
-    printf("\t\t4: Espace adhérents\n");
-    printf("\t\t5: Emprunt, retour ou annulation\n");
-    printf("\t\t6: Sauvegarde des fichiers\n");
-    printf("\t\t7:quitter\n");
-}
-
-/*Interface graphique du sous menu jeux */
-void afficheMenuJeux(void){
-    //permet de "netoyer" le terminal
-    system("clear");
-    
-    printf("\t\t\tMenu Jeux\n");
-    printf("\t\t1: Afficher les jeux disponible\n");
-    printf("\t\t2: Chercher si un jeu existe\n");
-    printf("\t\t3: Afficher les jeux emprunté\n");
-    printf("\t\t4: Retour\n");
-}
-//Formulaire permettant de relever le choix de l'utilisateur
-int choixMenu(void){
-    int choix;
-    afficheMenu();
-    printf("\nQuelle est votre choix : ");
-    scanf("%d%*c",&choix);
-
-    /*Condition qui indique que le choix de l'utilisateur doit être compris entre 1 et 7*/
-    while (choix<1 || choix>7){
-        printf("\nChoix incorect %d n'est pas compris entre 1 et 7\n",choix);
-        printf("Retapez sur la touche entrée pour revenir au menu");
-        getchar();
-        afficheMenu();
-        printf("\nQuelle est votre choix : ");
-        scanf("%d%*c",&choix);
-    }
-
-    return choix;
-}
-
-/* Choix au niveau du sous menu jeu*/
-int choixMenuJeux(void){
-    int choix;
-    afficheMenuJeux();
-    printf("\nQuelle est votre choix : ");
-    scanf("%d%*c",&choix);
-
-    /*Condition qui indique que le choix de l'utilisateur doit être compris entre 1 et 7*/
-    while (choix<1 || choix>4){
-        printf("\nChoix incorect %d n'est pas compris entre 1 et 4\n",choix);
-        printf("Retapez sur la touche entrée pour revenir au menu");
-        getchar();
-        afficheMenuJeux();
-        printf("\nQuelle est votre choix : ");
-        scanf("%d%*c",&choix);
-    }
-
-    return choix; 
+void listeReservJeux(Jeux* tJeux, Reserv* tRes, Adherents* tAdherents, int nbjeux, int nbres, int sizeA){
+    int i, j, numJ, rankA;
+    char nameJeux;
+    printf("Pour quel jeu voulez-vous voir ses réservations ?\n");
+    for(i=1; i<nbjeux+1; i++)
+        {
+            printf("%d) %s\n",i,tJeux[i-1].nom);
+        }
+    printf("Entrer le numéro du jeu voulu : ");
+    scanf("%d",&numJ);
+    if(numJ < 1 || numJ > nbjeux )
+        {  
+            printf("Erreur: le chiffre n'est pas valable\n");
+            printf("Veuillez entrer un numéro de jeu valide\n");
+            scanf("%d",&numJ);
+        }
+    printf("Les réservations sont :\n");
+    printf("Nom\tDate de réservation\n");
+    for (j = 0; j < nbres; j++)
+        {
+            if (numJ==tRes[j].idJeu){
+                rankA=searchAdherent(tRes[j].idAd, tAdherents, sizeA);
+                printf("%s\t%d/%d/%d", tAdherents[rankA].nom, tRes[j].res.jour, tRes[j].res.mois, tRes[j].res.an); /*afficher nom a la place de id */
+            }
+        }
+    printf("\nTapez sur la touche entrée pour retourner au menu");
+    getchar();
 }
 
 /* Sous menu jeux */
@@ -373,34 +335,6 @@ void partie_jeux(void){
         choix=choixMenuJeux();
     }
 }
-
-void listeReservJeux(Jeux* tJeux, Reserv* tRes, Adherents* tAdherents, int nbjeux, int nbres, int sizeA){
-    int i, j, numJ, rankA;
-    char nameJeux;
-    printf("Pour quel jeu voulez-vous voir ses réservations ?\n");
-    for(i=1; i<nbjeux+1; i++)
-        {
-            printf("%d) %s\n",i,tJeux[i-1].nom);
-        }
-    printf("Entrer le numéro du jeu voulu : ");
-    scanf("%d",&numJ);
-    if(numJ < 1 || numJ > nbjeux )
-        {  
-            printf("Erreur: le chiffre n'est pas valable\n");
-            printf("Veuillez entrer un numéro de jeu valide\n");
-            scanf("%d",&numJ);
-        }
-    printf("Les réservations sont :\n");
-    printf("Nom\tDate de réservation\n");
-    for (j = 0; j < nbres; j++)
-        {
-            if (numJ==tRes[j].idJeu){
-                rankA=searchAdherent(tRes[j].idAd, tAdherents, sizeA);
-                printf("%s\t%d/%d/%d", tAdherents[rankA].nom, tRes[j].res.jour, tRes[j].res.mois, tRes[j].res.an); /*afficher nom a la place de id */
-            }
-        }
-}
-
 
 //Fonction globale : execute toutes les fonctions
 void global(void){
@@ -449,9 +383,6 @@ void global(void){
     free(tEmprunts);
     free(tReservations);
 }
-
-
-
 
 int chercherIdJeux(Jeux *tJeux,int sizeJ,char code[]){
     int i;
@@ -529,19 +460,7 @@ void sauvergarde(Adherents *tAdherents,int sizeA){
     fclose(flot);
 }
 
-void afficheMenuAd(Adherents *tAdherent,int position){
 
-    //permet de "netoyer" le terminal
-    system("clear");
-    
-    printf("\t\t\tMenu de %s %s\n",tAdherent[position].nom,tAdherent[position].prenom);
-    printf("\t\t1: Emprunt en cours\n");
-    printf("\t\t2: Temps restant pour l'abonnement\n");
-    printf("\t\t3: Faire un emprunt\n");
-    printf("\t\t4: Annulation d'une réservation\n");
-    printf("\t\t5: Retour d'un jeu\n");
-    printf("\t\t6: Retour\n");
-}
 
 int chercherNom(Adherents *tAdherents,char nom[],int sizeA){
     int i;
@@ -553,55 +472,7 @@ int chercherNom(Adherents *tAdherents,char nom[],int sizeA){
     }
     return -1;
 }
-int choixMenuAd(Adherents *tAdherent,int *sizeA,char nom[],int *position){
-    int choix;
-    char option;
 
-    *position=chercherNom(tAdherent,nom,*sizeA);
-
-    if(*position==-1)
-        printf("Cette adhérents n'existe pas\n");
-    
-    while(*position==-1){
-        printf("Voulez vous crée un adhérent (o/n) : ");
-        scanf("%c%*c",&option);
-        if(option=='n' || option=='N'){
-            while(*position==-1){
-                printf("Rentrer votre pseudo utilisateur :");
-                scanf("%s%*c",nom);
-                *position=chercherNom(tAdherent,nom,*sizeA);
-            }
-            break;
-        }
-        else if(option=='o' || option=='O'){
-            *sizeA=ajoutAd(tAdherent,*sizeA);
-            printf("Création\n");
-            strcpy(nom,tAdherent[*sizeA-1].nom);
-            *position=chercherNom(tAdherent,nom,*sizeA);
-            break;
-        }
-        else
-            printf("Cette option n'existe pas !\n");
-    }
-
-    if(*position!=-1){
-        afficheMenuAd(tAdherent,*position);
-
-        printf("\nQuelle est votre choix : ");
-        scanf("%d%*c",&choix);
-
-        /*Condition qui indique que le choix de l'utilisateur doit être compris entre 1 et 7*/
-        while (choix<1 || choix>6){
-            printf("\nChoix incorect %d n'est pas compris entre 1 et 6\n",choix);
-            printf("Retapez sur la touche entrée pour revenir au menu");
-            getchar();
-            afficheMenuAd(tAdherent,*position);
-            printf("\nQuelle est votre choix : ");
-            scanf("%d%*c",&choix);
-        }
-    }
-    return choix; 
-}
 
 Adherents saisieAd(Adherents *tAdherent,int sizeA){
     Adherents nvAd;
