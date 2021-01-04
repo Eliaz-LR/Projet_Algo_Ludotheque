@@ -608,7 +608,6 @@ int choixMenuAd(Adherents *tAdherent,int *sizeA,char nom[]){
 
 Adherents saisieAd(Adherents *tAdherent,int sizeA){
     Adherents nvAd;
-    Date dateActu;
 
     printf("Saisie d'un nom : ");
     scanf("%s%*c",nvAd.nom);
