@@ -350,18 +350,15 @@ void AffichageJeuxTrie(Jeux tJeux[], Emprunts tEmprunts[], int nbjeux, int nbEmp
 }
 
 /* Sous menu jeux */
-void partie_jeux(void){
+void partie_jeux(Jeux* tJeux, Emprunts* tEmprunts, Reserv* tReservations, int sizeJ, int sizeE, int sizeR){
     int choix,id;
-    int sizeJ,sizeR;
-    Jeux *tJeux = loadJeux(&sizeJ);
-    Reserv* tReservations = loadReserv(&sizeR);
     char code[50];
 
     choix=choixMenuJeux();
     while(choix!=4){
         switch(choix){
             case 1:
-                jeuxDisponible(tReservations,sizeJ,sizeR);
+                AffichageJeuxTrie(tJeux, tEmprunts, sizeJ, sizeE);
                 break;
             case 2:
                 printf("Rentrez le nom du jeux que vous cherchez : ");
@@ -401,7 +398,7 @@ void global(void){
     while(choix!=7){   
         switch (choix){
             case 1:
-                partie_jeux();
+                partie_jeux(tJeux, tEmprunts, tReservations, sizeJ, sizeE, sizeR);
                 break;
             case 2:
                 //doit etre modifié : creer une fonction special pour qui remplace les ids par les nom
