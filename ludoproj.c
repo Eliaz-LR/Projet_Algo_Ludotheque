@@ -390,7 +390,7 @@ void listeReservJeux(Jeux* tJeux, Reserv* tRes, Adherents* tAdherents, int nbjeu
             printf("Veuillez entrer un numéro de jeu valide\n");
             scanf("%d",&numJ);
         }
-    printf("Les réservations pour %s sont :\n",&nameJeux);
+    printf("Les réservations sont :\n");
     printf("Nom\tDate de réservation\n");
     for (j = 0; j < nbres; j++)
         {
