@@ -297,6 +297,58 @@ void listeReservJeux(Jeux* tJeux, Reserv* tRes, Adherents* tAdherents, int nbjeu
     getchar();
 }
 
+void AffichageJeuxTrie(Jeux tJeux[], Emprunts tEmprunts[], int nbjeux, int nbEmprunts){
+    int i, j, k, rankJ;
+    char type[13], temp[25];
+    Jeux* jeuxDispo= malloc(nbjeux*sizeof(Jeux));
+    jeuxDispo=tJeux;
+    for (i = 0; i < nbEmprunts-1; i++)
+    {
+        rankJ=searchJeux(tEmprunts[i].idJeu, tJeux, nbjeux);
+        tJeux[rankJ].nbExemplaires=tJeux[rankJ].nbExemplaires-1;
+    }
+    for (i = 0; i < 4; i++)
+    {
+        switch (i)
+        {
+        case 0:
+            type[13]="construction";
+            break;
+        case 1:
+            type[13]="plateau";
+            break;
+        case 2:
+            type[13]="tuile";
+            break;
+        case 3:
+            type[13]="carte";
+            break;
+        case 4:
+            type[13]="logique";
+        }
+        for (j = 0; j < nbjeux-1; j++)
+        {
+            if (tJeux[j].type==type)
+            {
+                for (k = 0; k <=nbjeux ; k++)
+                {
+                    if (strcmp(jeuxDispo[j].nom,jeuxDispo[k].nom)>0 && jeuxDispo[j].nbExemplaires>0)
+                    {
+                        strcpy(temp,jeuxDispo[j].nom);
+                        strcpy(jeuxDispo[j].nom,jeuxDispo[k].nom);
+                        strcpy(jeuxDispo[k].nom,temp);
+                    }
+                }
+            }
+        }
+    }
+    printf("Type\tNom\tnb d'exemplaires en stock\tid\n");
+    for (i = 0; i <=nbEmprunts; i++)
+    {
+        printf("%s\t%s\t%d\t%d\n",jeuxDispo[i].type,jeuxDispo[i].nom,jeuxDispo[i].nbExemplaires,jeuxDispo[i].id);
+    }    
+}
+
 /* Sous menu jeux */
 void partie_jeux(void){
     int choix,id;
