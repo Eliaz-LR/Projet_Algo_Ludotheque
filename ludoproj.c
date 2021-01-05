@@ -355,7 +355,9 @@ void AffichageJeuxTrie(Jeux tJeux[], Emprunts tEmprunts[], int nbjeux, int nbEmp
 }
 
 
-Jeux* 
+Jeux* ajouterJeux(){
+    
+}
 /* Sous menu jeux */
 Jeux* partie_jeux(Jeux* tJeux, int sizeJ){
     int choix,id;
