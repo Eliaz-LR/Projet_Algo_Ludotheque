@@ -9,9 +9,9 @@ void afficheMenu(void){
     printf("\033c");
     
     printf("\t\t\tMenu\n");
-    printf("\t\t1: Menu modification des Jeux\n");
-    printf("\t\t2: Menu adhérents\n");
-    printf("\t\t3: Afficher jeux disponibles\n");
+    printf("\t\t1: Menu adhérents\n");
+    printf("\t\t2: Menu modification des Jeux\n");
+    printf("\t\t3: Afficher jeux en stock\n");
     printf("\t\t4: Afficher emprunts en cours\n");
     printf("\t\t5: Afficher les réservations pour un jeu\n");
     printf("\t\t6: Sauvegarde des fichiers\n");

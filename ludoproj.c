@@ -200,7 +200,7 @@ void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, 
     
 }
 
-Emprunts* retourJeux(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv** tReserv, int* sizeE, int* sizeJ, int* sizeR){
+Emprunts* retourEmprunt(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv** tReserv, int* sizeE, int* sizeJ, int* sizeR){
     int i, j, idE, idJ, rank;
     printf("Entrez l'ID de l'emprunt a retourner\n");
     scanf("%d",&idE);
@@ -391,13 +391,13 @@ void global(void){
     while(choix!=7){   
         switch (choix){
             case 1:
-                printf("Menu modification des Jeux\n");
-                partie_jeux(tJeux, tEmprunts, tReservations, sizeJ, sizeE, sizeR);
+                printf("Menu adhérents\n");
+                Menu_ad(&sizeA);
                 break;
             case 2:
                 //doit etre modifié : creer une fonction special pour qui remplace les ids par les nom
-                printf("Menu adhérents\n");
-                Menu_ad(&sizeA);
+                printf("Menu modification des Jeux\n");
+                partie_jeux(tJeux, tEmprunts, tReservations, sizeJ, sizeE, sizeR);
                 break;
             case 3:
                 printf("Afficher jeux disponibles\n");
