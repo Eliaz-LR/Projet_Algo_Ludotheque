@@ -297,19 +297,75 @@ void listeReservJeux(Jeux* tJeux, Reserv* tRes, Adherents* tAdherents, int nbjeu
     getchar();
 }
 
+void AffichageJeuxTrie(Jeux tJeux[], Emprunts tEmprunts[], int nbjeux, int nbEmprunts){
+    int i, j, k, rankJ, sizeTri=0;
+    char type[13], temp[25];
+    Jeux* jeuxTries;
+    jeuxTries = malloc(nbjeux*sizeof(Jeux));
+    //vide la partie nom de jeuxTries, utilisé plus tard pour detecter si un jeux y est stocké
+    for (i = 0; i < nbjeux; i++)
+    {
+        strcpy(jeuxTries[i].nom,"");
+    }
+    for (i = 0; i < nbEmprunts; i++)
+    {
+        rankJ=searchJeux(tEmprunts[i].idJeu, tJeux, nbjeux);
+        tJeux[rankJ].nbExemplaires=tJeux[rankJ].nbExemplaires-1;
+    }
+    for (i = 0; i <= 4; i++)
+    {
+        switch (i)
+        {
+        case 0:
+            strcpy(type,"construction");
+            break;
+        case 1:
+            strcpy(type,"plateau");
+            break;
+        case 2:
+            strcpy(type,"tuile");
+            break;
+        case 3:
+            strcpy(type,"carte");
+            break;
+        case 4:
+            strcpy(type,"logique");
+            break;
+        }
+        for (j = 0; j < nbjeux; j++)
+        {
+            if (strcmp(tJeux[j].type,type)==0 && tJeux[j].nbExemplaires>0)
+            {
+                for (k = 0; k <nbjeux ; k++)
+                {
+                    if (strcmp(jeuxTries[k].nom,"")==0)
+                    {
+                        jeuxTries[k]=tJeux[j];
+                        sizeTri++;
+                        break;
+                    }
+                    
+                }
+            }
+        }
+    }
+    printf("Type\tNom\tnb d'exemplaires en stock\tid\n");
+    for (i = 0; i <sizeTri; i++)
+    {
+        printf("%s\t%s\t%d\t%d\n",jeuxTries[i].type,jeuxTries[i].nom,jeuxTries[i].nbExemplaires,jeuxTries[i].id);
+    }    
+}
+
 /* Sous menu jeux */
-void partie_jeux(void){
+void partie_jeux(Jeux* tJeux, Emprunts* tEmprunts, Reserv* tReservations, int sizeJ, int sizeE, int sizeR){
     int choix,id;
-    int sizeJ,sizeR;
-    Jeux *tJeux = loadJeux(&sizeJ);
-    Reserv* tReservations = loadReserv(&sizeR);
     char code[50];
 
     choix=choixMenuJeux();
     while(choix!=4){
         switch(choix){
             case 1:
-                jeuxDisponible(tReservations,sizeJ,sizeR);
+                AffichageJeuxTrie(tJeux, tEmprunts, sizeJ, sizeE);
                 break;
             case 2:
                 printf("Rentrez le nom du jeux que vous cherchez : ");
@@ -349,7 +405,7 @@ void global(void){
     while(choix!=7){   
         switch (choix){
             case 1:
-                partie_jeux();
+                partie_jeux(tJeux, tEmprunts, tReservations, sizeJ, sizeE, sizeR);
                 break;
             case 2:
                 //doit etre modifié : creer une fonction special pour qui remplace les ids par les nom
@@ -376,7 +432,7 @@ void global(void){
         getchar();
         choix=choixMenu();
     }
-    system("clear");
+    printf("\033c");
     printf("\n\n\t\t\tAu revoir !\n\n");
     free(tJeux);
     free(tAdherents);
