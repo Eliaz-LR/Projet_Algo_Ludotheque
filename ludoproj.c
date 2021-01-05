@@ -332,12 +332,10 @@ void AffichageJeuxTrie(Jeux tJeux[], Emprunts tEmprunts[], int nbjeux, int nbEmp
             strcpy(type,"logique");
             break;
         }
-        printf("%s\n",type);
         for (j = 0; j < nbjeux; j++)
         {
             if (strcmp(tJeux[j].type,type)==0 && tJeux[j].nbExemplaires>0)
             {
-                printf("test type passé avec type=%s\n",type);
                 for (k = 0; k <nbjeux ; k++)
                 {
                     if (strcmp(jeuxTries[k].nom,"")==0)
