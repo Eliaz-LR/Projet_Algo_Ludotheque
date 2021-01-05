@@ -358,6 +358,15 @@ void AffichageJeuxTrie(Jeux tJeux[], Emprunts tEmprunts[], int nbjeux, int nbEmp
 Jeux* ajouterJeux(Jeux* tJeux, int* sizeJ){
     *sizeJ=*sizeJ+1;
     tJeux=realloc(tJeux,*sizeJ*sizeof(Jeux));
+    if (*sizeJ==1)
+    {
+        tJeux[*sizeJ-1].id=1;//si c'est le premier jeux, il prend l'id 1
+    }
+    else
+    {
+        tJeux[*sizeJ-1].id=tJeux[*sizeJ-2].id+1; //l'id du jeu prend la valeur du dernier du tableau +1
+    }
+    
 }
 Jeux* supprimerJeux(Jeux* tJeux, int* sizeJ){
 
