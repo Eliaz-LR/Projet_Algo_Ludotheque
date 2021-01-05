@@ -406,11 +406,6 @@ Jeux* ajouterJeux(Jeux* tJeux, int* sizeJ){
     {
         printf("ERREUR: Veuillez entrer un chiffre entre 1 et 2\n");
     }
-    for (i = 0; i < *sizeJ; i++)
-    {
-        printf("%d %s %d\n",tJeux[i].id,tJeux[i].nom,tJeux[i].nbExemplaires);
-    }
-    getchar();
     return tJeux;
 }
 Jeux* supprimerJeux(Jeux* tJeux, int* sizeJ){
@@ -460,11 +455,6 @@ void global(void){
                 //doit etre modifié : creer une fonction special pour qui remplace les ids par les nom
                 printf("Menu modification des Jeux\n");
                 tJeux=partie_jeux(tJeux, &sizeJ);
-                for (i = 0; i < sizeJ; i++)
-                {
-                    printf("%d %s %d\n",tJeux[i].id,tJeux[i].nom,tJeux[i].nbExemplaires);
-                }
-                getchar();
                 break;
             case 3:
                 printf("Afficher jeux disponibles\n");
