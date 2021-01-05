@@ -354,8 +354,10 @@ void AffichageJeuxTrie(Jeux tJeux[], Emprunts tEmprunts[], int nbjeux, int nbEmp
     }    
 }
 
+
+
 /* Sous menu jeux */
-void partie_jeux(Jeux* tJeux, Emprunts* tEmprunts, Reserv* tReservations, int sizeJ, int sizeE, int sizeR){
+Jeux* partie_jeux(Jeux* tJeux, int sizeJ){
     int choix,id;
     char code[50];
 
@@ -369,7 +371,7 @@ void partie_jeux(Jeux* tJeux, Emprunts* tEmprunts, Reserv* tReservations, int si
                 
                 break;
             case 3:
-                return;
+                return tJeux;
                 break;
         }
         printf("\nTapez sur la touche entrée pour retourner au menu");
@@ -397,7 +399,7 @@ void global(void){
             case 2:
                 //doit etre modifié : creer une fonction special pour qui remplace les ids par les nom
                 printf("Menu modification des Jeux\n");
-                partie_jeux(tJeux, tEmprunts, tReservations, sizeJ, sizeE, sizeR);
+                tJeux=partie_jeux(tJeux, tEmprunts, tReservations, sizeJ, sizeE, sizeR);
                 break;
             case 3:
                 printf("Afficher jeux disponibles\n");

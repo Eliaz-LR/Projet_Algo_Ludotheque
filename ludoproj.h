@@ -59,7 +59,7 @@ void global(void);
 
 
 /*Menu jeux en cours*/
-void partie_jeux(Jeux* tJeux, Emprunts* tEmprunts, Reserv* tReservations, int sizeJ, int sizeE, int sizeR);
+Jeux* partie_jeux(Jeux* tJeux, int sizeJ);
 
 
 void tri_iteratif(Jeux* tJeux, int sizeJ);
