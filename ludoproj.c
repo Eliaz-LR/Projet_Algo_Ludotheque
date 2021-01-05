@@ -349,10 +349,10 @@ void AffichageJeuxTrie(Jeux tJeux[], Emprunts tEmprunts[], int nbjeux, int nbEmp
             }
         }
     }
-    printf("Type\tNom\tnb d'exemplaires en stock\tid\n");
+    printf("Type\tNom\t\tstock\tid\n");
     for (i = 0; i <sizeTri; i++)
     {
-        printf("%s\t%s\t%d\t%d\n",jeuxTries[i].type,jeuxTries[i].nom,jeuxTries[i].nbExemplaires,jeuxTries[i].id);
+        printf("%s\t%s\t\t%d\t%d\n",jeuxTries[i].type,jeuxTries[i].nom,jeuxTries[i].nbExemplaires,jeuxTries[i].id);
     }    
 }
 
