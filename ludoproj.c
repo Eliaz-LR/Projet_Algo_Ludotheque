@@ -489,22 +489,6 @@ void jeuxDisponible(Reserv tRes[],int nbjeux,int nbres){
     }
     printf("\n\n");
 }
-void sauvergarde(Adherents *tAdherents,int sizeA){
-    int i;
-    FILE *flot;
-    flot=fopen("fichiers texte/adherents.txt","w");
-
-    if(flot==NULL){
-        printf("Erreur: problème d'ouverture de fichier\n");
-    }
-
-    fprintf(flot,"idAdherent, civilité (Mr, Mme), nom, prénom, date d’inscription\n");
-    for (i = 0; i < sizeA; i++)
-    {
-        fprintf(flot,"%d %s %s %s %d/%d/%d\n", tAdherents[i].id, tAdherents[i].civil, tAdherents[i].nom, tAdherents[i].prenom, tAdherents[i].inscrip.jour, tAdherents[i].inscrip.mois, tAdherents[i].inscrip.an);
-    }
-    fclose(flot);
-}
 
 int chercherNom(Adherents *tAdherents,char nom[],int sizeA){
     int i;
