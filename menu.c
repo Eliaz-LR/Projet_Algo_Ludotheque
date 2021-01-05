@@ -9,11 +9,11 @@ void afficheMenu(void){
     printf("\033c");
     
     printf("\t\t\tMenu\n");
-    printf("\t\t1: Information sur les jeux\n");
-    printf("\t\t2: Affichage des emprunts en cours\n");
-    printf("\t\t3: Ajouter un jeu\n");
-    printf("\t\t4: Espace adhérents\n");
-    printf("\t\t5: Emprunt, retour ou annulation\n");
+    printf("\t\t1: Menu modification des Jeux\n");
+    printf("\t\t2: Menu adhérents\n");
+    printf("\t\t3: Afficher jeux disponibles\n");
+    printf("\t\t4: Afficher emprunts en cours\n");
+    printf("\t\t5: Afficher les réservations pour un jeu\n");
     printf("\t\t6: Sauvegarde des fichiers\n");
     printf("\t\t7:quitter\n");
 }
@@ -24,10 +24,9 @@ void afficheMenuJeux(void){
     printf("\033c");
     
     printf("\t\t\tMenu Jeux\n");
-    printf("\t\t1: Afficher les jeux disponible\n");
-    printf("\t\t2: Chercher si un jeu existe\n");
-    printf("\t\t3: Afficher les jeux emprunté\n");
-    printf("\t\t4: Retour\n");
+    printf("\t\t1: Ajouter un jeu\n");
+    printf("\t\t2: Supprimer un jeu\n");
+    printf("\t\t3: Retour\n");
 }
 
 void afficheMenuAd(Adherents *tAdherent,int position){
@@ -68,16 +67,16 @@ int choixMenu(void){
 int choixMenuJeux(void){
     int choix;
     afficheMenuJeux();
-    printf("\nQuelle est votre choix : ");
+    printf("\nQuel est votre choix : ");
     scanf("%d%*c",&choix);
 
-    /*Condition qui indique que le choix de l'utilisateur doit être compris entre 1 et 7*/
-    while (choix<1 || choix>4){
-        printf("\nChoix incorect %d n'est pas compris entre 1 et 4\n",choix);
+    /*Condition qui indique que le choix de l'utilisateur doit être compris entre 1 et 3*/
+    while (choix<1 || choix>3){
+        printf("\nChoix incorect %d n'est pas compris entre 1 et 3\n",choix);
         printf("Retapez sur la touche entrée pour revenir au menu");
         getchar();
         afficheMenuJeux();
-        printf("\nQuelle est votre choix : ");
+        printf("\nQuel est votre choix : ");
         scanf("%d%*c",&choix);
     }
 

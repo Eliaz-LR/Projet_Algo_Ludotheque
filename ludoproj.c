@@ -277,7 +277,7 @@ void listeReservJeux(Jeux* tJeux, Reserv* tRes, Adherents* tAdherents, int nbjeu
             printf("%d) %s\n",i,tJeux[i-1].nom);
         }
     printf("Entrer le numéro du jeu voulu : ");
-    scanf("%d",&numJ);
+    scanf("%d%*c",&numJ);
     if(numJ < 1 || numJ > nbjeux )
         {  
             printf("Erreur: le chiffre n'est pas valable\n");
@@ -293,8 +293,6 @@ void listeReservJeux(Jeux* tJeux, Reserv* tRes, Adherents* tAdherents, int nbjeu
                 printf("%s\t%d/%d/%d", tAdherents[rankA].nom, tRes[j].res.jour, tRes[j].res.mois, tRes[j].res.an); /*afficher nom a la place de id */
             }
         }
-    printf("\nTapez sur la touche entrée pour retourner au menu");
-    getchar();
 }
 
 void AffichageJeuxTrie(Jeux tJeux[], Emprunts tEmprunts[], int nbjeux, int nbEmprunts){
@@ -365,24 +363,12 @@ void partie_jeux(Jeux* tJeux, Emprunts* tEmprunts, Reserv* tReservations, int si
     while(choix!=4){
         switch(choix){
             case 1:
-                AffichageJeuxTrie(tJeux, tEmprunts, sizeJ, sizeE);
+                
                 break;
             case 2:
-                printf("Rentrez le nom du jeux que vous cherchez : ");
-                scanf("%s%*c",code);
-
-                id=chercherIdJeux(tJeux,sizeJ,code);
-
-                if(id==-1)
-                    printf("Le jeux %s n'existe pas ou n'est pas disponible ici\n",code);
-                else
-                    printf("Le jeu %s existe et sont ID est %d\n",code,id);
-
+                
                 break;
             case 3:
-                jeuxEmprunter(tReservations,tJeux,sizeJ,sizeR);
-                break;
-            case 4:
                 return;
                 break;
         }
@@ -405,23 +391,25 @@ void global(void){
     while(choix!=7){   
         switch (choix){
             case 1:
+                printf("Menu modification des Jeux\n");
                 partie_jeux(tJeux, tEmprunts, tReservations, sizeJ, sizeE, sizeR);
                 break;
             case 2:
                 //doit etre modifié : creer une fonction special pour qui remplace les ids par les nom
-                printf("Affichage des emprunts en cours\n");
-                AffichageEmprunts(tJeux, tAdherents, tEmprunts, sizeJ, sizeA, sizeE);
-                break;
-            case 3:
-                printf("Choix 3\n");
-                listeReservJeux(tJeux, tReservations, tAdherents, sizeJ, sizeR, sizeA);
-                break;
-            case 4:
+                printf("Menu adhérents\n");
                 Menu_ad(&sizeA);
                 break;
+            case 3:
+                printf("Afficher jeux disponibles\n");
+                AffichageJeuxTrie(tJeux, tEmprunts, sizeJ, sizeE);
+                break;
+            case 4:
+                printf("Afficher emprunts en cours\n");
+                AffichageEmprunts(tJeux, tAdherents, tEmprunts, sizeJ, sizeA, sizeE);
+                break;
             case 5:
-                printf("Choix 5\n");
-                tEmprunts = retourJeux(tJeux, tAdherents, tEmprunts, &tReservations, &sizeE, &sizeJ, &sizeR);
+                printf("Afficher les réservations pour un jeu\n");
+                listeReservJeux(tJeux, tReservations, tAdherents, sizeJ, sizeR, sizeA);
                 break;
             case 6:
                 printf("Sauvegarde des fichiers\n");
