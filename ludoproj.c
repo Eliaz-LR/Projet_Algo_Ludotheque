@@ -295,11 +295,17 @@ void listeReservJeux(Jeux* tJeux, Reserv* tRes, Adherents* tAdherents, int nbjeu
         }
 }
 
-void AffichageJeuxTrie(Jeux tJeux[], Emprunts tEmprunts[], int nbjeux, int nbEmprunts){
+void AffichageJeuxTrie(Jeux* tJeux, Emprunts tEmprunts[], int nbjeux, int nbEmprunts){
     int i, j, k, rankJ, sizeTri=0;
     char type[13], temp[25];
-    Jeux* jeuxTries;
+    Jeux *jeuxTries,*jeuxDispo;
     jeuxTries = malloc(nbjeux*sizeof(Jeux));
+    jeuxDispo = malloc(nbjeux*sizeof(Jeux));
+    //copie du contenu de tjeux vers jeuxdispo ou le nombre de jeux dispo va etre modifié
+    for (i = 0; i < nbjeux; i++)
+    {
+        jeuxDispo[i]=tJeux[i];
+    }
     //vide la partie nom de jeuxTries, utilisé plus tard pour detecter si un jeux y est stocké
     for (i = 0; i < nbjeux; i++)
     {
@@ -308,7 +314,7 @@ void AffichageJeuxTrie(Jeux tJeux[], Emprunts tEmprunts[], int nbjeux, int nbEmp
     for (i = 0; i < nbEmprunts; i++)
     {
         rankJ=searchJeux(tEmprunts[i].idJeu, tJeux, nbjeux);
-        tJeux[rankJ].nbExemplaires=tJeux[rankJ].nbExemplaires-1;
+        jeuxDispo[rankJ].nbExemplaires=jeuxDispo[rankJ].nbExemplaires-1;
     }
     for (i = 0; i <= 4; i++)
     {
@@ -332,7 +338,7 @@ void AffichageJeuxTrie(Jeux tJeux[], Emprunts tEmprunts[], int nbjeux, int nbEmp
         }
         for (j = 0; j < nbjeux; j++)
         {
-            if (strcmp(tJeux[j].type,type)==0 && tJeux[j].nbExemplaires>0)
+            if (strcmp(jeuxDispo[j].type,type)==0 && jeuxDispo[j].nbExemplaires>0)
             {
                 for (k = 0; k <nbjeux ; k++)
                 {
@@ -356,24 +362,63 @@ void AffichageJeuxTrie(Jeux tJeux[], Emprunts tEmprunts[], int nbjeux, int nbEmp
 
 
 Jeux* ajouterJeux(Jeux* tJeux, int* sizeJ){
-    *sizeJ=*sizeJ+1;
-    tJeux=realloc(tJeux,*sizeJ*sizeof(Jeux));
-    if (*sizeJ==1)
+    int choix, i, quantite;
+    printf("Voulez vous:\n");
+    printf("\t1)\tAjouter un nouveau jeu\n");
+    printf("\t2)\tRajouter du stock pour un jeu deja dans la base de donnée\n");
+    scanf("%d%*c",&choix);
+    if (choix==1)
     {
-        tJeux[*sizeJ-1].id=1;//si c'est le premier jeux, il prend l'id 1
+        *sizeJ=*sizeJ+1;
+        tJeux=realloc(tJeux,*sizeJ*sizeof(Jeux));
+        if (*sizeJ==1)
+        {
+            tJeux[*sizeJ-1].id=1;//si c'est le premier jeux, il prend l'id 1
+        }
+        else
+        {
+            tJeux[*sizeJ-1].id=tJeux[*sizeJ-2].id+1; //l'id du jeu prend la valeur du dernier du tableau +1
+        }
+        printf("Entrez le nom du jeu à ajouter (sans espaces)\n");
+        scanf("%s%*c",&(tJeux[*sizeJ-1].nom));
+        printf("Entrez le type du jeu à ajouter (parmis: construction, plateau, tuile, carte, logique)\n");
+        scanf("%s%*c",&(tJeux[*sizeJ-1].type));
+        printf("Entrez le nombre d'exemplaires du jeu à ajouter\n");
+        scanf("%d%*c",&(tJeux[*sizeJ-1].nbExemplaires));
+        printf("le jeu rentré est %s, de type %s avec %d exemplaires",tJeux[*sizeJ-1].nom,tJeux[*sizeJ-1].type,tJeux[*sizeJ-1].nbExemplaires);
+    }
+    else
+    if (choix==2)
+    {
+        printf("LISTE DES JEUX:\n");
+        for (i = 0; i < *sizeJ; i++)
+        {
+            printf("%d) %s\n",i+1,tJeux[i].nom);
+        }
+        printf("De quel jeu devont nous modifier la quantité de stock ? (numéro)\n");
+        scanf("%d",&i);
+        i--;
+        printf("Combiens de jeux voulez vous rajouter ?\n");
+        scanf("%d",&quantite);
+        tJeux[i].nbExemplaires=tJeux[i].nbExemplaires+quantite;
     }
     else
     {
-        tJeux[*sizeJ-1].id=tJeux[*sizeJ-2].id+1; //l'id du jeu prend la valeur du dernier du tableau +1
+        printf("ERREUR: Veuillez entrer un chiffre entre 1 et 2\n");
     }
-    
+    for (i = 0; i < *sizeJ; i++)
+    {
+        printf("%d %s %d\n",tJeux[i].id,tJeux[i].nom,tJeux[i].nbExemplaires);
+    }
+    getchar();
+    return tJeux;
 }
 Jeux* supprimerJeux(Jeux* tJeux, int* sizeJ){
 
 }
 /* Sous menu jeux */
 Jeux* partie_jeux(Jeux* tJeux, int* sizeJ){
-    int choix,id;
+    int choix,id,i;
     char code[50];
 
     choix=choixMenuJeux();
@@ -415,6 +460,11 @@ void global(void){
                 //doit etre modifié : creer une fonction special pour qui remplace les ids par les nom
                 printf("Menu modification des Jeux\n");
                 tJeux=partie_jeux(tJeux, &sizeJ);
+                for (i = 0; i < sizeJ; i++)
+                {
+                    printf("%d %s %d\n",tJeux[i].id,tJeux[i].nom,tJeux[i].nbExemplaires);
+                }
+                getchar();
                 break;
             case 3:
                 printf("Afficher jeux disponibles\n");
