@@ -355,8 +355,11 @@ void AffichageJeuxTrie(Jeux tJeux[], Emprunts tEmprunts[], int nbjeux, int nbEmp
 }
 
 
-Jeux* ajouterJeux(){
-    
+Jeux* ajouterJeux(Jeux* tJeux, int sizeJ){
+
+}
+Jeux* supprimerJeux(Jeux* tJeux, int sizeJ){
+
 }
 /* Sous menu jeux */
 Jeux* partie_jeux(Jeux* tJeux, int sizeJ){
@@ -367,10 +370,10 @@ Jeux* partie_jeux(Jeux* tJeux, int sizeJ){
     while(choix!=4){
         switch(choix){
             case 1:
-                
+                tJeux=ajouterJeux(tJeux, sizeJ);
                 break;
             case 2:
-                
+                tJeux=supprimerJeux(tJeux, sizeJ);
                 break;
             case 3:
                 return tJeux;
