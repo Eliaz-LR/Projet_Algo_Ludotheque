@@ -432,7 +432,7 @@ void global(void){
         getchar();
         choix=choixMenu();
     }
-    system("clear");
+    printf("\033c");
     printf("\n\n\t\t\tAu revoir !\n\n");
     free(tJeux);
     free(tAdherents);

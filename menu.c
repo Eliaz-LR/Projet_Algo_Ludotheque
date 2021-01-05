@@ -6,7 +6,7 @@
 void afficheMenu(void){
 
     //permet de "netoyer" le terminal
-    system("clear");
+    printf("\033c");
     
     printf("\t\t\tMenu\n");
     printf("\t\t1: Information sur les jeux\n");
@@ -21,7 +21,7 @@ void afficheMenu(void){
 /*Interface graphique du sous menu jeux */
 void afficheMenuJeux(void){
     //permet de "netoyer" le terminal
-    system("clear");
+    printf("\033c");
     
     printf("\t\t\tMenu Jeux\n");
     printf("\t\t1: Afficher les jeux disponible\n");
@@ -33,7 +33,7 @@ void afficheMenuJeux(void){
 void afficheMenuAd(Adherents *tAdherent,int position){
 
     //permet de "netoyer" le terminal
-    system("clear");
+    printf("\033c");
     
     printf("\t\t\tMenu de %s %s\n",tAdherent[position].nom,tAdherent[position].prenom);
     printf("\t\t1: Emprunt en cours\n");
