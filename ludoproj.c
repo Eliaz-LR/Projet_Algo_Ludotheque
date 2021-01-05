@@ -356,7 +356,8 @@ void AffichageJeuxTrie(Jeux tJeux[], Emprunts tEmprunts[], int nbjeux, int nbEmp
 
 
 Jeux* ajouterJeux(Jeux* tJeux, int* sizeJ){
-
+    *sizeJ=*sizeJ+1;
+    tJeux=realloc(tJeux,*sizeJ*sizeof(Jeux));
 }
 Jeux* supprimerJeux(Jeux* tJeux, int* sizeJ){
 
