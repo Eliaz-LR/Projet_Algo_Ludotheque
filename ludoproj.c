@@ -409,7 +409,54 @@ Jeux* ajouterJeux(Jeux* tJeux, int* sizeJ){
     return tJeux;
 }
 Jeux* supprimerJeux(Jeux* tJeux, int* sizeJ){
-
+    int choix, i, quantite, rank;
+    printf("Voulez vous:\n");
+    printf("\t1)\tSupprimer totalement un type de jeu\n");
+    printf("\t2)\tDiminuer le stock pour un jeu deja dans la base de donnée\n");
+    scanf("%d%*c",&choix);
+    if (choix==1)
+    {
+        printf("LISTE DES JEUX:\n");
+        for (i = 0; i < *sizeJ; i++)
+        {
+            printf("%d) %s\n",i+1,tJeux[i].nom);
+        }
+        printf("Quel jeu devont nous supprimer ? (numéro)\n");
+        scanf("%d",&rank);
+        for (i = rank-1; i < *sizeJ-1; i++)
+        {
+            tJeux[i]=tJeux[i+1];
+        }
+        *sizeJ=*sizeJ-1;
+        tJeux=realloc(tJeux,*sizeJ*sizeof(Jeux));
+    }
+    else
+    if (choix==2)
+    {
+        printf("LISTE DES JEUX:\n");
+        for (i = 0; i < *sizeJ; i++)
+        {
+            printf("%d) %s\n",i+1,tJeux[i].nom);
+        }
+        printf("De quel jeu devont nous modifier la quantité de stock ? (numéro)\n");
+        scanf("%d",&i);
+        i--;
+        do
+        {
+            printf("Combiens de jeux voulez vous supprimer ?\n");
+            scanf("%d",&quantite);
+            if (tJeux[i].nbExemplaires-quantite<0)
+            {
+                printf("ERREUR : la quantité de ce jeu ne peut pas etre nulle ou négative\n");
+            }
+        }while (tJeux[i].nbExemplaires-quantite<0);
+        tJeux[i].nbExemplaires=tJeux[i].nbExemplaires-quantite;
+    }
+    else
+    {
+        printf("ERREUR: Veuillez entrer un chiffre entre 1 et 2\n");
+    }
+    return tJeux;
 }
 /* Sous menu jeux */
 Jeux* partie_jeux(Jeux* tJeux, int* sizeJ){
