@@ -1,4 +1,4 @@
 idAdherent, civilité (Mr, Mme), nom, prénom, date d’inscription
 1 Mr Cassegrain Wiliam 3/12/2000
-2 Mr Tom  6/1/2021
+2 Mr Tom Segala 6/1/2021
 3 Mme Bonneau_darmaniaque Marie-Christine 6/1/2021
