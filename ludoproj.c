@@ -381,8 +381,30 @@ Jeux* ajouterJeux(Jeux* tJeux, int* sizeJ){
         }
         printf("Entrez le nom du jeu à ajouter (sans espaces)\n");
         scanf("%s%*c",&(tJeux[*sizeJ-1].nom));
-        printf("Entrez le type du jeu à ajouter (parmis: construction, plateau, tuile, carte, logique)\n");
-        scanf("%s%*c",&(tJeux[*sizeJ-1].type));
+        SelecType: //label selecType pour si choix du type ne correspond pas aux chiffres definis
+        printf("Entrez le type du jeu à ajouter (parmis: 1.construction, 2.plateau, 3.tuile, 4.carte, 5.logique)\n");
+        scanf("%d%*c",&choix);
+        switch (choix)
+        {
+        case 1:
+            strcpy(tJeux[*sizeJ-1].type,"construction");
+            break;
+        case 2:
+            strcpy(tJeux[*sizeJ-1].type,"plateau");
+            break;
+        case 3:
+            strcpy(tJeux[*sizeJ-1].type,"tuile");
+            break;
+        case 4:
+            strcpy(tJeux[*sizeJ-1].type,"carte");
+            break;
+        case 5:
+            strcpy(tJeux[*sizeJ-1].type,"logique");
+            break;
+        default:
+            printf("ERREUR: numero de type non disponible\n");
+            goto SelecType;
+        }
         printf("Entrez le nombre d'exemplaires du jeu à ajouter\n");
         scanf("%d%*c",&(tJeux[*sizeJ-1].nbExemplaires));
         printf("le jeu rentré est %s, de type %s avec %d exemplaires",tJeux[*sizeJ-1].nom,tJeux[*sizeJ-1].type,tJeux[*sizeJ-1].nbExemplaires);
