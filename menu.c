@@ -83,39 +83,12 @@ int choixMenuJeux(void){
     return choix; 
 }
 
-int choixMenuAd(Adherents *tAdherent,int *sizeA,char nom[],int *position){
+int choixMenuAd(Adherents *tAdherent,int *sizeA,char nom[],int position){
     int choix;
     char option;
 
-    *position=chercherNom(tAdherent,nom,*sizeA);
-
-    if(*position==-1)
-        printf("Cette adhérents n'existe pas\n");
-    
-    while(*position==-1){
-        printf("Voulez vous crée un adhérent (o/n) : ");
-        scanf("%c%*c",&option);
-        if(option=='n' || option=='N'){
-            while(*position==-1){
-                printf("Rentrer votre pseudo utilisateur :");
-                scanf("%s%*c",nom);
-                *position=chercherNom(tAdherent,nom,*sizeA);
-            }
-            break;
-        }
-        else if(option=='o' || option=='O'){
-            *sizeA=ajoutAd(tAdherent,*sizeA);
-            printf("Création\n");
-            strcpy(nom,tAdherent[*sizeA-1].nom);
-            *position=chercherNom(tAdherent,nom,*sizeA);
-            break;
-        }
-        else
-            printf("Cette option n'existe pas !\n");
-    }
-
-    if(*position!=-1){
-        afficheMenuAd(tAdherent,*position);
+    if(position!=-1){
+        afficheMenuAd(tAdherent,position);
 
         printf("\nQuelle est votre choix : ");
         scanf("%d%*c",&choix);
@@ -125,7 +98,7 @@ int choixMenuAd(Adherents *tAdherent,int *sizeA,char nom[],int *position){
             printf("\nChoix incorect %d n'est pas compris entre 1 et 6\n",choix);
             printf("Retapez sur la touche entrée pour revenir au menu");
             getchar();
-            afficheMenuAd(tAdherent,*position);
+            afficheMenuAd(tAdherent,position);
             printf("\nQuelle est votre choix : ");
             scanf("%d%*c",&choix);
         }

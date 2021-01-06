@@ -51,7 +51,7 @@ void afficheMenu(void);
 void afficheMenuJeux(void);
 int choixMenu(void);
 int choixMenuJeux(void);
-int choixMenuAd(Adherents *tAdherent,int *sizeA,char nom[],int *position);
+int choixMenuAd(Adherents *tAdherent,int *sizeA,char nom[],int position);
 void afficheMenuAd(Adherents *tAdherent,int position);
 
 

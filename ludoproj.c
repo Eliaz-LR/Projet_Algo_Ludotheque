@@ -760,23 +760,53 @@ int ajoutAd(Adherents *tAdherent,int sizeA){
 
 //Sous menu adherent
 void Menu_ad(int *sizeA){
-    int choix;
+    int choix,abo;
     int i,position;
     char nom[20];
+    char option;
+
+    Adherents* tAdherents = loadAdherents(sizeA);
 
     printf("Rentrer votre pseudo utilisateur :");
     scanf("%s%*c",nom);
 
-    Adherents* tAdherents = loadAdherents(sizeA);
+    position=chercherNom(tAdherents,nom,*sizeA);
 
-    choix=choixMenuAd(tAdherents,sizeA,nom,&position);
+    if(position==-1)
+        printf("Cette adhérents n'existe pas\n");
+    
+    while(position==-1){
+        printf("Voulez vous crée un adhérent (o/n) : ");
+        scanf("%c%*c",&option);
+        if(option=='n' || option=='N'){
+            while(position==-1){
+                printf("Rentrer votre pseudo utilisateur :");
+                scanf("%s%*c",nom);
+                position=chercherNom(tAdherents,nom,*sizeA);
+            }
+            break;
+        }
+        else if(option=='o' || option=='O'){
+            *sizeA=ajoutAd(tAdherents,*sizeA);
+            printf("Création\n");
+            strcpy(nom,tAdherents[*sizeA-1].nom);
+            position=chercherNom(tAdherents,nom,*sizeA);
+            break;
+        }
+        else
+            printf("Cette option n'existe pas !\n");
+    }
+
+    tempRestantAbo(tAdherents,position);
+
+    choix=choixMenuAd(tAdherents,sizeA,nom,position);
     while(choix!=6){   
         switch (choix){
             case 1:
                 printf("%d",*sizeA);
                 break;
             case 2:
-                tempRestantAbo(tAdherents,position);
+                
                 break;
             case 3:
                 printf("Choix 3\n");
@@ -793,18 +823,16 @@ void Menu_ad(int *sizeA){
         }
         printf("\nTapez sur la touche entrée pour retourner au menu");
         getchar();
-        choix=choixMenuAd(tAdherents,sizeA,nom,&position);
+        choix=choixMenuAd(tAdherents,sizeA,nom,position);
     }
     sauvergarde(tAdherents,*sizeA);
 }
 
 int tempRestantAbo(Adherents *tAdherents,int position){
     int nbj,nbm,nba,restant=365;
-    char choix;
+    char option;
     Date dateActu;
 
-    printf("\nInscription le : %d/%d/%d\n",tAdherents[position].inscrip.jour,tAdherents[position].inscrip.mois,tAdherents[position].inscrip.an);
-    
     dateActu=dateAujrd();
 
     nbj=dateActu.jour-tAdherents[position].inscrip.jour;
@@ -821,21 +849,20 @@ int tempRestantAbo(Adherents *tAdherents,int position){
     if(restant>0)
         printf("\nTemps restant : %d jours\n",restant);
     else{
-        printf("\nL'abonnement est dépasser\n");
-        //Si l'abonnement est dépasser on va faire une demande de renouvellement
+        printf("\nL'abonnement est dépasser\n"); 
         printf("Voulez vous renouvellez votre abonnement : ");
-        scanf("%c%*c",&choix);
-        if(choix == 'o' || choix == 'O'){
+        scanf("%c%*c",&option);
+        if(option == 'o' || option == 'O'){
             tAdherents[position].inscrip=dateAujrd();
             printf("\nRenouvellement effectuer ...\n");
         }
-        else if(choix == 'n' || choix == 'N'){
+        else if(option == 'n' || option == 'N'){
             printf("Il vous est donc pas possible de reserver\n");
         }
         else
         {
             printf("Le choix n'est pas correct veuillez ressayer\n");
-        }
-        
-    }       
+        }      
+    }
+    return restant;  
 }
