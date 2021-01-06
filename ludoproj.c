@@ -755,7 +755,6 @@ int ajoutAd(Adherents *tAdherent,int sizeA){
     tAdherent[sizeA]=nvAd;
     sizeA++;
 
-    sauvergarde(tAdherent,sizeA);
     return sizeA;
 }
 
@@ -796,10 +795,12 @@ void Menu_ad(int *sizeA){
         getchar();
         choix=choixMenuAd(tAdherents,sizeA,nom,&position);
     }
+    sauvergarde(tAdherents,*sizeA);
 }
 
 int tempRestantAbo(Adherents *tAdherents,int position){
     int nbj,nbm,nba,restant=365;
+    char choix;
     Date dateActu;
 
     printf("\nInscription le : %d/%d/%d\n",tAdherents[position].inscrip.jour,tAdherents[position].inscrip.mois,tAdherents[position].inscrip.an);
@@ -819,6 +820,22 @@ int tempRestantAbo(Adherents *tAdherents,int position){
     
     if(restant>0)
         printf("\nTemps restant : %d jours\n",restant);
-    else
+    else{
         printf("\nL'abonnement est dépasser\n");
+        //Si l'abonnement est dépasser on va faire une demande de renouvellement
+        printf("Voulez vous renouvellez votre abonnement : ");
+        scanf("%c%*c",&choix);
+        if(choix == 'o' || choix == 'O'){
+            tAdherents[position].inscrip=dateAujrd();
+            printf("\nRenouvellement effectuer ...\n");
+        }
+        else if(choix == 'n' || choix == 'N'){
+            printf("Il vous est donc pas possible de reserver\n");
+        }
+        else
+        {
+            printf("Le choix n'est pas correct veuillez ressayer\n");
+        }
+        
+    }       
 }
