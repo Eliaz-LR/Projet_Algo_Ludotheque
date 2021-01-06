@@ -189,15 +189,28 @@ int searchEmprunt(int searchedID, Emprunts* tEmprunts, int sizeE){
 }
 
 void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, int sizeJ, int sizeA, int sizeE){
-    int i, jRank, aRank;
-
-    for (i = 0; i < sizeE; i++)
-    {
-        jRank=searchJeux(tEmprunts[i].idJeu, tJeux, sizeJ);
-        aRank=searchAdherent(tEmprunts[i].idAd, tAdherents, sizeA);
-        printf("%s %s %d/%d/%d\n",tJeux[jRank].nom, tAdherents[aRank].nom, tEmprunts[i].emprunt.jour, tEmprunts[i].emprunt.mois, tEmprunts[i].emprunt.an);
-    }
-    
+    int i, jRank, aRank, moisRetour, anneeRetour, zero=0;
+    if(tEmprunts[0].id == '\0')
+        {
+            printf("Il n'y a actuellement pas d'emprunts en cours.\n");
+        }
+    else
+        {
+            printf("\nLes emprunts en cours sont :\n");
+            printf("Jeu Nom Prénom Date d'emprunt Date de retour\n");
+            for (i = 0; i < sizeE; i++)
+                {
+                    jRank=searchJeux(tEmprunts[i].idJeu, tJeux, sizeJ);
+                    aRank=searchAdherent(tEmprunts[i].idAd, tAdherents, sizeA);
+                    moisRetour=tEmprunts[i].emprunt.mois+1;
+                    if(moisRetour > 12)
+                        {
+                            anneeRetour=tEmprunts[i].emprunt.an+1;
+                            moisRetour=moisRetour-12;
+                        }
+                    printf("%s %s %s %02d/%02d/%d %02d/%02d/%d\n",tJeux[jRank].nom, tAdherents[aRank].nom, tAdherents[aRank].prenom, tEmprunts[i].emprunt.jour, tEmprunts[i].emprunt.mois, tEmprunts[i].emprunt.an,tEmprunts[i].emprunt.jour, moisRetour, anneeRetour);
+                }
+        }
 }
 
 Emprunts* retourEmprunt(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv** tReserv, int* sizeE, int* sizeJ, int* sizeR){
