@@ -654,13 +654,21 @@ void sauvergarde(Adherents *tAdherents,int sizeA){
     fclose(flot);
 }
 
-int chercherNom(Adherents *tAdherents,char nom[],int sizeA){
+int chercherNomOuPrenom(Adherents *tAdherents,char mot[],int sizeA,int condition){
     int i;
-
-    for(i=0;i<sizeA;i++){
-        if(strcmp(tAdherents[i].nom,nom)==0){
-            return i;
+    if(condition==1){
+        for(i=0;i<sizeA;i++){
+            if(strcmp(tAdherents[i].nom,mot)==0){
+                return i;
+            }
         }
+    }
+    else{
+        for(i=0;i<sizeA;i++){
+            if(strcmp(tAdherents[i].prenom,mot)==0){
+                return i;
+            }
+        } 
     }
     return -1;
 }
@@ -760,7 +768,7 @@ int ajoutAd(Adherents *tAdherent,int sizeA){
 
 //Sous menu adherent
 void Menu_ad(int *sizeA){
-    int choix,abo;
+    int choix,condition;
     int i,position;
     char nom[32], prenom[32];
     char option;
