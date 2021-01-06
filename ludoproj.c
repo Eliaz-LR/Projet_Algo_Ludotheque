@@ -762,13 +762,15 @@ int ajoutAd(Adherents *tAdherent,int sizeA){
 void Menu_ad(int *sizeA){
     int choix,abo;
     int i,position;
-    char nom[20];
+    char nom[32], prenom[32];
     char option;
 
     Adherents* tAdherents = loadAdherents(sizeA);
 
-    printf("Rentrer votre pseudo utilisateur :");
+    printf("Rentrer le nom :\n");
     scanf("%s%*c",nom);
+    printf("Rentrer le prénom :\n");
+    scanf("%s%*c",prenom);
 
     position=chercherNom(tAdherents,nom,*sizeA);
 
