@@ -190,10 +190,9 @@ int searchEmprunt(int searchedID, Emprunts* tEmprunts, int sizeE){
 
 void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, int sizeJ, int sizeA, int sizeE){
     int i, jRank, aRank, moisRetour, anneeRetour;
-    if(tEmprunts[0].id == '\0')
-        {
-            printf("Il n'y a actuellement pas d'emprunts en cours.\n");
-        }
+    Date aujourdhui=dateAujrd();
+    if(!(aujourdhui.an==tEmprunts[0].emprunt.an || aujourdhui.an-1==tEmprunts[0].emprunt.an))
+            printf("\nIl n'y a actuellement pas d'emprunts en cours.\n");
     else
         {
             printf("\nLes emprunts en cours sont :\n");
