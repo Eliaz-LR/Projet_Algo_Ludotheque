@@ -272,9 +272,9 @@ void listeReservJeux(Jeux* tJeux, Reserv* tRes, Adherents* tAdherents, int nbjeu
     int i, j, numJ, rankA;
     char nameJeux;
     printf("Pour quel jeu voulez-vous voir ses réservations ?\n");
-    for(i=1; i<nbjeux+1; i++)
+    for(i=0; i<nbjeux; i++)
         {
-            printf("%d) %s\n",i,tJeux[i-1].nom);
+            printf("%d) %s\n",tJeux[i].id,tJeux[i].nom);
         }
     printf("Entrer le numéro du jeu voulu : ");
     scanf("%d%*c",&numJ);
