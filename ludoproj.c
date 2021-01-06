@@ -203,7 +203,7 @@ void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, 
                     jRank=searchJeux(tEmprunts[i].idJeu, tJeux, sizeJ);
                     aRank=searchAdherent(tEmprunts[i].idAd, tAdherents, sizeA);
                     moisRetour=tEmprunts[i].emprunt.mois+1;
-                    if(moisRetour > 12)
+                    if(moisRetour > 12) /* Quand le nombre de mois dépasse 12 donc 1 an, la difference est mit dans mois puis on rajoute 1 à l'année.*/
                         {
                             anneeRetour=tEmprunts[i].emprunt.an+1;
                             moisRetour=moisRetour-12;
