@@ -277,14 +277,24 @@ void listeReservJeux(Jeux* tJeux, Reserv* tRes, Adherents* tAdherents, int nbjeu
             printf("%d) %s\n",tJeux[i].id,tJeux[i].nom);
         }
     printf("Entrer le numéro du jeu voulu : ");
+    ScanChiffreJeux:
     scanf("%d%*c",&numJ);
     if(numJ < 1 || numJ > nbjeux )
         {  
             printf("Erreur: le chiffre n'est pas valable\n");
             printf("Veuillez entrer un numéro de jeu valide\n");
-            scanf("%d",&numJ);
+            goto ScanChiffreJeux;
         }
     printf("Les réservations sont :\n");
+    for (j = 0; j < nbres; j++)
+        {
+            if (numJ==tRes[j].idJeu){
+                goto ImpressionReserv; //Car Au Moins Un Truc A Imprimer
+            }
+        }
+    printf("Pas de reservation pour ce jeu !\n");
+    return;
+    ImpressionReserv:
     printf("Nom\tDate de réservation\n");
     for (j = 0; j < nbres; j++)
         {
