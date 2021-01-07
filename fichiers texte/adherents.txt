@@ -3,3 +3,4 @@ idAdherent, civilité (Mr, Mme), nom, prénom, date d’inscription
 2 Mr Tom Segala 6/1/2021
 3 Mme Bonneau_darmaniaque Marie-Christine 6/1/2021
 4 Mme Jean Jean 6/1/2021
+5 Mr Jean Paul 7/1/2021

@@ -654,24 +654,38 @@ void sauvergarde(Adherents *tAdherents,int sizeA){
     fclose(flot);
 }
 
-int chercherNomOuPrenom(Adherents *tAdherents,char mot[],int sizeA,int condition){
-    int i;
-    if(condition==0){
-        for(i=0;i<sizeA;i++){
-            if(strcmp(tAdherents[i].nom,mot)==0){
-                return i;
-            }
+int chercherNom(Adherents *tAdherents,char nom[],int sizeA){
+    int i,position,nbrepet=0;
+    for(i=0;i<sizeA;i++){
+        if(strcmp(tAdherents[i].nom,nom)==0){
+            position=i;
+            nbrepet++;
         }
     }
-    else{
-        for(i=0;i<sizeA;i++){
-            if(strcmp(tAdherents[i].prenom,mot)==0){
-                return i;
-            }
-        } 
-    }
-    return -1;
+    if(nbrepet>1)
+        return -1;
+    else if(nbrepet==1)
+        return position;
+    else
+        return -2;
 }
+int chercherPrenom(Adherents *tAdherents,char prenom[],int sizeA){
+    int i,position,nbrepet=0;
+    
+    for(i=0;i<sizeA;i++){
+        if(strcmp(tAdherents[i].prenom,prenom)==0){
+            position=i;
+            nbrepet++;
+        }
+    }
+    if(nbrepet>1)
+        return -1;
+    else if(nbrepet==1)
+        return position;
+    else
+        return -2;
+} 
+
 
 Adherents saisieAd(Adherents *tAdherent,int sizeA){
     Adherents nvAd;
@@ -772,6 +786,7 @@ int ajoutAd(Adherents *tAdherent,int sizeA){
     tAdherent[sizeA]=nvAd;
     sizeA++;
 
+    sauvergarde(tAdherent,sizeA);
     return sizeA;
 }
 
@@ -788,46 +803,81 @@ void Menu_ad(int *sizeA){
     printf("Rentrer le nom : ");
     fgets(nom,32,stdin);
     nom[strlen(nom)-1]='\0';
-    
-    condition=0;
+
     concatener(nom,nomFinal);
-    positionNom=chercherNomOuPrenom(tAdherents,nomFinal,*sizeA,condition);
+    positionNom=chercherNom(tAdherents,nomFinal,*sizeA);
 
-    printf("Rentrer le prénom : ");
-    fgets(prenom,32,stdin);
-    prenom[strlen(prenom)-1]='\0';
+    //si le nom est en double on demande le prenom
+    if(positionNom==-1){
+        printf("Rentrer le prénom : ");
+        fgets(prenom,32,stdin);
+        prenom[strlen(prenom)-1]='\0';
 
-    condition=1;
-    concatener(prenom,prenomFinal);
-    positionPrenom=chercherNomOuPrenom(tAdherents,prenomFinal,*sizeA,condition);
+        concatener(prenom,prenomFinal);
+        positionPrenom=chercherPrenom(tAdherents,prenomFinal,*sizeA);
+    }
 
-    if(positionNom==-1 || positionPrenom==-1)
+    //si le nom ou prenom n'est pas bon on précise qu'il n'existe pas
+    if(positionNom==-2 || positionPrenom==-2)
         printf("Cette adhérents n'existe pas\n");
     
-    while(positionNom==-1 || positionPrenom==-1){
+    //temps que le nom ou le prenom est non existant on sort pas de la boucle
+    while(positionNom==-2 || positionPrenom==-2){
         printf("Voulez vous crée un adhérent (o/n) : ");
         scanf("%c%*c",&option);
+
+        //Si l'utilisateur ne veut pas crée de nouveau adhérent on lui propose de rentrer un non si il s'est juste tromper dans l'écriture ou revenir en arrières
         if(option=='n' || option=='N'){
-            while(positionNom==-1 || positionPrenom==-1){
-                printf("Rentrer votre pseudo utilisateur :");
+            while(positionNom==-2 || positionPrenom==-2){
+                printf("Rentrer votre nom :");
                 fgets(nom,32,stdin);
                 nom[strlen(nom)-1]='\0';
-                positionNom=chercherNomOuPrenom(tAdherents,nomFinal,*sizeA,0);
+                
+                concatener(nom,nomFinal);
+                positionNom=chercherNom(tAdherents,nomFinal,*sizeA);
+            
+                //si le nom est en double on demande le prenom
+                if(positionNom==-1){
+                    printf("Rentrer le prénom : ");
+                    fgets(prenom,32,stdin);
+                    prenom[strlen(prenom)-1]='\0';
+
+                    concatener(prenom,prenomFinal);
+                    positionPrenom=chercherPrenom(tAdherents,prenomFinal,*sizeA);
+                }
+                if(positionNom==-2 || positionPrenom==-2){
+                    printf("L'adhérent n'existe pas voulez vous continuez (o/n) : ");
+                    scanf("%c%*c",&option);
+                    if(option=='n' || option=='O')
+                        return;
+                }
             }
             break;
         }
+        //choix on l'utilisateur veut crée un nouveau adhérent
         else if(option=='o' || option=='O'){
             *sizeA=ajoutAd(tAdherents,*sizeA);
             printf("Création\n");
             strcpy(nomFinal,tAdherents[*sizeA-1].nom);
-            positionNom=chercherNomOuPrenom(tAdherents,nomFinal,*sizeA,0);
+            positionNom=chercherNom(tAdherents,nomFinal,*sizeA);
+            if(positionNom==-1){
+                strcpy(prenomFinal,tAdherents[*sizeA-1].prenom);
+                positionPrenom=chercherPrenom(tAdherents,prenomFinal,*sizeA);
+            }
             break;
         }
         else
             printf("Cette option n'existe pas !\n");
     }
-
-    tempRestantAbo(tAdherents,positionNom);
+    
+    //permet à l'utilisateur de renouveler sont abonnement si il est expirès
+    if(positionNom<0){
+        tempRestantAbo(tAdherents,positionPrenom);
+        //j'attribue a la positionNom la positionPrenom car maintenant nous avons trouver a quelle nom nous avons affaire de plus j'utilise la variable positionNom ensuite
+        positionNom=positionPrenom;
+    }
+    else
+        tempRestantAbo(tAdherents,positionNom);
 
     choix=choixMenuAd(tAdherents,sizeA,nomFinal,positionNom);
     while(choix!=6){   
@@ -859,6 +909,7 @@ void Menu_ad(int *sizeA){
 }
 
 int tempRestantAbo(Adherents *tAdherents,int position){
+    //on normalise une année (365 jours) ainsi que les mois (30 jours)
     int nbj,nbm,nba,restant=365;
     char option;
     Date dateActu;
@@ -876,9 +927,7 @@ int tempRestantAbo(Adherents *tAdherents,int position){
     if(nba>=0)
         restant=restant-nba*365;
     
-    if(restant>0)
-        printf("\nTemps restant : %d jours\n",restant);
-    else{
+    if(restant<0){
         printf("\nL'abonnement est dépasser\n"); 
         printf("Voulez vous renouvellez votre abonnement : ");
         scanf("%c%*c",&option);
@@ -897,6 +946,7 @@ int tempRestantAbo(Adherents *tAdherents,int position){
     return restant;  
 }
 
+//fonction qui permet d'enlever les espaces pour une meilleur utilisation dans le fichier texte
 int concatener(char mot[],char motfinal[]){
     int i=0;
 

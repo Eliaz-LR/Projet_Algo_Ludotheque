@@ -72,7 +72,8 @@ int chercherIdJeux(Jeux *tJeux,int sizeJ,char code[]);
 
 int ajoutAd(Adherents *tAdherent,int sizeA);
 Adherents saisieAd(Adherents *tAdherent,int sizeA);
-int chercherNomOuPrenom(Adherents *tAdherents,char mot[],int sizeA,int condition);
+int chercherPrenom(Adherents *tAdherents,char prenom[],int sizeA);
+int chercherNom(Adherents *tAdherents,char nom[],int sizeA);
 void sauvergarde(Adherents *tAdherents,int sizeA);
 void Menu_ad(int *sizeA);
 int tempRestantAbo(Adherents *tAdherents,int position);
