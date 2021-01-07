@@ -578,29 +578,21 @@ void global(void){
 
 
 
-int chercherIdJeux(Jeux *tJeux,int sizeJ,char code[]){
-    int i;
+void EmpruntEnCourt(Emprunts *tEmprunts,int sizeE,int idAd){
+    int i,emp=1;
 
-    for(i=0;i<sizeJ;i++){
-        if(strcmp(tJeux[i].nom,code)==0)
-            return tJeux[i].id;
-    }
-    return -1;
-}
-
-int chercherRes(Reserv *tReservations,int nbres,int jeux,int *nbEmprunt){
-    int i,t=0;
-    int trouve=0;
-
-    for(i=0;i<nbres;i++){
-        if(tReservations[i].idJeu==jeux){
-            trouve=1;
-            t++;
+    for(i=0;i<sizeE;i++){
+        if(tEmprunts[i].idAd==idAd){
+            emp++;
+            if(emp==2)
+                printf("\nidEmprunt, idJeux, date d’emprunt\n");
+            printf("%d  %d  %d/%d/%d\n",tEmprunts[i].id,tEmprunts[i].idJeu,tEmprunts[i].emprunt.jour,tEmprunts[i].emprunt.mois,tEmprunts[i].emprunt.an);
         }
     }
-    *nbEmprunt=t;
-    return trouve;
+    if(emp==1)
+        printf("\nCette utilisateur n'a aucun emprunt\n");
 }
+
 
 
 void sauvergarde(Adherents *tAdherents,int sizeA){
@@ -847,7 +839,7 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,Adherents *tAdherents,Jeux *tJeux,
     while(choix!=6){   
         switch (choix){
             case 1:
-                printf("%d",*sizeA);
+                EmpruntEnCourt(tEmprunts,*sizeE,tAdherents[positionNom].id);
                 break;
             case 2:
                 nouvelEmprunt(tEmprunts,tAdherents,tJeux,sizeE,*sizeA,*sizeJ,tAdherents[positionNom].nom,tAdherents[positionNom].prenom);
