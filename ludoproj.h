@@ -75,6 +75,6 @@ Adherents saisieAd(Adherents *tAdherent,int sizeA);
 int chercherPrenom(Adherents *tAdherents,char prenom[],int sizeA);
 int chercherNom(Adherents *tAdherents,char nom[],int sizeA);
 void sauvergarde(Adherents *tAdherents,int sizeA);
-void Menu_ad(int *sizeA);
+void Menu_ad(int *sizeA,Adherents *tAdherents);
 int tempRestantAbo(Adherents *tAdherents,int position);
 int concatener(char mot[],char motfinal[]);
