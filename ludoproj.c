@@ -960,3 +960,79 @@ void jeuxDisponible(Reserv tRes[],int nbjeux,int nbres){
     printf("\n\n");
 }
 */
+void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *sizeE, int *sizeA, int sizeJ, char nom[], char prenom[])
+{
+	int i, moisRetour, anneeRetour, idAdherent, nbEmprunt=0;
+	char nomJeu;
+	idAdherent=rechercheIDAdherent(tAdherents,sizeA, nom, prenom);
+	for (i = 0; i < *sizeE; i++)
+    	{
+        	if (idAdherent == tEmprunts[i].idAd)
+        		{
+           	 		nbEmprunt++;
+        		}
+		}
+	if(nbEmprunt == 3)
+		{
+			printf("Vous ne pouvez pas emprunter car vous êtes actuellement à 3 jeux empruntés.");
+			return;
+		}
+	else
+		{
+			*sizeE=*sizeE+1;
+			tEmprunts=realloc(tEmprunts,*sizeE*sizeof(Emprunts));
+			if(*sizeE==1)
+				{
+					tEmprunts[*sizeE-1].id=1;
+				}
+			else
+				{
+					tEmprunts[*sizeE-1].id=tEmprunts[*sizeE-2].id+1;
+				}
+		}
+	printf("Quel jeu voulez-vous emprunter:\n");
+	for(i=0;i<sizeJ;i++)
+		{
+			printf("%d) %s\n",i+1,tJeux[i].nom);
+		}
+	printf("Entrer le numéro du jeu voulu:");
+	scanf("%d",tEmprunts[*sizeE-1].idJeu);
+    tEmprunts[*sizeE-1].emprunt=dateAujrd();
+	moisRetour=tEmprunts[*sizeE-1].emprunt.mois+1;
+        if(moisRetour > 12)
+        	{
+                anneeRetour=tEmprunts[*sizeE-1].emprunt.an+1;
+                moisRetour=moisRetour-12;
+            }
+	printf("\nRécapitulatif de l'emprunt:\n");
+	nomJeu=searchJeux(tEmprunts[*sizeE-1].idJeu, tJeux, sizeJ);
+	printf("Nom du jeu : %c\n",&nomJeu);
+	printf("Date d'emprunt : %02d/%02d/%d\n",tEmprunts[*sizeE-1].emprunt.jour, tEmprunts[*sizeE-1].emprunt.mois, tEmprunts[*sizeE-1].emprunt.an);
+	printf("Date de retour : %02d/%02d/%d\n",tEmprunts[*sizeE-1].emprunt.jour, moisRetour, anneeRetour);
+}
+
+int rechercheIDAdherent(Adherents* tAdherents, int *sizeA, char nom[], char prenom[])
+{
+	Adherents* tab;
+	int j=0, i;
+	for (i = 0; i < *sizeA; i++)
+    	{
+        	if (strcmp( nom, tAdherents[i].nom ) == 0)
+        		{
+           	 		tab[j].id = tAdherents[i].id;
+           	 		strcmp(tab[j].nom, tAdherents[i].nom);
+           	 		strcmp(tab[j].prenom, tAdherents[i].prenom);
+           	 		strcmp(tab[j].civil, tAdherents[i].civil);
+           	 		tab[j].inscrip = tAdherents[i].inscrip;
+					j++;
+        		}
+		}
+	for (i = 0; i < j; i++)
+    	{
+        	if (strcmp( prenom, tab[i].prenom ) == 0)
+                
+        		{
+           	 		return tab[i].id;	
+        		}
+		}
+}
