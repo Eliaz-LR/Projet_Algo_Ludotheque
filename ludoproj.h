@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
+#include <unistd.h>
 
 /*Definition du type Date, utile pour la suite*/
 typedef struct

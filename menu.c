@@ -40,7 +40,8 @@ void afficheMenuAd(Adherents *tAdherent,int position){
     printf("\t\t3: Faire une réservation\n");
     printf("\t\t4: Annulation d'une réservation\n");
     printf("\t\t5: Retour d'un jeu\n");
-    printf("\t\t6: Retour\n");
+    printf("\t\t6: Information sur l'abonnement\n");
+    printf("\t\t7: Retour\n");
 }
 
 //Formulaire permettant de relever le choix de l'utilisateur
@@ -94,8 +95,8 @@ int choixMenuAd(Adherents *tAdherent,int *sizeA,char nom[],int position){
         scanf("%d%*c",&choix);
 
         /*Condition qui indique que le choix de l'utilisateur doit être compris entre 1 et 7*/
-        while (choix<1 || choix>6){
-            printf("\nChoix incorect %d n'est pas compris entre 1 et 6\n",choix);
+        while (choix<1 || choix>7){
+            printf("\nChoix incorect %d n'est pas compris entre 1 et 7\n",choix);
             printf("Retapez sur la touche entrée pour revenir au menu");
             getchar();
             afficheMenuAd(tAdherent,position);

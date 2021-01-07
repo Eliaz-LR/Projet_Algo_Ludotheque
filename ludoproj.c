@@ -605,7 +605,8 @@ void sauvergarde(Adherents *tAdherents,int sizeA){
     }
 
     fprintf(flot,"idAdherent, civilité (Mr, Mme), nom, prénom, date d’inscription\n");
-    for (i = 0; i < sizeA; i++)
+    
+    for (i = 0; i <= sizeA; i++)
     {
         fprintf(flot,"%d %s %s %s %d/%d/%d\n", tAdherents[i].id, tAdherents[i].civil, tAdherents[i].nom, tAdherents[i].prenom, tAdherents[i].inscrip.jour, tAdherents[i].inscrip.mois, tAdherents[i].inscrip.an);
     }
@@ -836,7 +837,7 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,Adherents *tAdherents,Jeux *tJeux,
         tempRestantAbo(tAdherents,positionNom);
 
     choix=choixMenuAd(tAdherents,sizeA,nomFinal,positionNom);
-    while(choix!=6){   
+    while(choix!=7){   
         switch (choix){
             case 1:
                 EmpruntEnCourt(tEmprunts,*sizeE,tAdherents[positionNom].id);
@@ -854,6 +855,10 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,Adherents *tAdherents,Jeux *tJeux,
                 printf("Choix 5\n");
                 break;
             case 6:
+                printf("\nInscrit le %d/%d/%d\n",tAdherents[positionNom].inscrip.jour,tAdherents[positionNom].inscrip.mois,tAdherents[positionNom].inscrip.an);
+                tempRestantAbo(tAdherents,positionNom);
+                break;
+            case 7:
                 return;
                 break;
         }
@@ -883,21 +888,27 @@ int tempRestantAbo(Adherents *tAdherents,int position){
     if(nba>=0)
         restant=restant-nba*365;
     
+
     if(restant<0){
-        printf("\nL'abonnement est dépasser\n"); 
-        printf("Voulez vous renouvellez votre abonnement : ");
-        scanf("%c%*c",&option);
-        if(option == 'o' || option == 'O'){
-            tAdherents[position].inscrip=dateAujrd();
-            printf("\nRenouvellement effectuer ...\n");
+        while(1){
+            printf("\nL'abonnement est dépasser\n"); 
+            printf("\nVoulez vous renouvellez votre abonnement (o/n) : ");
+            scanf("%c%*c",&option);
+            if(option == 'o' || option == 'O'){
+                tAdherents[position].inscrip=dateAujrd();
+                printf("\nRenouvellement effectuer ...\n");
+                //fonction disponible par le header unistd.h sous linux uniquement windows.h et Sleep() pour windows
+                sleep(1);
+                break;
+            }
+            else if(option == 'n' || option == 'N'){
+                printf("Il vous est donc impossible de reserver de nouveaux jeux\n");
+                sleep(1);
+                break;
+            }
+            else
+                printf("Le choix n'est pas correct veuillez ressayer\n");
         }
-        else if(option == 'n' || option == 'N'){
-            printf("Il vous est donc pas possible de reserver\n");
-        }
-        else
-        {
-            printf("Le choix n'est pas correct veuillez ressayer\n");
-        }      
     }
     return restant;  
 }
