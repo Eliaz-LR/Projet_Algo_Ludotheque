@@ -850,7 +850,7 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,Adherents *tAdherents,Jeux *tJeux,
                 printf("%d",*sizeA);
                 break;
             case 2:
-                nouvelEmprunt(tEmprunts,tAdherents,tJeux,&sizeE,*sizeA,*sizeJ,tAdherents[positionNom].nom,tAdherents[positionNom].prenom);
+                nouvelEmprunt(tEmprunts,tAdherents,tJeux,sizeE,*sizeA,*sizeJ,tAdherents[positionNom].nom,tAdherents[positionNom].prenom);
                 break;
             case 3:
                 printf("Size J : %d\t Size A : %d\tSize E :%d\tNom : %s\tPrenom : %s\n",*sizeJ,*sizeA,*sizeE,tAdherents[positionNom].nom,tAdherents[positionNom].prenom);
@@ -927,7 +927,7 @@ int concatener(char mot[],char motfinal[]){
 void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *sizeE, int sizeA, int sizeJ, char nom[], char prenom[])
 {
 	int i, moisRetour, anneeRetour, idAdherent, nbEmprunt=0;
-	char nomJeu;
+	int idJeu;
 	idAdherent=rechercheIDAdherent(tAdherents,sizeA, nom, prenom);
 	for (i = 0; i < *sizeE; i++)
     	{
@@ -960,7 +960,7 @@ void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *s
 			printf("%d) %s\n",i+1,tJeux[i].nom);
 		}
 	printf("Entrer le numéro du jeu voulu:");
-	scanf("%d",tEmprunts[*sizeE-1].idJeu);
+	scanf("%d",&tEmprunts[*sizeE-1].idJeu);
     tEmprunts[*sizeE-1].emprunt=dateAujrd();
 	moisRetour=tEmprunts[*sizeE-1].emprunt.mois+1;
         if(moisRetour > 12)
@@ -969,8 +969,8 @@ void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *s
                 moisRetour=moisRetour-12;
             }
 	printf("\nRécapitulatif de l'emprunt:\n");
-	nomJeu=searchJeux(tEmprunts[*sizeE-1].idJeu, tJeux, sizeJ);
-	printf("Nom du jeu : %c\n",&nomJeu);
+	idJeu=searchJeux(tEmprunts[*sizeE-1].idJeu, tJeux, sizeJ);
+	printf("Nom du jeu : %c\n",idJeu);
 	printf("Date d'emprunt : %02d/%02d/%d\n",tEmprunts[*sizeE-1].emprunt.jour, tEmprunts[*sizeE-1].emprunt.mois, tEmprunts[*sizeE-1].emprunt.an);
 	printf("Date de retour : %02d/%02d/%d\n",tEmprunts[*sizeE-1].emprunt.jour, moisRetour, anneeRetour);
 }
