@@ -540,7 +540,7 @@ void global(void){
         switch (choix){
             case 1:
                 printf("Menu adhérents\n");
-                Menu_ad(&sizeA,tAdherents);
+                Menu_ad(&sizeA,&sizeE,&sizeJ,tAdherents,tJeux,tEmprunts);
                 break;
             case 2:
                 //doit etre modifié : creer une fonction special pour qui remplace les ids par les nom
@@ -757,7 +757,7 @@ int ajoutAd(Adherents *tAdherent,int sizeA){
 }
 
 //Sous menu adherent
-void Menu_ad(int *sizeA,Adherents *tAdherents){
+void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,Adherents *tAdherents,Jeux *tJeux,Emprunts *tEmprunts){
     int choix,condition;
     int i,positionNom,positionPrenom;
     char nom[32], prenom[32];
@@ -850,10 +850,10 @@ void Menu_ad(int *sizeA,Adherents *tAdherents){
                 printf("%d",*sizeA);
                 break;
             case 2:
-                nouvelEmprunt(tEmprunts,tAdherents,tJeux,sizeE,sizeA,sizeJ,nom[],prenom[]);
+                nouvelEmprunt(tEmprunts,tAdherents,tJeux,&sizeE,*sizeA,*sizeJ,tAdherents[positionNom].nom,tAdherents[positionNom].prenom);
                 break;
             case 3:
-                printf("Choix 3\n");
+                printf("Size J : %d\t Size A : %d\tSize E :%d\tNom : %s\tPrenom : %s\n",*sizeJ,*sizeA,*sizeE,tAdherents[positionNom].nom,tAdherents[positionNom].prenom);
                 break;
             case 4:
                 printf("Choix 4\n");
@@ -924,43 +924,7 @@ int concatener(char mot[],char motfinal[]){
     motfinal[i]='\0';
 }
 
-/*void jeuxEmprunter(Reserv tRes[],Jeux tJeux[],int nbjeux,int nbres){
-    int i;
-    int emprunter,nbEmprunt;
-    printf("Id\tNom\t\tType\tNombre d'exemplaire emprunter\n");
-
-    for(i=0;i<nbjeux-1;i++){
-        emprunter=chercherRes(tRes,nbres,tJeux[i].id,&nbEmprunt);
-        if(emprunter==1){
-            if(tJeux[i].nbExemplaires<0){
-                printf("Erreur: Le jeu %s a était emprunter plus de fois qu'il était diponible\n\n",tJeux[i].nom);
-                return;
-            }
-            else if(tJeux[i].nbExemplaires!=0)
-                printf("%d\t%s\t%s\t\t%d\n",tJeux[i].id,tJeux[i].nom,tJeux[i].type,nbEmprunt);
-        }
-    }
-    printf("\n\n");
-}
-
-void jeuxDisponible(Reserv tRes[],int nbjeux,int nbres){
-    int i;
-    int emprunter,nbEmprunt;
-    Jeux *tJeux = loadJeux(&nbjeux);
-
-    printf("Id\tNom\t\tType\t\tNombre d'emplaires restant\n");
-
-    for(i=0;i<nbjeux-1;i++){
-        emprunter=chercherRes(tRes,nbres,tJeux[i].id,&nbEmprunt);
-        if(emprunter==1)
-            tJeux[i].nbExemplaires=tJeux[i].nbExemplaires-nbEmprunt;
-        if(emprunter!=1 || tJeux[i].nbExemplaires>0)
-            printf("%d\t%s\t%s\t\t%d\n",tJeux[i].id,tJeux[i].nom,tJeux[i].type,tJeux[i].nbExemplaires);
-    }
-    printf("\n\n");
-}
-*/
-void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *sizeE, int *sizeA, int sizeJ, char nom[], char prenom[])
+void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *sizeE, int sizeA, int sizeJ, char nom[], char prenom[])
 {
 	int i, moisRetour, anneeRetour, idAdherent, nbEmprunt=0;
 	char nomJeu;
@@ -1011,11 +975,11 @@ void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *s
 	printf("Date de retour : %02d/%02d/%d\n",tEmprunts[*sizeE-1].emprunt.jour, moisRetour, anneeRetour);
 }
 
-int rechercheIDAdherent(Adherents* tAdherents, int *sizeA, char nom[], char prenom[])
+int rechercheIDAdherent(Adherents* tAdherents, int sizeA, char nom[], char prenom[])
 {
 	Adherents* tab;
 	int j=0, i;
-	for (i = 0; i < *sizeA; i++)
+	for (i = 0; i < sizeA; i++)
     	{
         	if (strcmp( nom, tAdherents[i].nom ) == 0)
         		{
@@ -1036,3 +1000,40 @@ int rechercheIDAdherent(Adherents* tAdherents, int *sizeA, char nom[], char pren
         		}
 		}
 }
+
+/*void jeuxEmprunter(Reserv tRes[],Jeux tJeux[],int nbjeux,int nbres){
+    int i;
+    int emprunter,nbEmprunt;
+    printf("Id\tNom\t\tType\tNombre d'exemplaire emprunter\n");
+
+    for(i=0;i<nbjeux-1;i++){
+        emprunter=chercherRes(tRes,nbres,tJeux[i].id,&nbEmprunt);
+        if(emprunter==1){
+            if(tJeux[i].nbExemplaires<0){
+                printf("Erreur: Le jeu %s a était emprunter plus de fois qu'il était diponible\n\n",tJeux[i].nom);
+                return;
+            }
+            else if(tJeux[i].nbExemplaires!=0)
+                printf("%d\t%s\t%s\t\t%d\n",tJeux[i].id,tJeux[i].nom,tJeux[i].type,nbEmprunt);
+        }
+    }
+    printf("\n\n");
+}
+
+void jeuxDisponible(Reserv tRes[],int nbjeux,int nbres){
+    int i;
+    int emprunter,nbEmprunt;
+    Jeux *tJeux = loadJeux(&nbjeux);
+
+    printf("Id\tNom\t\tType\t\tNombre d'emplaires restant\n");
+
+    for(i=0;i<nbjeux-1;i++){
+        emprunter=chercherRes(tRes,nbres,tJeux[i].id,&nbEmprunt);
+        if(emprunter==1)
+            tJeux[i].nbExemplaires=tJeux[i].nbExemplaires-nbEmprunt;
+        if(emprunter!=1 || tJeux[i].nbExemplaires>0)
+            printf("%d\t%s\t%s\t\t%d\n",tJeux[i].id,tJeux[i].nom,tJeux[i].type,tJeux[i].nbExemplaires);
+    }
+    printf("\n\n");
+}
+*/
