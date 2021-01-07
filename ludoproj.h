@@ -78,3 +78,6 @@ void sauvergarde(Adherents *tAdherents,int sizeA);
 void Menu_ad(int *sizeA);
 int tempRestantAbo(Adherents *tAdherents,int position);
 int concatener(char mot[],char motfinal[]);
+
+void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *sizeE, int *sizeA, int sizeJ, char nom[], char prenom[]);
+int rechercheIDAdherent(Adherents* tAdherents, int *sizeA, char nom[], char prenom[]);

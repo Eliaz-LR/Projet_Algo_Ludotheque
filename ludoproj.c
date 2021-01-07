@@ -886,7 +886,7 @@ void Menu_ad(int *sizeA){
                 printf("%d",*sizeA);
                 break;
             case 2:
-                printf("Nom %s",tAdherents[positionNom].nom);
+                nouvelEmprunt(tEmprunts,tAdherents,tJeux,sizeE,sizeA,sizeJ,nom[],prenom[]);
                 break;
             case 3:
                 printf("Choix 3\n");
