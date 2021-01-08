@@ -224,7 +224,7 @@ void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, 
 
 Emprunts* retourEmprunt(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv** tReserv, int* sizeE, int* sizeJ, int* sizeR, int idAd){
     int i, j, idE, idJ, rank, nbEmp=0;
-    for(i=0;i<sizeE;i++){
+    for(i=0;i<*sizeE;i++){
         if(tEmprunts[i].idAd==idAd){
             nbEmp++;
             if(nbEmp==1)
@@ -237,7 +237,7 @@ Emprunts* retourEmprunt(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts,
     else
     {
         printf("ERREUR: L'adherent n'a pas d'emprunts");
-        return -1;
+        return tEmprunts;
     }
     scanf("%d",&idE);
     rank=searchEmprunt(idE, tEmprunts, *sizeE);
@@ -564,7 +564,7 @@ void global(void){
         switch (choix){
             case 1:
                 printf("Menu adhérents\n");
-                Menu_ad(&sizeA,&sizeE,&sizeJ,tAdherents,tJeux,tEmprunts);
+                Menu_ad(&sizeA,&sizeE,&sizeJ,&sizeR,tAdherents,tJeux,&tEmprunts,&tReservations);
                 break;
             case 2:
                 //doit etre modifié : creer une fonction special pour qui remplace les ids par les nom
@@ -774,7 +774,7 @@ int ajoutAd(Adherents *tAdherent,int sizeA){
 }
 
 //Sous menu adherent
-void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,Adherents *tAdherents,Jeux *tJeux,Emprunts *tEmprunts){
+void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,Jeux *tJeux,Emprunts **tEmprunts,Reserv** pointeur_vers_tReserv){
     int choix,condition;
     int i,positionNom,positionPrenom;
     char nom[32], prenom[32];
@@ -864,10 +864,10 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,Adherents *tAdherents,Jeux *tJeux,
     while(choix!=7){   
         switch (choix){
             case 1:
-                EmpruntEnCourt(tEmprunts,*sizeE,tAdherents[positionNom].id);
+                EmpruntEnCourt(*tEmprunts,*sizeE,tAdherents[positionNom].id);
                 break;
             case 2:
-                nouvelEmprunt(tEmprunts,tAdherents,tJeux,sizeE,*sizeA,*sizeJ,tAdherents[positionNom].nom,tAdherents[positionNom].prenom);
+                nouvelEmprunt(*tEmprunts,tAdherents,tJeux,sizeE,*sizeA,*sizeJ,tAdherents[positionNom].nom,tAdherents[positionNom].prenom);
                 break;
             case 3:
                 printf("Size J : %d\t Size A : %d\tSize E :%d\tNom : %s\tPrenom : %s\n",*sizeJ,*sizeA,*sizeE,tAdherents[positionNom].nom,tAdherents[positionNom].prenom);
@@ -877,6 +877,7 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,Adherents *tAdherents,Jeux *tJeux,
                 break;
             case 5:
                 printf("Choix 5\n");
+                *tEmprunts=retourEmprunt(tJeux,tAdherents,*tEmprunts,pointeur_vers_tReserv,sizeE,sizeJ,sizeR,tAdherents[positionNom].id);
                 break;
             case 6:
                 printf("\nInscrit le %d/%d/%d\n",tAdherents[positionNom].inscrip.jour,tAdherents[positionNom].inscrip.mois,tAdherents[positionNom].inscrip.an);
