@@ -1,3 +1,5 @@
 idEmprunt, idAdherent, idJeux, date d’emprunt
 1 1 5 3/12/2020
-1 4 5 3/12/2020
+2 4 2 3/12/2020
+3 2 1 4/12/2020
+4 3 1 5/12/2020
