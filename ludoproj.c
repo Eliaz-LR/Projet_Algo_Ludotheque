@@ -9,6 +9,16 @@ void prepFiles(FILE *flot){
     fscanf(flot,"%*[^\n]\n"); /*Permet de scan toute la premiere ligne et de la jeter : *=jeter, et scan de tout sauf \n suivi d'un \n trouvé*/
 }
 
+void mySleep(int sleepMs)
+{
+#ifdef LINUX
+    usleep(sleepMs * 1000);   // usleep takes sleep time in us (1 millionth of a second)
+#endif
+#ifdef WINDOWS
+    Sleep(sleepMs);
+#endif
+}
+
 Jeux* loadJeux(int* sizeJ){
     FILE *flot;
     flot = fopen("fichiers texte/jeux.txt","r");
@@ -897,12 +907,12 @@ int tempRestantAbo(Adherents *tAdherents,int position){
                 tAdherents[position].inscrip=dateAujrd();
                 printf("\nRenouvellement effectuer ...\n");
                 //fonction disponible par le header unistd.h sous linux uniquement windows.h et Sleep() pour windows
-                sleep(1);
+                mySleep(1000);
                 break;
             }
             else if(option == 'n' || option == 'N'){
                 printf("Il vous est donc impossible de reserver de nouveaux jeux\n");
-                sleep(1);
+                mySleep(1000);
                 break;
             }
             else
