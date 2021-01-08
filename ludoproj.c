@@ -222,9 +222,23 @@ void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, 
         }
 }
 
-Emprunts* retourEmprunt(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv** tReserv, int* sizeE, int* sizeJ, int* sizeR){
-    int i, j, idE, idJ, rank;
-    printf("Entrez l'ID de l'emprunt a retourner\n");
+Emprunts* retourEmprunt(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv** tReserv, int* sizeE, int* sizeJ, int* sizeR, int idAd){
+    int i, j, idE, idJ, rank, nbEmp=0;
+    for(i=0;i<sizeE;i++){
+        if(tEmprunts[i].idAd==idAd){
+            nbEmp++;
+            if(nbEmp==1)
+                printf("\nidEmprunt, idJeux, date d’emprunt\n");
+            printf("Emprunt n°%d  %d  %d/%d/%d\n",nbEmp,tEmprunts[i].id,tEmprunts[i].idJeu,tEmprunts[i].emprunt.jour,tEmprunts[i].emprunt.mois,tEmprunts[i].emprunt.an);
+        }
+    }
+    if (nbEmp>0)
+        printf("Veuillez entrer l'ID d'emprunt retourné");
+    else
+    {
+        printf("ERREUR: L'adherent n'a pas d'emprunts");
+        return -1;
+    }
     scanf("%d",&idE);
     rank=searchEmprunt(idE, tEmprunts, *sizeE);
     idJ=tEmprunts[rank].idJeu;
