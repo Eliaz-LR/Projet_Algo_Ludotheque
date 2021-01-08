@@ -76,7 +76,7 @@ int chercherPrenom(Adherents *tAdherents,char prenom[],int sizeA);
 int chercherNom(Adherents *tAdherents,char nom[],int sizeA);
 void sauvergarde(Adherents *tAdherents,int sizeA);
 void Menu_ad(int *sizeA,int *sizeE,int *sizej,Adherents *tAdherents,Jeux *tJeux,Emprunts *tEmprunts);
-int tempRestantAbo(Adherents *tAdherents,int position);
+int tempRestantAbo(Adherents *tAdherents,int position,int sizeA);
 int concatener(char mot[],char motfinal[]);
 
 void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *sizeE, int sizeA, int sizeJ, char nom[], char prenom[]);

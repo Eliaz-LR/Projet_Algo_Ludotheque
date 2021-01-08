@@ -829,12 +829,12 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,Adherents *tAdherents,Jeux *tJeux,
     
     //permet à l'utilisateur de renouveler sont abonnement si il est expirès
     if(positionNom<0){
-        tempRestantAbo(tAdherents,positionPrenom);
+        tempRestantAbo(tAdherents,positionPrenom,*sizeA);
         //j'attribue a la positionNom la positionPrenom car maintenant nous avons trouver a quelle nom nous avons affaire de plus j'utilise la variable positionNom ensuite
         positionNom=positionPrenom;
     }
     else
-        tempRestantAbo(tAdherents,positionNom);
+        tempRestantAbo(tAdherents,positionNom,*sizeA);
 
     choix=choixMenuAd(tAdherents,sizeA,nomFinal,positionNom);
     while(choix!=7){   
@@ -856,7 +856,7 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,Adherents *tAdherents,Jeux *tJeux,
                 break;
             case 6:
                 printf("\nInscrit le %d/%d/%d\n",tAdherents[positionNom].inscrip.jour,tAdherents[positionNom].inscrip.mois,tAdherents[positionNom].inscrip.an);
-                tempRestantAbo(tAdherents,positionNom);
+                tempRestantAbo(tAdherents,positionNom,*sizeA);
                 break;
             case 7:
                 return;
@@ -868,7 +868,7 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,Adherents *tAdherents,Jeux *tJeux,
     }
 }
 
-int tempRestantAbo(Adherents *tAdherents,int position){
+int tempRestantAbo(Adherents *tAdherents,int position,int sizeA){
     //on normalise une année (365 jours) ainsi que les mois (30 jours)
     int nbj,nbm,nba,restant=365;
     char option;
@@ -896,6 +896,7 @@ int tempRestantAbo(Adherents *tAdherents,int position){
             if(option == 'o' || option == 'O'){
                 tAdherents[position].inscrip=dateAujrd();
                 printf("\nRenouvellement effectuer ...\n");
+                sauvergarde(tAdherents,sizeA);
                 //fonction disponible par le header unistd.h sous linux uniquement windows.h et Sleep() pour windows
                 sleep(1);
                 break;
