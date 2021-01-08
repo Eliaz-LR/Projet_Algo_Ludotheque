@@ -224,6 +224,7 @@ void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, 
 
 Emprunts* retourEmprunt(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv** tReserv, int* sizeE, int* sizeJ, int* sizeR, int idAd){
     int i, j, idE, idJ, rank, nbEmp=0;
+    printf("retour d'emprunt pour adherent ID:%d",idAd);
     for(i=0;i<*sizeE;i++){
         if(tEmprunts[i].idAd==idAd){
             nbEmp++;
