@@ -229,7 +229,7 @@ Emprunts* retourEmprunt(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts,
             nbEmp++;
             if(nbEmp==1)
                 printf("\nidEmprunt, idJeux, date d’emprunt\n");
-            printf("Emprunt n°%d  %d  %d/%d/%d\n",nbEmp,tEmprunts[i].id,tEmprunts[i].idJeu,tEmprunts[i].emprunt.jour,tEmprunts[i].emprunt.mois,tEmprunts[i].emprunt.an);
+            printf("Emprunt n°%d  %d  %d %d/%d/%d\n",nbEmp,tEmprunts[i].id,tEmprunts[i].idJeu,tEmprunts[i].emprunt.jour,tEmprunts[i].emprunt.mois,tEmprunts[i].emprunt.an);
         }
     }
     if (nbEmp>0)
@@ -873,7 +873,6 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,J
                 printf("Size J : %d\t Size A : %d\tSize E :%d\tNom : %s\tPrenom : %s\n",*sizeJ,*sizeA,*sizeE,tAdherents[positionNom].nom,tAdherents[positionNom].prenom);
                 break;
             case 4:
-                printf("Choix 4\n");
                 break;
             case 5:
                 printf("Choix 5\n");
@@ -1064,4 +1063,37 @@ void jeuxDisponible(Reserv tRes[],int nbjeux,int nbres){
     }
     printf("\n\n");
 }
-*/
+int nouvelEmprunt2(int id,int sizeE,int sizeJ,Emprunts *tEmprunt,Jeux *tJeux){
+    int i,idChoix;
+    char choix;
+
+    printf("Voulez-vous emprunter un jeu (o/n) : ");
+    scanf("%c%*c",&choix);
+
+    if(choix=='o' || choix=='O'){
+        for(i=0;i<sizeJ;i++){
+            printf("%d %s %s %d\n",tJeux[i].id,tJeux[i].nom,tJeux[i].type,tJeux[i].nbExemplaires);
+        }
+        printf("Quelle jeux voulez vous emprunter noter l'id : ");
+        scanf("%d%*c",&idChoix);
+        
+        if(tJeux[idChoix].nbExemplaires!=-1){
+            tEmprunt[sizeE].idJeu=idChoix;
+            tEmprunt[sizeE].emprunt=dateAujrd();
+            tEmprunt[sizeE].id=sizeE+1;
+            tEmprunt[sizeE].idAd=id;
+            sizeE++;
+        }
+        else{
+            printf("Il n'y a plus assez d'exemplaire disponible pour ce jeux\n");
+            return -1;
+        }
+    }
+    else if(choix=='n' || choix=='N'){
+        printf("Anulation\n");
+        return -1;
+    }
+    else{
+        printf("Ce choix n'est pas correct\n");
+    }
+}*/
