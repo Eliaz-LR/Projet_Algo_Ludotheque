@@ -230,7 +230,7 @@ Emprunts* retourEmprunt(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts,
             nbEmp++;
             if(nbEmp==1)
                 printf("\nidEmprunt, idJeux, date d'emprunt\n");
-            printf("Emprunt num%d  %d  %d/%d/%d\n",tEmprunts[i].id,tEmprunts[i].idJeu,tEmprunts[i].emprunt.jour,tEmprunts[i].emprunt.mois,tEmprunts[i].emprunt.an);
+            printf("Emprunt num:%d  %d  %02d/%02d/%d\n",tEmprunts[i].id,tEmprunts[i].idJeu,tEmprunts[i].emprunt.jour,tEmprunts[i].emprunt.mois,tEmprunts[i].emprunt.an);
         }
     }
     if (nbEmp>0)
@@ -868,7 +868,7 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,J
                 EmpruntEnCourt(*tEmprunts,*sizeE,tAdherents[positionNom].id);
                 break;
             case 2:
-                nouvelEmprunt(*tEmprunts,tAdherents,tJeux,sizeE,*sizeA,*sizeJ,tAdherents[positionNom].nom,tAdherents[positionNom].prenom);
+                nouvelEmprunt(*tEmprunts,tAdherents,tJeux,sizeE,*sizeA,*sizeJ,tAdherents[positionNom].id);
                 break;
             case 3:
                 printf("Size J : %d\t Size A : %d\tSize E :%d\tNom : %s\tPrenom : %s\n",*sizeJ,*sizeA,*sizeE,tAdherents[positionNom].nom,tAdherents[positionNom].prenom);
@@ -953,11 +953,10 @@ int concatener(char mot[],char motfinal[]){
     motfinal[i]='\0';
 }
 
-void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *sizeE, int sizeA, int sizeJ, char nom[], char prenom[])
+void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *sizeE, int sizeA, int sizeJ, int idAdherent)
 {
-	int i, moisRetour, anneeRetour, idAdherent, nbEmprunt=0;
-	int idJeu;
-	idAdherent=rechercheIDAdherent(tAdherents,sizeA, nom, prenom);
+	int i, moisRetour, anneeRetour, nbEmprunt=0;
+	int idJeu, rankAdh;
 	for (i = 0; i < *sizeE; i++)
     	{
         	if (idAdherent == tEmprunts[i].idAd)
@@ -990,44 +989,9 @@ void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *s
 		}
 	printf("Entrer le numéro du jeu voulu:");
 	scanf("%d",&tEmprunts[*sizeE-1].idJeu);
+    rankAdh=searchAdherent(idAdherent,tAdherents,sizeA);
+    tEmprunts[*sizeE-1].idAd=tAdherents[rankAdh].id;
     tEmprunts[*sizeE-1].emprunt=dateAujrd();
-	moisRetour=tEmprunts[*sizeE-1].emprunt.mois+1;
-        if(moisRetour > 12)
-        	{
-                anneeRetour=tEmprunts[*sizeE-1].emprunt.an+1;
-                moisRetour=moisRetour-12;
-            }
-	printf("\nRécapitulatif de l'emprunt:\n");
-	idJeu=searchJeux(tEmprunts[*sizeE-1].idJeu, tJeux, sizeJ);
-	printf("Nom du jeu : %c\n",idJeu);
-	printf("Date d'emprunt : %02d/%02d/%d\n",tEmprunts[*sizeE-1].emprunt.jour, tEmprunts[*sizeE-1].emprunt.mois, tEmprunts[*sizeE-1].emprunt.an);
-	printf("Date de retour : %02d/%02d/%d\n",tEmprunts[*sizeE-1].emprunt.jour, moisRetour, anneeRetour);
-}
-
-int rechercheIDAdherent(Adherents* tAdherents, int sizeA, char nom[], char prenom[])
-{
-	Adherents* tab;
-	int j=0, i;
-	for (i = 0; i < sizeA; i++)
-    	{
-        	if (strcmp( nom, tAdherents[i].nom ) == 0)
-        		{
-           	 		tab[j].id = tAdherents[i].id;
-           	 		strcmp(tab[j].nom, tAdherents[i].nom);
-           	 		strcmp(tab[j].prenom, tAdherents[i].prenom);
-           	 		strcmp(tab[j].civil, tAdherents[i].civil);
-           	 		tab[j].inscrip = tAdherents[i].inscrip;
-					j++;
-        		}
-		}
-	for (i = 0; i < j; i++)
-    	{
-        	if (strcmp( prenom, tab[i].prenom ) == 0)
-                
-        		{
-           	 		return tab[i].id;	
-        		}
-		}
 }
 
 /*void jeuxEmprunter(Reserv tRes[],Jeux tJeux[],int nbjeux,int nbres){
