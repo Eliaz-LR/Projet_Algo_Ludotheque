@@ -606,7 +606,7 @@ void sauvergarde(Adherents *tAdherents,int sizeA){
 
     fprintf(flot,"idAdherent, civilité (Mr, Mme), nom, prénom, date d’inscription\n");
     
-    for (i = 0; i <= sizeA; i++)
+    for (i = 0; i < sizeA; i++)
     {
         fprintf(flot,"%d %s %s %s %d/%d/%d\n", tAdherents[i].id, tAdherents[i].civil, tAdherents[i].nom, tAdherents[i].prenom, tAdherents[i].inscrip.jour, tAdherents[i].inscrip.mois, tAdherents[i].inscrip.an);
     }
@@ -866,7 +866,6 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,Adherents *tAdherents,Jeux *tJeux,
         getchar();
         choix=choixMenuAd(tAdherents,sizeA,nomFinal,positionNom);
     }
-    sauvergarde(tAdherents,*sizeA);
 }
 
 int tempRestantAbo(Adherents *tAdherents,int position){
