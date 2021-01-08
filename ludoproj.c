@@ -224,12 +224,13 @@ void AffichageEmprunts(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, 
 
 Emprunts* retourEmprunt(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts, Reserv** tReserv, int* sizeE, int* sizeJ, int* sizeR, int idAd){
     int i, j, idE, idJ, rank, nbEmp=0;
+    printf("retour d'emprunt pour adherent ID:%d",idAd);
     for(i=0;i<*sizeE;i++){
         if(tEmprunts[i].idAd==idAd){
             nbEmp++;
             if(nbEmp==1)
-                printf("\nidEmprunt, idJeux, date d’emprunt\n");
-            printf("Emprunt n°%d  %d  %d/%d/%d\n",nbEmp,tEmprunts[i].id,tEmprunts[i].idJeu,tEmprunts[i].emprunt.jour,tEmprunts[i].emprunt.mois,tEmprunts[i].emprunt.an);
+                printf("\nidEmprunt, idJeux, date d'emprunt\n");
+            printf("Emprunt num%d  %d  %d/%d/%d\n",tEmprunts[i].id,tEmprunts[i].idJeu,tEmprunts[i].emprunt.jour,tEmprunts[i].emprunt.mois,tEmprunts[i].emprunt.an);
         }
     }
     if (nbEmp>0)
