@@ -263,9 +263,6 @@ Emprunts* retourEmprunt(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts,
     *sizeE=*sizeE-1;
     tEmprunts=realloc(tEmprunts,*sizeE*sizeof(Emprunts));
     printf("realloc temprunts reussie\n");
-    rank=searchJeux(idJ, tJeux, *sizeJ);
-    tJeux[rank].nbExemplaires=tJeux[rank].nbExemplaires+1;
-    printf("jeu remis en stock\n");
     //gestion des reservations (a continuer)
     for (i = 0; i < *sizeR; i++)
     {
@@ -286,8 +283,6 @@ Emprunts* retourEmprunt(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts,
                 tEmprunts[*sizeE-1].idAd=(*tReserv)[i].idAd;
                 tEmprunts[*sizeE-1].idJeu=(*tReserv)[i].idJeu;
                 printf("emprunt ajouté\n");
-                //on enleve le jeu du stock
-                tJeux[rank].nbExemplaires=tJeux[rank].nbExemplaires-1;
                 //on regle la date de l'emprunt sur la date actuelle obtenue avec dos.h
                 tEmprunts[*sizeE-1].emprunt=dateAujrd();
             //et on supprime la reservation
