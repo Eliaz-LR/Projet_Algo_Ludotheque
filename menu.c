@@ -8,7 +8,7 @@ void afficheMenu(void){
     //permet de "netoyer" le terminal
     printf("\033c");
     
-    printf("\t\t\tMenu\n");
+    printf("\t\t\t---------------\n\t\t\t     Menu      \n\t\t\t---------------\n");
     printf("\t\t1: Menu adhérents\n");
     printf("\t\t2: Menu modification des Jeux\n");
     printf("\t\t3: Afficher jeux en stock\n");
@@ -23,7 +23,7 @@ void afficheMenuJeux(void){
     //permet de "netoyer" le terminal
     printf("\033c");
     
-    printf("\t\t\tMenu Jeux\n");
+    printf("\t\t\t---------------\n\t\t\t   Menu Jeux  \n\t\t\t---------------\n");
     printf("\t\t1: Ajouter un jeu\n");
     printf("\t\t2: Supprimer un jeu\n");
     printf("\t\t3: Retour\n");
@@ -33,8 +33,8 @@ void afficheMenuAd(Adherents *tAdherent,int position){
 
     //permet de "netoyer" le terminal
     printf("\033c");
-    
-    printf("\t\t\tMenu de %s %s\n",tAdherent[position].nom,tAdherent[position].prenom);
+
+    printf("\t\t\t-------------------\n\t\t\t Menu de %s %s  \n\t\t\t-------------------\n",tAdherent[position].nom,tAdherent[position].prenom);
     printf("\t\t1: Emprunt en cours\n");
     printf("\t\t2: Nouvel emprunt\n");
     printf("\t\t3: Faire une réservation\n");
