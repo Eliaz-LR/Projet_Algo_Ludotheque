@@ -7,15 +7,21 @@ void afficheMenu(void){
 
     //permet de "netoyer" le terminal
     printf("\033c");
-    
-    printf("\t\t\t---------------\n\t\t\t     Menu      \n\t\t\t---------------\n\n");
-    printf("\t\t1: Menu adhérents\n");
-    printf("\t\t2: Menu modification des Jeux\n");
-    printf("\t\t3: Afficher jeux en stock\n");
-    printf("\t\t4: Afficher emprunts en cours\n");
-    printf("\t\t5: Afficher les réservations pour un jeu\n");
-    printf("\t\t6: Sauvegarde des fichiers\n");
-    printf("\t\t7:quitter\n");
+
+    printf("\t\t┌──────────────────────────────────────────────────┐\n");
+    printf("\t\t│                 ╔═════════════╗                  │\n");
+    printf("\t\t│                 ║    Menu     ║                  │\n");
+    printf("\t\t│                 ╚═════════════╝                  │\n");
+    printf("\t\t│                                                  │\n");
+    printf("\t\t│    1: Menu adhérents                             │\n");
+    printf("\t\t│    2: Menu modification des Jeux                 │\n");
+    printf("\t\t│    3: Afficher jeux en stock                     │\n");
+    printf("\t\t│    4: Afficher emprunts en cours                 │\n");
+    printf("\t\t│    5: Afficher les réservations pour un jeu      │\n");
+    printf("\t\t│    6: Sauvegarde des fichiers                    │\n");
+    printf("\t\t│    7:quitter                                     │\n");
+    printf("\t\t│                                                  │\n");
+    printf("\t\t└──────────────────────────────────────────────────┘\n");
 }
 
 /*Interface graphique du sous menu jeux */
@@ -23,7 +29,7 @@ void afficheMenuJeux(void){
     //permet de "netoyer" le terminal
     printf("\033c");
     
-    printf("\t\t\t---------------\n\t\t\t   Menu Jeux  \n\t\t\t---------------\n\n");
+    printf("\t\t\t╔══════════════╗\n\t\t\t║   Menu Jeux  ║\n\t\t\t╚══════════════╝\n\n");
     printf("\t\t1: Ajouter un jeu\n");
     printf("\t\t2: Supprimer un jeu\n");
     printf("\t\t3: Retour\n");
@@ -34,7 +40,7 @@ void afficheMenuAd(Adherents *tAdherent,int position){
     //permet de "netoyer" le terminal
     printf("\033c");
 
-    printf("\t\t\t-------------------\n\t\t\t Menu de %s %s  \n\t\t\t-------------------\n\n",tAdherent[position].nom,tAdherent[position].prenom);
+    printf("\t\t\t╔═════════════════════╗\n\t\t\t║  Menu de %s %s  ║\n\t\t\t╚═════════════════════╝\n\n",tAdherent[position].nom,tAdherent[position].prenom);
     printf("\t\t1: Emprunt en cours\n");
     printf("\t\t2: Nouvel emprunt\n");
     printf("\t\t3: Faire une réservation\n");
