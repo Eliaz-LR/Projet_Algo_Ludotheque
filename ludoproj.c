@@ -589,11 +589,50 @@ void global(void){
         choix=choixMenu();
     }
     printf("\033c");
-    printf("\n\n\t\t\tAu revoir !\n\n");
+    auRevoir();
     free(tJeux);
     free(tAdherents);
     free(tEmprunts);
     free(tReservations);
+}
+
+void auRevoir(void){
+    int i,j,lg=0;
+    char mot2[20];
+    char mot[11]="Au revoir!";
+    int nbEspace=0;
+    while(nbEspace!=102){
+        if(nbEspace==0){
+            for(j=10;j!=-1;j--){
+                printf("\033c");
+                printf("\n\n\n\n");
+                strcpy(mot2,&mot[j]);
+                printf("%s\n",mot2);
+                usleep(100000);
+            }
+        }
+        printf("\033c");
+        printf("\n\n\n\n");
+        for(i=0;i<nbEspace;i++){
+            printf(" ");
+        }
+        if(nbEspace<=90){
+            nbEspace++;
+            printf("%s\n",mot);
+            usleep(100000);
+        }
+        else if(nbEspace>90){
+            j=0;
+            while(mot[j]!='\0'){
+                printf("%c",mot[j]);
+                j++;
+            }
+            printf("\n");
+            mot[j-1]='\0';
+            usleep(100000);
+            nbEspace++;
+        }
+    }
 }
 
 

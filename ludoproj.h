@@ -2,12 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+/*
+Ne marche pas complètement
 #ifdef LINUX
 #include <unistd.h>
 #endif
 #ifdef WINDOWS
 #include <windows.h>
 #endif
+*/
+#include <unistd.h>
 
 /*Definition du type Date, utile pour la suite*/
 typedef struct
@@ -86,3 +90,5 @@ int concatener(char mot[],char motfinal[]);
 
 void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *sizeE, int sizeA, int sizeJ, int idAdherent);
 void EmpruntEnCourt(Emprunts *tEmprunts,int sizeE,int idAd);
+
+void auRevoir(void);
