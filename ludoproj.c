@@ -908,6 +908,7 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,J
                 printf("Size J : %d\t Size A : %d\tSize E :%d\tNom : %s\tPrenom : %s\n",*sizeJ,*sizeA,*sizeE,tAdherents[positionNom].nom,tAdherents[positionNom].prenom);
                 break;
             case 4:
+                reserver(tJeux,*tEmprunts,*sizeJ,*sizeE,2,*pointeur_vers_tReserv,*sizeR,tAdherents[positionNom].id);
                 break;
             case 5:
                 printf("Choix 5\n");
@@ -1027,6 +1028,43 @@ void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *s
     tEmprunts[*sizeE-1].emprunt=dateAujrd();
 }
 
+int exemplaireRestant(int idJeux,Jeux *tJeux,int sizeE,Emprunts *tEmprunts){
+    int nbExDispo;
+    int i;
+
+    nbExDispo=tJeux[idJeux].nbExemplaires;
+
+    for(i=0;i<sizeE;i++){
+        if(idJeux==tEmprunts[i].idJeu-1){
+            nbExDispo=nbExDispo-1;
+        }
+    }
+    return nbExDispo;
+}
+
+void reserver(Jeux *tJeux,Emprunts *tEmprunts,int sizeJ,int sizeE,int idJeu,Reserv *tReservation,int sizeR,int idAd){
+    int i;
+    int reservable;
+    char choix;
+
+    reservable=exemplaireRestant(idJeu,tJeux,sizeE,tEmprunts);
+    if(reservable==0){
+        printf("Ce jeux n'est pas encore disponible,voulez-vous le reserver (o/n) : ");
+        scanf("%c%*c",&choix);
+    }
+    if(choix=='o' || choix=='O'){
+        tReservation[sizeR].id=sizeR+1;
+        tReservation[sizeR].idJeu=idJeu+1;
+        tReservation[sizeR].res=dateAujrd();
+        tReservation[sizeR].idAd=idAd;
+        sizeR++;
+        for(i=0;i<sizeR;i++){
+            printf("%d %d %d %d/%d/%d\n",tReservation[i].id,tReservation[i].idAd,tReservation[i].idJeu,tReservation[i].res.jour,tReservation[i].res.mois,tReservation[i].res.an);
+        }
+    }
+    else
+        return;
+}
 /*void jeuxEmprunter(Reserv tRes[],Jeux tJeux[],int nbjeux,int nbres){
     int i;
     int emprunter,nbEmprunt;

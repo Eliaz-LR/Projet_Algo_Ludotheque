@@ -92,3 +92,6 @@ void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *s
 void EmpruntEnCourt(Emprunts *tEmprunts,int sizeE,int idAd);
 
 void auRevoir(void);
+int exemplaireRestant(int idJeux,Jeux *tJeux,int sizeE,Emprunts *tEmprunts);
+
+void reserver(Jeux *tJeux,Emprunts *tEmprunts,int sizeJ,int sizeE,int idJeu,Reserv *tReservation,int sizeR,int idAd);
