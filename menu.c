@@ -29,25 +29,56 @@ void afficheMenuJeux(void){
     //permet de "netoyer" le terminal
     printf("\033c");
     
-    printf("\t\t\t╔══════════════╗\n\t\t\t║   Menu Jeux  ║\n\t\t\t╚══════════════╝\n\n");
-    printf("\t\t1: Ajouter un jeu\n");
-    printf("\t\t2: Supprimer un jeu\n");
-    printf("\t\t3: Retour\n");
+    printf("\t\t┌──────────────────────────────────────────────────┐\n");
+    printf("\t\t│                 ╔════════════════╗               │\n");
+    printf("\t\t│                 ║    Menu Jeux   ║               │\n");
+    printf("\t\t│                 ╚════════════════╝               │\n");
+    printf("\t\t│                                                  │\n");
+    printf("\t\t│    1: Ajouter un jeu                             │\n");
+    printf("\t\t│    2: Supprimer un jeu                           │\n");
+    printf("\t\t│    3: Retour                                     │\n");
+    printf("\t\t│                                                  │\n");
+    printf("\t\t└──────────────────────────────────────────────────┘\n");
 }
 
 void afficheMenuAd(Adherents *tAdherent,int position){
+    int nbEspace,i,nbEspaceMax=37,requis;
 
+    nbEspace=strlen(tAdherent[position].nom)+strlen(tAdherent[position].prenom)+1;
     //permet de "netoyer" le terminal
     printf("\033c");
 
-    printf("\t\t\t╔═════════════════════╗\n\t\t\t║  Menu de %s %s  ║\n\t\t\t╚═════════════════════╝\n\n",tAdherent[position].nom,tAdherent[position].prenom);
-    printf("\t\t1: Emprunt en cours\n");
-    printf("\t\t2: Nouvel emprunt\n");
-    printf("\t\t3: Faire une réservation\n");
-    printf("\t\t4: Annulation d'une réservation\n");
-    printf("\t\t5: Retour d'un jeu\n");
-    printf("\t\t6: Information sur l'abonnement\n");
-    printf("\t\t7: Retour\n");
+
+    printf("\t\t┌──────────────────────────────────────────────────┐\n");
+    printf("\t\t│               ╔═══════════════════╗              │\n");
+    printf("\t\t│               ║   Menu Adhérents  ║              │\n");
+    printf("\t\t│               ╚═══════════════════╝              │\n");
+    printf("\t\t│                                                  │\n");
+
+    //permet de peut importe la taille du nom et prenom temps qu'il ne dépasse pas 37 de ne pas décaler le menu
+    //si il dépasse 37 alors que le nom sera afficher car dans tout les cas la limite de caractère pour un nom est de 32
+    if(nbEspace<36)
+        printf("\t\t│    Menu de %s %s:",tAdherent[position].nom,tAdherent[position].prenom);
+    else{
+        nbEspace=strlen(tAdherent[position].nom);
+        printf("\t\t│    Menu de %s:",tAdherent[position].nom);
+    }
+    requis=nbEspaceMax-nbEspace;
+    for(i=0;i<requis;i++){
+        printf(" ");
+    }
+
+    printf("│\n");
+    printf("\t\t│                                                  │\n");
+    printf("\t\t│    1: Emprunt en cours                           │\n");
+    printf("\t\t│    2: Nouvel emprunt                             │\n");
+    printf("\t\t│    3: Faire une réservation                      │\n");
+    printf("\t\t│    4: Annulation d'une réservation               │\n");
+    printf("\t\t│    5: Retour d'un jeu                            │\n");
+    printf("\t\t│    6: Information sur l'abonnement               │\n");
+    printf("\t\t│    7: Retour                                     │\n");
+    printf("\t\t│                                                  │\n");
+    printf("\t\t└──────────────────────────────────────────────────┘\n");
 }
 
 //Formulaire permettant de relever le choix de l'utilisateur
