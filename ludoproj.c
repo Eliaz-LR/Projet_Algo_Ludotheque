@@ -559,7 +559,7 @@ void global(void){
     while(choix!=7){   
         switch (choix){
             case 1:
-                printf("Menu adhérents\n");
+                printf("\nMenu adhérents\n\n");
                 Menu_ad(&sizeA,&sizeE,&sizeJ,&sizeR,tAdherents,tJeux,&tEmprunts,&tReservations);
                 break;
             case 2:
@@ -810,8 +810,8 @@ int ajoutAd(Adherents *tAdherent,int sizeA){
 
 //Sous menu adherent
 void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,Jeux *tJeux,Emprunts **tEmprunts,Reserv** pointeur_vers_tReserv){
-    int choix,condition;
-    int i,positionNom,positionPrenom;
+    int choix,condition,nbpoint=0;
+    int i,j,positionNom,positionPrenom;
     char nom[32], prenom[32];
     char nomFinal[32],prenomFinal[32];
     char option;
@@ -835,13 +835,13 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,J
 
     //si le nom ou prenom n'est pas bon on précise qu'il n'existe pas
     if(positionNom==-2 || positionPrenom==-2)
-        printf("Cette adhérents n'existe pas\n");
+        printf("\nCette adhérents n'existe pas\n\n");
     
     //temps que le nom ou le prenom est non existant on sort pas de la boucle
     while(positionNom==-2 || positionPrenom==-2){
         printf("Voulez vous crée un adhérent (o/n) : ");
         scanf("%c%*c",&option);
-
+        printf("\n");
         //Si l'utilisateur ne veut pas crée de nouveau adhérent on lui propose de rentrer un non si il s'est juste tromper dans l'écriture ou revenir en arrières
         if(option=='n' || option=='N'){
             while(positionNom==-2 || positionPrenom==-2){
@@ -873,7 +873,16 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,J
         //choix on l'utilisateur veut crée un nouveau adhérent
         else if(option=='o' || option=='O'){
             *sizeA=ajoutAd(tAdherents,*sizeA);
-            printf("Création\n");
+            for(i=0;i<5;i++){
+                system("clear");
+                printf("\n\n\n\t\t\tCréation");
+                for(j=0;j<nbpoint;j++){
+                    printf(".");
+                    usleep(250000);
+                }
+                nbpoint++;
+            }
+            printf("\n");
             strcpy(nomFinal,tAdherents[*sizeA-1].nom);
             positionNom=chercherNom(tAdherents,nomFinal,*sizeA);
             if(positionNom==-1){
