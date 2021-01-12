@@ -2,15 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-/*
-Ne marche pas complètement
-#ifdef LINUX
-#include <unistd.h>
-#endif
-#ifdef WINDOWS
-#include <windows.h>
-#endif
-*/
 #include <unistd.h>
 
 /*Definition du type Date, utile pour la suite*/

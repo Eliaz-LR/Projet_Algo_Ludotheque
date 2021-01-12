@@ -9,16 +9,6 @@ void prepFiles(FILE *flot){
     fscanf(flot,"%*[^\n]\n"); /*Permet de scan toute la premiere ligne et de la jeter : *=jeter, et scan de tout sauf \n suivi d'un \n trouvé*/
 }
 
-void mySleep(int sleepMs)
-{
-#ifdef LINUX
-    usleep(sleepMs * 1000);   // usleep takes sleep time in us (1 millionth of a second)
-#endif
-#ifdef WINDOWS
-    Sleep(sleepMs);
-#endif
-}
-
 Jeux* loadJeux(int* sizeJ){
     FILE *flot;
     flot = fopen("fichiers texte/jeux.txt","r");
@@ -298,6 +288,45 @@ Emprunts* retourEmprunt(Jeux* tJeux, Adherents* tAdherents, Emprunts* tEmprunts,
     }
     printf("fin de la fonction !\n");
     return tEmprunts;
+}
+
+Reserv* anulationReserv(Reserv* tReserv, int* sizeR, int idAd){
+    int i, numR, nbRes=0;
+    printf("annulation reservation pour adherent ID:%d\n",idAd);
+    for(i=0;i<*sizeR;i++){
+        if(tReserv[i].idAd==idAd){
+            nbRes++;
+            if(nbRes==1)
+                printf("idReserv, idJeux, date de reserv\n");
+            printf("%d)  %d  %02d/%02d/%d\n",i,tReserv[i].idJeu,tReserv[i].res.jour,tReserv[i].res.mois,tReserv[i].res.an);
+        }
+    }
+    if (nbRes>0)
+        printf("Veuillez entrer le num de la reserv a annuler");
+    else
+    {
+        printf("ERREUR: L'adherent n'a pas de reserv");
+        return tReserv;
+    }
+    scanf("%d",&numR);
+    //Va de la case a supprimer jusqu'a l'avant dernière dispo...
+    for (i = numR; i < *sizeR-1; i++)
+    {
+        //...pour decaler d'une case les données de tReserv(cela permet d'ecraser les données de l'emprunt rendu et d'avoir la derniere case prète a etre supprimée).
+        tReserv[i]=tReserv[i+1];
+    }
+    if (i==numR)
+    {
+        tReserv[i].id=0;
+    }
+    else
+    {
+        tReserv[i+1].id=0;
+    }
+    printf("fin decalage reserv\n");
+    *sizeR=*sizeR-1;
+    tReserv=realloc(tReserv,*sizeR*sizeof(Reserv));
+    printf("realloc tReserv reussie\n");
 }
 
 void listeReservJeux(Jeux* tJeux, Reserv* tRes, Adherents* tAdherents, int nbjeux, int nbres, int sizeA){
@@ -914,10 +943,11 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,J
                 nouvelEmprunt(*tEmprunts,tAdherents,tJeux,sizeE,*sizeA,*sizeJ,tAdherents[positionNom].id);
                 break;
             case 3:
-                printf("Size J : %d\t Size A : %d\tSize E :%d\tNom : %s\tPrenom : %s\n",*sizeJ,*sizeA,*sizeE,tAdherents[positionNom].nom,tAdherents[positionNom].prenom);
+                reserver(tJeux,*tEmprunts,*sizeJ,*sizeE,2,*pointeur_vers_tReserv,*sizeR,tAdherents[positionNom].id);
                 break;
             case 4:
-                reserver(tJeux,*tEmprunts,*sizeJ,*sizeE,2,*pointeur_vers_tReserv,*sizeR,tAdherents[positionNom].id);
+                *pointeur_vers_tReserv=anulationReserv(*pointeur_vers_tReserv, sizeR, tAdherents[positionNom].id);
+                printf("Size J : %d\t Size A : %d\tSize E :%d\tNom : %s\tPrenom : %s\n",*sizeJ,*sizeA,*sizeE,tAdherents[positionNom].nom,tAdherents[positionNom].prenom);
                 break;
             case 5:
                 printf("Choix 5\n");
@@ -967,12 +997,12 @@ int tempRestantAbo(Adherents *tAdherents,int position,int sizeA){
                 printf("\nRenouvellement effectuer ...\n");
                 sauvergarde(tAdherents,sizeA);
                 //fonction disponible par le header unistd.h sous linux uniquement windows.h et Sleep() pour windows
-                mySleep(1000);
+                usleep(1000);
                 break;
             }
             else if(option == 'n' || option == 'N'){
                 printf("Il vous est donc impossible de reserver de nouveaux jeux\n");
-                mySleep(1000);
+                usleep(1000);
                 break;
             }
             else
