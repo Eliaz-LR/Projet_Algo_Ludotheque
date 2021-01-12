@@ -844,6 +844,7 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,J
     char nom[32], prenom[32];
     char nomFinal[32],prenomFinal[32];
     char option;
+    char optionAbon;
 
     printf("Rentrer le nom : ");
     fgets(nom,32,stdin);
@@ -926,12 +927,12 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,J
     
     //permet à l'utilisateur de renouveler sont abonnement si il est expirès
     if(positionNom<0){
-        tempRestantAbo(tAdherents,positionPrenom,*sizeA);
+        tempRestantAbo(tAdherents,positionNom,*sizeA, &optionAbon);
         //j'attribue a la positionNom la positionPrenom car maintenant nous avons trouver a quelle nom nous avons affaire de plus j'utilise la variable positionNom ensuite
         positionNom=positionPrenom;
     }
     else
-        tempRestantAbo(tAdherents,positionNom,*sizeA);
+        tempRestantAbo(tAdherents,positionNom,*sizeA, &optionAbon);
 
     choix=choixMenuAd(tAdherents,sizeA,nomFinal,positionNom);
     while(choix!=7){   
@@ -940,7 +941,7 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,J
                 EmpruntEnCourt(*tEmprunts,*sizeE,tAdherents[positionNom].id);
                 break;
             case 2:
-                nouvelEmprunt(*tEmprunts,tAdherents,tJeux,sizeE,*sizeA,*sizeJ,tAdherents[positionNom].id);
+                nouvelEmprunt(*tEmprunts,tAdherents,tJeux,sizeE,*sizeA,*sizeJ,tAdherents[positionNom].id,optionAbon);
                 break;
             case 3:
                 reserver(tJeux,*tEmprunts,*sizeJ,*sizeE,2,*pointeur_vers_tReserv,*sizeR,tAdherents[positionNom].id);
@@ -955,7 +956,7 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,J
                 break;
             case 6:
                 printf("\nInscrit le %d/%d/%d\n",tAdherents[positionNom].inscrip.jour,tAdherents[positionNom].inscrip.mois,tAdherents[positionNom].inscrip.an);
-                tempRestantAbo(tAdherents,positionNom,*sizeA);
+                tempRestantAbo(tAdherents,positionNom,*sizeA, &optionAbon);
                 break;
             case 7:
                 return;
@@ -967,10 +968,9 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,J
     }
 }
 
-int tempRestantAbo(Adherents *tAdherents,int position,int sizeA){
+int tempRestantAbo(Adherents *tAdherents,int position,int sizeA, char *option){
     //on normalise une année (365 jours) ainsi que les mois (30 jours)
     int nbj,nbm,nba,restant=365;
-    char option;
     Date dateActu;
 
     dateActu=dateAujrd();
@@ -991,8 +991,8 @@ int tempRestantAbo(Adherents *tAdherents,int position,int sizeA){
         while(1){
             printf("\nL'abonnement est dépasser\n"); 
             printf("\nVoulez vous renouvellez votre abonnement (o/n) : ");
-            scanf("%c%*c",&option);
-            if(option == 'o' || option == 'O'){
+            scanf("%c%*c",option);
+            if(*option == 'o' || *option == 'O'){
                 tAdherents[position].inscrip=dateAujrd();
                 printf("\nRenouvellement effectuer ...\n");
                 sauvergarde(tAdherents,sizeA);
@@ -1000,7 +1000,7 @@ int tempRestantAbo(Adherents *tAdherents,int position,int sizeA){
                 usleep(1000);
                 break;
             }
-            else if(option == 'n' || option == 'N'){
+            else if(*option == 'n' || *option == 'N'){
                 printf("Il vous est donc impossible de reserver de nouveaux jeux\n");
                 usleep(1000);
                 break;
@@ -1026,7 +1026,7 @@ int concatener(char mot[],char motfinal[]){
     motfinal[i]='\0';
 }
 
-void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *sizeE, int sizeA, int sizeJ, int idAdherent)
+void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *sizeE, int sizeA, int sizeJ, int idAdherent, char optionAbon)
 {
 	int i, moisRetour, anneeRetour, nbEmprunt=0;
 	int idJeu, rankAdh;
@@ -1042,6 +1042,11 @@ void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *s
 			printf("Vous ne pouvez pas emprunter car vous êtes actuellement à 3 jeux empruntés.");
 			return;
 		}
+    if (optionAbon == 'n' || optionAbon == 'N' )
+        {
+            printf("Vous ne pouvez pas emprunter car votre abonnement a expiré.");
+			return;
+        }
 	else
 		{
 			*sizeE=*sizeE+1;
