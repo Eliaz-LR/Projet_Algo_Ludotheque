@@ -76,13 +76,13 @@ int chercherPrenom(Adherents *tAdherents,char prenom[],int sizeA);
 int chercherNom(Adherents *tAdherents,char nom[],int sizeA);
 void sauvergarde(Adherents *tAdherents,int sizeA);
 void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,Jeux *tJeux,Emprunts **tEmprunts,Reserv** pointeur_vers_tReserv);
-int tempRestantAbo(Adherents *tAdherents,int position,int sizeA, char *option);
+int tempRestantAbo(Adherents *tAdherents,int position,int sizeA);
 int concatener(char mot[],char motfinal[]);
 
-void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *sizeE, int sizeA, int sizeJ, int idAdherent, char optionAbon);
+void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *sizeE, int sizeA, int sizeJ, int idAdherent,Reserv **tReservation,int sizeR);
 void EmpruntEnCourt(Emprunts *tEmprunts,int sizeE,int idAd);
 
 void auRevoir(void);
 int exemplaireRestant(int idJeux,Jeux *tJeux,int sizeE,Emprunts *tEmprunts);
 
-void reserver(Jeux *tJeux,Emprunts *tEmprunts,int sizeJ,int sizeE,int idJeu,Reserv *tReservation,int sizeR,int idAd);
+Reserv reserver(Jeux *tJeux,Emprunts *tEmprunts,int sizeJ,int sizeE,int idJeu,Reserv **tReservation,int *sizeR,int idAd);

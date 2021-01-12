@@ -844,7 +844,6 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,J
     char nom[32], prenom[32];
     char nomFinal[32],prenomFinal[32];
     char option;
-    char optionAbon;
 
     printf("Rentrer le nom : ");
     fgets(nom,32,stdin);
@@ -927,12 +926,12 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,J
     
     //permet à l'utilisateur de renouveler sont abonnement si il est expirès
     if(positionNom<0){
-        tempRestantAbo(tAdherents,positionNom,*sizeA, &optionAbon);
+        tempRestantAbo(tAdherents,positionPrenom,*sizeA);
         //j'attribue a la positionNom la positionPrenom car maintenant nous avons trouver a quelle nom nous avons affaire de plus j'utilise la variable positionNom ensuite
         positionNom=positionPrenom;
     }
     else
-        tempRestantAbo(tAdherents,positionNom,*sizeA, &optionAbon);
+        tempRestantAbo(tAdherents,positionNom,*sizeA);
 
     choix=choixMenuAd(tAdherents,sizeA,nomFinal,positionNom);
     while(choix!=7){   
@@ -941,10 +940,10 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,J
                 EmpruntEnCourt(*tEmprunts,*sizeE,tAdherents[positionNom].id);
                 break;
             case 2:
-                nouvelEmprunt(*tEmprunts,tAdherents,tJeux,sizeE,*sizeA,*sizeJ,tAdherents[positionNom].id,optionAbon);
+                nouvelEmprunt(*tEmprunts,tAdherents,tJeux,sizeE,*sizeA,*sizeJ,tAdherents[positionNom].id,*pointeur_vers_tReserv,*sizeR);
                 break;
             case 3:
-                reserver(tJeux,*tEmprunts,*sizeJ,*sizeE,2,*pointeur_vers_tReserv,*sizeR,tAdherents[positionNom].id);
+                reserver(tJeux,*tEmprunts,*sizeJ,*sizeE,2,*pointeur_vers_tReserv,sizeR,tAdherents[positionNom].id);
                 break;
             case 4:
                 *pointeur_vers_tReserv=anulationReserv(*pointeur_vers_tReserv, sizeR, tAdherents[positionNom].id);
@@ -956,7 +955,7 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,J
                 break;
             case 6:
                 printf("\nInscrit le %d/%d/%d\n",tAdherents[positionNom].inscrip.jour,tAdherents[positionNom].inscrip.mois,tAdherents[positionNom].inscrip.an);
-                tempRestantAbo(tAdherents,positionNom,*sizeA, &optionAbon);
+                tempRestantAbo(tAdherents,positionNom,*sizeA);
                 break;
             case 7:
                 return;
@@ -968,9 +967,10 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,J
     }
 }
 
-int tempRestantAbo(Adherents *tAdherents,int position,int sizeA, char *option){
+int tempRestantAbo(Adherents *tAdherents,int position,int sizeA){
     //on normalise une année (365 jours) ainsi que les mois (30 jours)
     int nbj,nbm,nba,restant=365;
+    char option;
     Date dateActu;
 
     dateActu=dateAujrd();
@@ -991,18 +991,18 @@ int tempRestantAbo(Adherents *tAdherents,int position,int sizeA, char *option){
         while(1){
             printf("\nL'abonnement est dépasser\n"); 
             printf("\nVoulez vous renouvellez votre abonnement (o/n) : ");
-            scanf("%c%*c",option);
-            if(*option == 'o' || *option == 'O'){
+            scanf("%c%*c",&option);
+            if(option == 'o' || option == 'O'){
                 tAdherents[position].inscrip=dateAujrd();
                 printf("\nRenouvellement effectuer ...\n");
                 sauvergarde(tAdherents,sizeA);
                 //fonction disponible par le header unistd.h sous linux uniquement windows.h et Sleep() pour windows
-                usleep(1000);
+                sleep(1);
                 break;
             }
-            else if(*option == 'n' || *option == 'N'){
+            else if(option == 'n' || option == 'N'){
                 printf("Il vous est donc impossible de reserver de nouveaux jeux\n");
-                usleep(1000);
+                sleep(1);
                 break;
             }
             else
@@ -1026,7 +1026,7 @@ int concatener(char mot[],char motfinal[]){
     motfinal[i]='\0';
 }
 
-void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *sizeE, int sizeA, int sizeJ, int idAdherent, char optionAbon)
+void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *sizeE, int sizeA, int sizeJ, int idAdherent,Reserv *tReservation,int sizeR)
 {
 	int i, moisRetour, anneeRetour, nbEmprunt=0;
 	int idJeu, rankAdh;
@@ -1042,7 +1042,8 @@ void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *s
 			printf("Vous ne pouvez pas emprunter car vous êtes actuellement à 3 jeux empruntés.");
 			return;
 		}
-    if (optionAbon == 'n' || optionAbon == 'N' )
+    
+    if (nbEmprunt==3)
         {
             printf("Vous ne pouvez pas emprunter car votre abonnement a expiré.");
 			return;
@@ -1066,9 +1067,10 @@ void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *s
 			printf("%d) %s\n",i+1,tJeux[i].nom);
 		}
 	printf("Entrer le numéro du jeu voulu:");
-	scanf("%d",&tEmprunts[*sizeE-1].idJeu);
-    rankAdh=searchAdherent(idAdherent,tAdherents,sizeA);
-    tEmprunts[*sizeE-1].idAd=tAdherents[rankAdh].id;
+	scanf("%d%*c",&tEmprunts[*sizeE-1].idJeu);
+    *tReservation=reserver(tJeux,tEmprunts,sizeJ,*sizeE,tEmprunts[*sizeE-1].idJeu,tReservation,&sizeR,idAdherent);
+
+    tEmprunts[*sizeE-1].idAd=tAdherents[idAdherent].id;
     tEmprunts[*sizeE-1].emprunt=dateAujrd();
 }
 
@@ -1086,28 +1088,30 @@ int exemplaireRestant(int idJeux,Jeux *tJeux,int sizeE,Emprunts *tEmprunts){
     return nbExDispo;
 }
 
-void reserver(Jeux *tJeux,Emprunts *tEmprunts,int sizeJ,int sizeE,int idJeu,Reserv *tReservation,int sizeR,int idAd){
+Reserv reserver(Jeux *tJeux,Emprunts *tEmprunts,int sizeJ,int sizeE,int idJeu,Reserv *tReservation,int *sizeR,int idAd){
     int i;
     int reservable;
-    char choix;
+    char option;
 
     reservable=exemplaireRestant(idJeu,tJeux,sizeE,tEmprunts);
     if(reservable==0){
         printf("Ce jeux n'est pas encore disponible,voulez-vous le reserver (o/n) : ");
-        scanf("%c%*c",&choix);
-    }
-    if(choix=='o' || choix=='O'){
-        tReservation[sizeR].id=sizeR+1;
-        tReservation[sizeR].idJeu=idJeu+1;
-        tReservation[sizeR].res=dateAujrd();
-        tReservation[sizeR].idAd=idAd;
-        sizeR++;
-        for(i=0;i<sizeR;i++){
-            printf("%d %d %d %d/%d/%d\n",tReservation[i].id,tReservation[i].idAd,tReservation[i].idJeu,tReservation[i].res.jour,tReservation[i].res.mois,tReservation[i].res.an);
+        scanf("%c%*c",&option);
+        if(option=='o' || option=='O'){
+            *sizeR=*sizeR+1;
+		    tReservation=realloc(tReservation,*sizeR*sizeof(Reserv));
+            tReservation[*sizeR-1].id=*sizeR;
+            tReservation[*sizeR-1].idJeu=idJeu+1;
+            tReservation[*sizeR-1].res=dateAujrd();
+            tReservation[*sizeR-1].idAd=idAd;
+            for(i=0;i<*sizeR;i++){
+                printf("%d %d %d %d/%d/%d\n",tReservation[i].id,tReservation[i].idAd,tReservation[i].idJeu,tReservation[i].res.jour,tReservation[i].res.mois,tReservation[i].res.an);
+            }
+            sleep(2);
         }
     }
     else
-        return;
+        exit(1);
 }
 /*void jeuxEmprunter(Reserv tRes[],Jeux tJeux[],int nbjeux,int nbres){
     int i;
