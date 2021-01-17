@@ -955,7 +955,7 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,J
                 tempRestantAbo(tAdherents,positionNom,*sizeA);
                 break;
             case 6:
-                 return;
+                return;
                 break;
         }
         printf("\nTapez sur la touche entrée pour retourner au menu");
@@ -1034,7 +1034,7 @@ void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *s
            	 		nbEmprunt++;
         		}
 		}
-    tempsAbo=tempRestantAbo(tAdherents,idAdherent,sizeA);
+    tempsAbo=tempRestantAbo(tAdherents,idAdherent-1,sizeA);
 
 	if(nbEmprunt==3)
 		{
@@ -1060,12 +1060,12 @@ void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *s
 					tEmprunts[*sizeE-1].id=tEmprunts[*sizeE-2].id+1;
 				}
 		}
-	printf("Quel jeu voulez-vous emprunter:\n");
+	printf("Quel jeu voulez-vous emprunter\n");
 	for(i=0;i<sizeJ;i++)
 		{
 			printf("%d) %s\n",i+1,tJeux[i].nom);
 		}
-	printf("Entrer le numéro du jeu voulu:");
+	printf("Entrer le numéro du jeu voulu : ");
 	scanf("%d%*c",&idChercher);
     passer=reserver(tJeux,tEmprunts,sizeJ,*sizeE,idChercher,&tReservation,sizeR,idAdherent);
 
@@ -1097,16 +1097,15 @@ int reserver(Jeux *tJeux,Emprunts *tEmprunts,int sizeJ,int sizeE,int idJeuChoisi
 
     reservable=exemplaireRestant(idJeuChoisie,tJeux,sizeE,tEmprunts);
     if(reservable==0){
-        printf("Ce jeux n'est pas encore disponible,voulez-vous le reserver (o/n) : ");
+        printf("\nCe jeux n'est pas encore disponible,voulez-vous le reserver (o/n) : ");
         scanf("%c%*c",&option);
         
         if(option=='o' || option=='O'){
             for(i=0;i<*sizeR;i++){
-                if((*tReservation)[i].idJeu==idJeuChoisie)
-                    if((*tReservation)[i].idAd==idAdherent){
-                        printf("\nVous avez déjà emprunter ce jeux\n");
-                        return -1;
-                    }
+                if((*tReservation)[i].idJeu==idJeuChoisie && (*tReservation)[i].idAd==idAdherent){
+                    printf("\nVous avez déjà emprunter ce jeux\n");
+                    return -1;
+                }
             }
             *sizeR=*sizeR+1;
 		    *tReservation=realloc(*tReservation,*sizeR*sizeof(Reserv));
@@ -1114,82 +1113,16 @@ int reserver(Jeux *tJeux,Emprunts *tEmprunts,int sizeJ,int sizeE,int idJeuChoisi
             (*tReservation)[*sizeR-1].idJeu=idJeuChoisie;
             (*tReservation)[*sizeR-1].res=dateAujrd();
             (*tReservation)[*sizeR-1].idAd=idAdherent;
-            for(i=0;i<*sizeR;i++){
-                printf("%d %d %d %d/%d/%d\n",(*tReservation)[i].id,(*tReservation)[i].idAd,(*tReservation)[i].idJeu,(*tReservation)[i].res.jour,(*tReservation)[i].res.mois,(*tReservation)[i].res.an);
-            }
-            sleep(2);
             return 1;
+        }
+        else if(option=='n' || option=='N'){
+            printf("Annulation du réservement");
+            return -2;
+        }
+        else{
+            printf("\nL'option n'existe pas\n");
         }
     }
     else
         exit(1);
 }
-/*void jeuxEmprunter(Reserv tRes[],Jeux tJeux[],int nbjeux,int nbres){
-    int i;
-    int emprunter,nbEmprunt;
-    printf("Id\tNom\t\tType\tNombre d'exemplaire emprunter\n");
-
-    for(i=0;i<nbjeux-1;i++){
-        emprunter=chercherRes(tRes,nbres,tJeux[i].id,&nbEmprunt);
-        if(emprunter==1){
-            if(tJeux[i].nbExemplaires<0){
-                printf("Erreur: Le jeu %s a était emprunter plus de fois qu'il était diponible\n\n",tJeux[i].nom);
-                return;
-            }
-            else if(tJeux[i].nbExemplaires!=0)
-                printf("%d\t%s\t%s\t\t%d\n",tJeux[i].id,tJeux[i].nom,tJeux[i].type,nbEmprunt);
-        }
-    }
-    printf("\n\n");
-}
-
-void jeuxDisponible(Reserv tRes[],int nbjeux,int nbres){
-    int i;
-    int emprunter,nbEmprunt;
-    Jeux *tJeux = loadJeux(&nbjeux);
-
-    printf("Id\tNom\t\tType\t\tNombre d'emplaires restant\n");
-
-    for(i=0;i<nbjeux-1;i++){
-        emprunter=chercherRes(tRes,nbres,tJeux[i].id,&nbEmprunt);
-        if(emprunter==1)
-            tJeux[i].nbExemplaires=tJeux[i].nbExemplaires-nbEmprunt;
-        if(emprunter!=1 || tJeux[i].nbExemplaires>0)
-            printf("%d\t%s\t%s\t\t%d\n",tJeux[i].id,tJeux[i].nom,tJeux[i].type,tJeux[i].nbExemplaires);
-    }
-    printf("\n\n");
-}
-int nouvelEmprunt2(int id,int sizeE,int sizeJ,Emprunts *tEmprunt,Jeux *tJeux){
-    int i,idChoix;
-    char choix;
-
-    printf("Voulez-vous emprunter un jeu (o/n) : ");
-    scanf("%c%*c",&choix);
-
-    if(choix=='o' || choix=='O'){
-        for(i=0;i<sizeJ;i++){
-            printf("%d %s %s %d\n",tJeux[i].id,tJeux[i].nom,tJeux[i].type,tJeux[i].nbExemplaires);
-        }
-        printf("Quelle jeux voulez vous emprunter noter l'id : ");
-        scanf("%d%*c",&idChoix);
-        
-        if(tJeux[idChoix].nbExemplaires!=-1){
-            tEmprunt[sizeE].idJeu=idChoix;
-            tEmprunt[sizeE].emprunt=dateAujrd();
-            tEmprunt[sizeE].id=sizeE+1;
-            tEmprunt[sizeE].idAd=id;
-            sizeE++;
-        }
-        else{
-            printf("Il n'y a plus assez d'exemplaire disponible pour ce jeux\n");
-            return -1;
-        }
-    }
-    else if(choix=='n' || choix=='N'){
-        printf("Anulation\n");
-        return -1;
-    }
-    else{
-        printf("Ce choix n'est pas correct\n");
-    }
-}*/
