@@ -1069,11 +1069,11 @@ void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *s
 		}
 	printf("Entrer le numéro du jeu voulu:");
 	scanf("%d%*c",&idChercher);
-    passer=reserver(tJeux,tEmprunts,sizeJ,*sizeE,idChercher-1,&tReservation,sizeR,idAdherent);
+    passer=reserver(tJeux,tEmprunts,sizeJ,*sizeE,idChercher,&tReservation,sizeR,idAdherent);
 
     if(passer==1){
-        tEmprunts[*sizeE-1].idJeu=idChercher-1;
-        tEmprunts[*sizeE-1].idAd=tAdherents[idAdherent].id;
+        tEmprunts[*sizeE-1].idJeu=idChercher;
+        tEmprunts[*sizeE-1].idAd=idAdherent;
         tEmprunts[*sizeE-1].emprunt=dateAujrd();
     }
 }
@@ -1092,22 +1092,30 @@ int exemplaireRestant(int idJeux,Jeux *tJeux,int sizeE,Emprunts *tEmprunts){
     return nbExDispo;
 }
 
-int reserver(Jeux *tJeux,Emprunts *tEmprunts,int sizeJ,int sizeE,int idJeu,Reserv **tReservation,int *sizeR,int idAd){
+int reserver(Jeux *tJeux,Emprunts *tEmprunts,int sizeJ,int sizeE,int idJeuChoisie,Reserv **tReservation,int *sizeR,int idAdherent){
     int i;
     int reservable;
     char option;
 
-    reservable=exemplaireRestant(idJeu,tJeux,sizeE,tEmprunts);
+    reservable=exemplaireRestant(idJeuChoisie,tJeux,sizeE,tEmprunts);
     if(reservable==0){
         printf("Ce jeux n'est pas encore disponible,voulez-vous le reserver (o/n) : ");
         scanf("%c%*c",&option);
+        
         if(option=='o' || option=='O'){
+            for(i=0;i<*sizeR;i++){
+                if((*tReservation)[i].idJeu==idJeuChoisie)
+                    if((*tReservation)[i].idAd==idAdherent){
+                        printf("\nVous avez déjà emprunter ce jeux\n");
+                        return -1;
+                    }
+            }
             *sizeR=*sizeR+1;
 		    *tReservation=realloc(*tReservation,*sizeR*sizeof(Reserv));
             (*tReservation)[*sizeR-1].id=*sizeR;
-            (*tReservation)[*sizeR-1].idJeu=idJeu+1;
+            (*tReservation)[*sizeR-1].idJeu=idJeuChoisie;
             (*tReservation)[*sizeR-1].res=dateAujrd();
-            (*tReservation)[*sizeR-1].idAd=idAd;
+            (*tReservation)[*sizeR-1].idAd=idAdherent;
             for(i=0;i<*sizeR;i++){
                 printf("%d %d %d %d/%d/%d\n",(*tReservation)[i].id,(*tReservation)[i].idAd,(*tReservation)[i].idJeu,(*tReservation)[i].res.jour,(*tReservation)[i].res.mois,(*tReservation)[i].res.an);
             }
