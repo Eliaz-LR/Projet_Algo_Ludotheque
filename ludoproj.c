@@ -1060,6 +1060,13 @@ Emprunts* nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, i
 	scanf("%d%*c",&idChercher);
     passer=reserver(tJeux,tEmprunts,sizeJ,*sizeE,idChercher,&tReservation,sizeR,idAdherent);
 
+    for(i=0;i<*sizeR;i++){
+        if(tEmprunts[i].idJeu==idChercher && tEmprunts[i].idAd==idAdherent){
+            printf("\nVous avez déjà emprunter ce jeux\n");
+            return NULL;
+        }
+    }
+
     if(passer==1){
         tEmprunts[*sizeE-1].idJeu=idChercher;
         tEmprunts[*sizeE-1].idAd=idAdherent;
@@ -1116,14 +1123,3 @@ int reserver(Jeux *tJeux,Emprunts *tEmprunts,int sizeJ,int sizeE,int idJeuChoisi
     else
         return 1;
 }
-/*
-int chercherIdDispo(Emprunts *tEmprunts,int sizeE){
-    int i,id=1,min;
-    for(i=0;i<sizeE;i++){
-        if(tEmprunts[i].id!=id){
-            min=id;
-            tEmprunts[i].id;
-        }
-    }
-}
-*/
