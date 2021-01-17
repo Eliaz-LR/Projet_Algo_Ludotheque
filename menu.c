@@ -132,7 +132,7 @@ int choixMenuAd(Adherents *tAdherent,int *sizeA,char nom[],int position){
 
         /*Condition qui indique que le choix de l'utilisateur doit être compris entre 1 et 7*/
         while (choix<1 || choix>7){
-            printf("\nChoix incorect %d n'est pas compris entre 1 et 7\n",choix);
+            printf("\nChoix incorect %d n'est pas compris entre 1 et 6\n",choix);
             printf("Retapez sur la touche entrée pour revenir au menu");
             getchar();
             afficheMenuAd(tAdherent,position);

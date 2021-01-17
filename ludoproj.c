@@ -361,7 +361,7 @@ void listeReservJeux(Jeux* tJeux, Reserv* tRes, Adherents* tAdherents, int nbjeu
         {
             if (numJ==tRes[j].idJeu){
                 rankA=searchAdherent(tRes[j].idAd, tAdherents, sizeA);
-                printf("%s\t%d/%d/%d", tAdherents[rankA].nom, tRes[j].res.jour, tRes[j].res.mois, tRes[j].res.an); /*afficher nom a la place de id */
+                printf("%s\t%d/%d/%d\n", tAdherents[rankA].nom, tRes[j].res.jour, tRes[j].res.mois, tRes[j].res.an); /*afficher nom a la place de id */
             }
         }
 }
@@ -944,14 +944,12 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,J
                 break;
             case 3:
                 *pointeur_vers_tReserv=anulationReserv(*pointeur_vers_tReserv, sizeR, tAdherents[positionNom].id);
-                printf("Size J : %d\t Size A : %d\tSize E :%d\tNom : %s\tPrenom : %s\n",*sizeJ,*sizeA,*sizeE,tAdherents[positionNom].nom,tAdherents[positionNom].prenom);
                 break;
             case 4:
-               printf("Choix 5\n");
                 *tEmprunts=retourEmprunt(tJeux,tAdherents,*tEmprunts,pointeur_vers_tReserv,sizeE,sizeJ,sizeR,tAdherents[positionNom].id);
                 break;
             case 5:
-               printf("\nInscrit le %d/%d/%d\n",tAdherents[positionNom].inscrip.jour,tAdherents[positionNom].inscrip.mois,tAdherents[positionNom].inscrip.an);
+                printf("\nInscrit le %d/%d/%d\n",tAdherents[positionNom].inscrip.jour,tAdherents[positionNom].inscrip.mois,tAdherents[positionNom].inscrip.an);
                 tempRestantAbo(tAdherents,positionNom,*sizeA);
                 break;
             case 6:
@@ -1113,16 +1111,25 @@ int reserver(Jeux *tJeux,Emprunts *tEmprunts,int sizeJ,int sizeE,int idJeuChoisi
             (*tReservation)[*sizeR-1].idJeu=idJeuChoisie;
             (*tReservation)[*sizeR-1].res=dateAujrd();
             (*tReservation)[*sizeR-1].idAd=idAdherent;
-            return 1;
         }
         else if(option=='n' || option=='N'){
             printf("Annulation du réservement");
-            return -2;
         }
         else{
             printf("\nL'option n'existe pas\n");
         }
     }
     else
-        exit(1);
+        return 1;
 }
+/*
+int chercherIdDispo(Emprunts *tEmprunts,int sizeE){
+    int i,id=1,min;
+    for(i=0;i<sizeE;i++){
+        if(tEmprunts[i].id!=id){
+            min=id;
+            tEmprunts[i].id;
+        }
+    }
+}
+*/
