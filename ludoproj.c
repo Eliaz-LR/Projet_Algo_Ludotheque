@@ -943,21 +943,19 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,J
                 nouvelEmprunt(*tEmprunts,tAdherents,tJeux,sizeE,*sizeA,*sizeJ,tAdherents[positionNom].id,*pointeur_vers_tReserv,sizeR);
                 break;
             case 3:
-                break;
-            case 4:
                 *pointeur_vers_tReserv=anulationReserv(*pointeur_vers_tReserv, sizeR, tAdherents[positionNom].id);
                 printf("Size J : %d\t Size A : %d\tSize E :%d\tNom : %s\tPrenom : %s\n",*sizeJ,*sizeA,*sizeE,tAdherents[positionNom].nom,tAdherents[positionNom].prenom);
                 break;
-            case 5:
-                printf("Choix 5\n");
+            case 4:
+               printf("Choix 5\n");
                 *tEmprunts=retourEmprunt(tJeux,tAdherents,*tEmprunts,pointeur_vers_tReserv,sizeE,sizeJ,sizeR,tAdherents[positionNom].id);
                 break;
-            case 6:
-                printf("\nInscrit le %d/%d/%d\n",tAdherents[positionNom].inscrip.jour,tAdherents[positionNom].inscrip.mois,tAdherents[positionNom].inscrip.an);
+            case 5:
+               printf("\nInscrit le %d/%d/%d\n",tAdherents[positionNom].inscrip.jour,tAdherents[positionNom].inscrip.mois,tAdherents[positionNom].inscrip.an);
                 tempRestantAbo(tAdherents,positionNom,*sizeA);
                 break;
-            case 7:
-                return;
+            case 6:
+                 return;
                 break;
         }
         printf("\nTapez sur la touche entrée pour retourner au menu");
