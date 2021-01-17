@@ -19,7 +19,7 @@ void afficheMenu(void){
     printf("\t\t│    4: Afficher emprunts en cours                 │\n");
     printf("\t\t│    5: Afficher les réservations pour un jeu      │\n");
     printf("\t\t│    6: Sauvegarde des fichiers                    │\n");
-    printf("\t\t│    7:quitter                                     │\n");
+    printf("\t\t│    7: Quitter                                    │\n");
     printf("\t\t│                                                  │\n");
     printf("\t\t└──────────────────────────────────────────────────┘\n");
 }
