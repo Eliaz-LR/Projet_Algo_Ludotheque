@@ -310,7 +310,7 @@ Reserv* anulationReserv(Reserv* tReserv, int* sizeR, int idAd){
     }
     scanf("%d",&numR);
     //Va de la case a supprimer jusqu'a l'avant dernière dispo...
-    for (i = numR; i < (*sizeR)-1; i++)
+    for (i = numR; i < *sizeR-1; i++)
     {
         //...pour decaler d'une case les données de tReserv(cela permet d'ecraser les données de l'emprunt rendu et d'avoir la derniere case prète a etre supprimée).
         tReserv[i]=tReserv[i+1];
@@ -933,7 +933,7 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,J
                 EmpruntEnCourt(*tEmprunts,*sizeE,tAdherents[positionNom].id);
                 break;
             case 2:
-                nouvelEmprunt(*tEmprunts,tAdherents,tJeux,sizeE,*sizeA,*sizeJ,tAdherents[positionNom].id,*pointeur_vers_tReserv,sizeR);
+                *tEmprunts=nouvelEmprunt(*tEmprunts,tAdherents,tJeux,sizeE,*sizeA,*sizeJ,tAdherents[positionNom].id,*pointeur_vers_tReserv,sizeR);
                 break;
             case 3:
                 *pointeur_vers_tReserv=anulationReserv(*pointeur_vers_tReserv, sizeR, tAdherents[positionNom].id);
@@ -1014,7 +1014,7 @@ int concatener(char mot[],char motfinal[]){
     motfinal[i]='\0';
 }
 
-void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *sizeE, int sizeA, int sizeJ, int idAdherent,Reserv *tReservation,int *sizeR)
+Emprunts* nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *sizeE, int sizeA, int sizeJ, int idAdherent,Reserv *tReservation,int *sizeR)
 {
 	int i, tempsAbo, nbEmprunt=0,passer;
 	int idJeu, rankAdh,idChercher;
@@ -1030,13 +1030,13 @@ void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *s
 	if(nbEmprunt==3)
 		{
 			printf("Vous ne pouvez pas emprunter car vous êtes actuellement à 3 jeux empruntés.");
-			return;
+			return tEmprunts;
 		}
     
     if (tempsAbo<0)
         {
             printf("Vous ne pouvez pas emprunter car votre abonnement a expiré.");
-			return;
+			return tEmprunts;
         }
 	else
 		{
@@ -1065,6 +1065,7 @@ void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *s
         tEmprunts[*sizeE-1].idAd=idAdherent;
         tEmprunts[*sizeE-1].emprunt=dateAujrd();
     }
+    return tEmprunts;
 }
 
 int exemplaireRestant(int idJeux,Jeux *tJeux,int sizeE,Emprunts *tEmprunts){

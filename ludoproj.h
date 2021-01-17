@@ -79,7 +79,7 @@ void Menu_ad(int *sizeA,int *sizeE,int *sizeJ,int *sizeR,Adherents *tAdherents,J
 int tempRestantAbo(Adherents *tAdherents,int position,int sizeA);
 int concatener(char mot[],char motfinal[]);
 
-void nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *sizeE, int sizeA, int sizeJ, int idAdherent,Reserv *tReservation,int *sizeR);
+Emprunts* nouvelEmprunt(Emprunts* tEmprunts,Adherents* tAdherents,Jeux* tJeux, int *sizeE, int sizeA, int sizeJ, int idAdherent,Reserv *tReservation,int *sizeR);
 void EmpruntEnCourt(Emprunts *tEmprunts,int sizeE,int idAd);
 
 void auRevoir(void);
