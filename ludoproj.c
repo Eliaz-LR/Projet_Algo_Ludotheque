@@ -310,23 +310,16 @@ Reserv* anulationReserv(Reserv* tReserv, int* sizeR, int idAd){
     }
     scanf("%d",&numR);
     //Va de la case a supprimer jusqu'a l'avant dernière dispo...
-    for (i = numR; i < *sizeR-1; i++)
+    for (i = numR; i < (*sizeR)-1; i++)
     {
         //...pour decaler d'une case les données de tReserv(cela permet d'ecraser les données de l'emprunt rendu et d'avoir la derniere case prète a etre supprimée).
         tReserv[i]=tReserv[i+1];
-    }
-    if (i==numR)
-    {
-        tReserv[i].id=0;
-    }
-    else
-    {
-        tReserv[i+1].id=0;
     }
     printf("fin decalage reserv\n");
     *sizeR=*sizeR-1;
     tReserv=realloc(tReserv,*sizeR*sizeof(Reserv));
     printf("realloc tReserv reussie\n");
+    return tReserv;
 }
 
 void listeReservJeux(Jeux* tJeux, Reserv* tRes, Adherents* tAdherents, int nbjeux, int nbres, int sizeA){
